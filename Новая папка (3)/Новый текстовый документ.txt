@@ -1,0 +1,61 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static string Morse(string input)
+        {
+            char[] alphabet = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ':' };
+            string[] code = new string[] {".-", "-...", "-.-.", "-..",
+                                                        ".", "..-.", "--.", "....",
+                                                        "..", ".---", "-.-", ".-..",
+                                                        "--", "-.", "---", ".--.", "--.-", ".-.", "...",
+                                                        "-", "..-","...-",".--",
+                                                        "-..-","-.--","--..",".----","..---", "...--",
+                                                        "....-",".....","-....","--...", "---..", "----.","-----","---..."};
+
+
+            string[] split = input.Split(' ');
+            string output = "";
+            int index;
+            foreach (string a in split)
+            {
+                index = Array.IndexOf(code, a);
+                output += alphabet[index] + " ";
+            }
+
+            return output.Replace(" ", ""); ;
+
+        }
+        static string Hex(string input)
+        {
+            input = input.Replace(":", "");
+            input = input.Replace(" ", "");
+            byte[] dBytes = Enumerable.Range(0, input.Length)
+                 .Where(x => x % 2 == 0)
+                 .Select(x => Convert.ToByte(input.Substring(x, 2), 16))
+                 .ToArray();
+
+            return Encoding.UTF8.GetString(dBytes);
+        }
+        static void Main(string[] args)
+        {
+            string input = "";
+            StreamReader sr = new StreamReader("text.txt");
+            string s;
+            while ((s = sr.ReadLine()) != null)
+            {
+                input += s;
+            }
+            string output = Morse(input);
+            Console.WriteLine(Hex(output));
+            Console.ReadLine();
+        }
+    }
+}
