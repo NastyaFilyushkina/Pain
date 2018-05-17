@@ -1,0 +1,50 @@
+C:\Users\PC\Desktop\Новая папка (3)\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\Новая папка (3)\Client\obj\Debug\Client.Properties.Resources.resources
+C:\Users\PC\Desktop\Новая папка (3)\Client\obj\Debug\Client.csproj.GenerateResource.Cache
+C:\Users\PC\Desktop\Новая папка (3)\Client\bin\Debug\Client.exe
+C:\Users\PC\Desktop\Новая папка (3)\Client\bin\Debug\Client.pdb
+C:\Users\PC\Desktop\Новая папка (3)\Client\bin\Debug\ClassLibrary1.dll
+C:\Users\PC\Desktop\Новая папка (3)\Client\bin\Debug\Game.dll
+C:\Users\PC\Desktop\Новая папка (3)\Client\bin\Debug\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\Новая папка (3)\Client\bin\Debug\ClassLibrary1.pdb
+C:\Users\PC\Desktop\Новая папка (3)\Client\bin\Debug\Game.pdb
+C:\Users\PC\Desktop\Новая папка (3)\Client\obj\Debug\Client.exe
+C:\Users\PC\Desktop\Новая папка (3)\Client\obj\Debug\Client.pdb
+C:\Users\PC\Desktop\Новая папка (3)\Client\obj\Debug\Client.MainMenu.resources
+C:\Users\PC\Desktop\Новая папка (3)\Client\obj\Debug\Client.Resource1.resources
+C:\Users\я\Desktop\exactpro\ИГРА\Client\obj\Debug\Client.CardsForm.resources
+C:\Users\я\Desktop\exactpro\ИГРА\Client\obj\Debug\Client.MainMenu.resources
+C:\Users\я\Desktop\exactpro\ИГРА\Client\obj\Debug\Client.Properties.Resources.resources
+C:\Users\я\Desktop\exactpro\ИГРА\Client\obj\Debug\Client.Resource1.resources
+C:\Users\я\Desktop\exactpro\ИГРА\Client\obj\Debug\Client.csproj.GenerateResource.Cache
+C:\Users\я\Desktop\exactpro\ИГРА\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+C:\Users\я\Desktop\exactpro\ИГРА\Client\obj\Debug\Client.pdb
+C:\Users\я\Desktop\exactpro\ИГРА\Client\bin\Debug\Client.exe
+C:\Users\я\Desktop\exactpro\ИГРА\Client\bin\Debug\Client.pdb
+C:\Users\я\Desktop\exactpro\ИГРА\Client\bin\Debug\ClassLibrary1.dll
+C:\Users\я\Desktop\exactpro\ИГРА\Client\bin\Debug\Game.dll
+C:\Users\я\Desktop\exactpro\ИГРА\Client\bin\Debug\Newtonsoft.Json.dll
+C:\Users\я\Desktop\exactpro\ИГРА\Client\bin\Debug\ClassLibrary1.pdb
+C:\Users\я\Desktop\exactpro\ИГРА\Client\bin\Debug\Game.pdb
+C:\Users\я\Desktop\exactpro\ИГРА\Client\obj\Debug\Client.exe
+C:\Users\я\Desktop\exactpro\ИГРА\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+C:\Users\я\Desktop\exactpro\ИГРА\Client\obj\Debug\Client.Batll.resources
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\bin\Debug\Client.exe
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\bin\Debug\Client.pdb
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\bin\Debug\ClassLibrary1.dll
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\bin\Debug\Game.dll
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\bin\Debug\Newtonsoft.Json.dll
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\bin\Debug\ClassLibrary1.pdb
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\bin\Debug\Game.pdb
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\obj\Debug\Client.Batll.resources
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\obj\Debug\Client.CardsForm.resources
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\obj\Debug\Client.MainMenu.resources
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\obj\Debug\Client.Properties.Resources.resources
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\obj\Debug\Client.Resource1.resources
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\obj\Debug\Client.csproj.GenerateResource.Cache
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\obj\Debug\Client.exe
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\obj\Debug\Client.pdb
+C:\Users\я\Desktop\exactpro\Новая папка\ИГРА\Client\obj\Debug\Client.History.resources
+C:\Users\PC\Desktop\Моя попытка номер 5\Новая папка (2)\ИГРА\Client\obj\Debug\Client.exe
+C:\Users\PC\Desktop\Моя попытка номер 5\Новая папка (2)\ИГРА\Client\obj\Debug\Client.pdb

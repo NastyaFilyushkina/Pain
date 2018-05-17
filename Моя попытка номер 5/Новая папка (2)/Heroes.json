@@ -1,0 +1,152 @@
+{
+"Belun":
+{
+"Power": "5",
+"Health": "7",
+"Price": "6"
+}
+"Vasilisa":
+{
+"Power": "3",
+"Health": "2",
+"Price": "3"
+}
+"Veles":
+{
+"Power": "5",
+"Health": "7",
+"Price": "6"
+}
+"Vodyanoi":
+{
+"Power": "2",
+"Health": "3",
+"Price": "2"
+}
+"Volhv":
+{
+"Power": "5",
+"Health": "7",
+"Price": "6"
+}
+"Vujalka":
+{
+"Power": "3",
+"Health": "2",
+"Price": "2"
+}
+"Gorinich":
+{
+"Power": "8",
+"Health": "8",
+"Price": "8"
+}
+"Dajdbog":
+{
+"Power": "8",
+"Health": "8",
+"Price": "8"
+}
+"Devana":
+{
+"Power": "6",
+"Health": "6",
+"Price": "6"
+}
+"Slata":
+{
+"Power": "3",
+"Health": "6",
+"Price": "4"
+}
+"Karna":
+{
+"Power": "3",
+"Health": "3",
+"Price": "3"
+}
+"Krada":
+{
+"Power": "5",
+"Health": "10",
+"Price": "7"
+}
+"Leshii":
+{
+"Power": "3",
+"Health": "3",
+"Price": "3"
+}
+"Makosch":
+{
+"Power": "5",
+"Health": "7",
+"Price": "6"
+}
+"Morena":
+{
+"Power": "6",
+"Health": "6",
+"Price": "6"
+}
+"Ognenniicvetok"
+{
+"Power": "6",
+"Health": "4",
+"Price": "6"
+}
+"Perun"
+{
+"Power": "8",
+"Health": "8",
+"Price": "8"
+}
+"Sva-Slava"
+{
+"Power": "7",
+"Health": "7",
+"Price": "7"
+}
+"Rusalka"
+{
+"Power": "4",
+"Health": "4",
+"Price": "4"
+}
+"Svarog"
+{
+"Power": "8",
+"Health": "8",
+"Price": "8"
+}
+"Svyatibor"
+{
+"Power": "6",
+"Health": "6",
+"Price": "6"
+}
+"Svyatogor"
+{
+"Power": "6",
+"Health": "6",
+"Price": "6"
+}
+"Surica"
+{
+"Power": "3",
+"Health": "3",
+"Price": "3"
+}
+"Chernobog"
+{
+"Power": "4",
+"Health": "4",
+"Price": "4"
+}
+"Chislobog"
+{
+"Power": "5",
+"Health": "5",
+"Price": "5"
+}
+}

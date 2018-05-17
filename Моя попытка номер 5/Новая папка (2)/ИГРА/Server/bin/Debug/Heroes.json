@@ -1,0 +1,140 @@
+[
+{
+"Name":"Veles",
+"Power":"5",
+"Health":"7",
+"Price":"6"
+},
+{
+"Name":"Vodyanoi",
+"Power": "2",
+"Health": "3",
+"Price": "2"
+},
+{
+"Name":"Volhv",
+"Power": "5",
+"Health": "7",
+"Price": "6"
+},
+{
+"Name":"Vujalka",
+"Power": "3",
+"Health": "2",
+"Price": "2"
+},
+{
+"Name":"Gorinich",
+"Power": "8",
+"Health": "8",
+"Price": "8"
+},
+{
+"Name":"Dajdbog",
+"Power": "8",
+"Health": "8",
+"Price": "8"
+},
+{
+"Name":"Devana",
+"Power": "6",
+"Health": "6",
+"Price": "6"
+},
+{
+"Name":"Slata",
+"Power": "3",
+"Health": "6",
+"Price": "4"
+},
+{
+"Name":"Karna",
+"Power": "3",
+"Health": "3",
+"Price": "3"
+},
+{
+"Name":"Krada",
+"Power": "5",
+"Health": "10",
+"Price": "7"
+},
+{
+"Name":"Leshii",
+"Power": "3",
+"Health": "3",
+"Price": "3"
+},
+{
+"Name":"Makosch",
+"Power": "5",
+"Health": "7",
+"Price": "6"
+},
+{
+"Name":"Morena",
+"Power": "6",
+"Health": "6",
+"Price": "6"
+},
+{
+"Name":"Ognenniicvetok",
+"Power": "6",
+"Health": "4",
+"Price": "6"
+},
+{
+"Name":"Perun",
+"Power": "8",
+"Health": "8",
+"Price": "8"
+},
+{
+"Name":"Sva-Slava",
+"Power": "7",
+"Health": "7",
+"Price": "7"
+},
+{
+"Name":"Rusalka",
+"Power": "4",
+"Health": "4",
+"Price": "4"
+},
+{
+"Name":"Svarog",
+"Power": "8",
+"Health": "8",
+"Price": "8"
+},
+{
+"Name":"Svyatibor",
+"Power": "6",
+"Health": "6",
+"Price": "6"
+},
+{
+"Name":"Svyatogor",
+"Power": "6",
+"Health": "6",
+"Price": "6"
+},
+{
+"Name":"Surica",
+"Power": "3",
+"Health": "3",
+"Price": "3"
+},
+{
+"Name":"Chernobog",
+"Power": "4",
+"Health": "4",
+"Price": "4"
+},
+{
+"Name":"Chislobog",
+"Power":"5",
+"Health":"5",
+"Price":"5"
+}
+]
