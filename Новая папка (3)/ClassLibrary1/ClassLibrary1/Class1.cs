@@ -10,26 +10,26 @@ namespace ClassLibrary1
 {
     public enum PacketsToServer
     {
-        RegPacket,StartWindowPacket, WaitGamePacket, StartGamePacket, ChooseEnemyPacket, RandomEnemyPacket, ChoosenCardListPacket,StopLookingforGamePacket,
-        StepPacket,StepIsNull, EndGamePacket, ResultRegPacket, ResultChooseEnemyPacketSuccess, ResultChooseEnemyPacketFailed, WinnerPaclet, ResultChooseCardList,
+        RegPacket, StartWindowPacket, WaitGamePacket, StartGamePacket, ChooseEnemyPacket, RandomEnemyPacket, ChoosenCardListPacket, StopLookingforGamePacket,
+        StepPacket, StepIsNull, EndGamePacket, ResultRegPacket, ResultChooseEnemyPacketSuccess, ResultChooseEnemyPacketFailed, WinnerPaclet, ResultChooseCardList,
         EnemyLeftGamePacket, ResultStepPacket, AllCardsPacket, ListOfAllClients, ListOfWaitingClients,
-        SendDataToUsers,PacketArenaCardNow,Error, AskGamePacket,EXIT, AnsGamePacket
+        SendDataToUsers, PacketArenaCardNow, Error, AskGamePacket, EXIT, AnsGamePacket, ResultRegPacketFailed
     }
     public enum Status { success, fail }
     /// <summary>
     /// Серверные
     /// </summary>
-   public class Error
+    public class Error
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public PacketsToServer Command { set; get; }
         public string ErrorToUser { set; get; }
     }
-     public class ListOfWaitingClients
+    public class ListOfWaitingClients
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public PacketsToServer Command { set; get; }
-         public List<string> ListWaitingClients { set; get; }
+        public List<string> ListWaitingClients { set; get; }
     }
     public class Exit
     {
@@ -54,8 +54,16 @@ namespace ClassLibrary1
         [JsonConverter(typeof(StringEnumConverter))]
         public PacketsToServer Command { set; get; }
         [JsonConverter(typeof(StringEnumConverter))]
-        public Status StatusOfRegistr{ set; get; }
+        public Status StatusOfRegistr { set; get; }
         public List<string> ListAllClients { set; get; }
+    }
+    public class ResultRegPacketFailed
+    {
+        [JsonConverter(typeof(StringEnumConverter))]
+        public PacketsToServer Command { set; get; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Status StatusOfRegistr { set; get; }
+
     }
     public class ResultChooseEnemyPacketSuccess
     {
@@ -97,7 +105,7 @@ namespace ClassLibrary1
         [JsonConverter(typeof(StringEnumConverter))]
         public PacketsToServer Command { set; get; }
         public List<Card> Koloda { set; get; }
-        
+
     }
     public class ResultStepPacket
     {
@@ -106,7 +114,7 @@ namespace ClassLibrary1
         [JsonConverter(typeof(StringEnumConverter))]
         public Status ResultOfChooseCard { set; get; }
     }
-    public class SendDataToUsersFirstTime: SendDataToUsers
+    public class SendDataToUsersFirstTime : SendDataToUsers
     {
         public List<Card> ListCard { set; get; }
     }
@@ -194,7 +202,7 @@ namespace ClassLibrary1
         public Player Enemy { set; get; }
 
     }
-     public class PacketArenaCardNow
+    public class PacketArenaCardNow
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public PacketsToServer Command { set; get; }
@@ -204,7 +212,7 @@ namespace ClassLibrary1
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public PacketsToServer Command { set; get; }
-        
+
 
     }
     public class EndGamePacket
@@ -214,5 +222,4 @@ namespace ClassLibrary1
         public string login { set; get; }
         public Player Enemy { set; get; }
     }
-
 }

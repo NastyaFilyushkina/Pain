@@ -11,7 +11,7 @@ namespace Client
 {
     public class ClientObject
     {
-       static TcpClient client; const int port = 1100;
+        static TcpClient client; const int port = 1100;
         const string address = "127.0.0.1";
         string name;
         public string Name { get; }
@@ -22,12 +22,13 @@ namespace Client
                 this.name = Name;
 
                 client = new TcpClient(address, port);
-            }catch
+            }
+            catch
             {
                 SendMessage("Сервер отключен");
             }
         }
-        Queue<string> que = new Queue<string>();
+        // Queue<string> que = new Queue<string>();
         public void ClObjProcess()
         {
 
@@ -37,7 +38,7 @@ namespace Client
             string mes = JsonConvert.SerializeObject(pack);
             Send(mes);
             NetworkStream stream = null;
-           // try
+            // try
             {
                 stream = client.GetStream();
                 byte[] data = new byte[1024]; // буфер для получаемых данных
@@ -54,12 +55,24 @@ namespace Client
                     }
                     while (stream.DataAvailable);
                     string message = builder.ToString();
-                     que.Enqueue(message);
-                    ReciveMesFromServ(message);
-                
+                    Queue<string> qupackets = new Queue<string>();
+                    if (message != "")
+                    {
+                        string[] cases = message.Split('$');
+                        for (int i = 0; i < cases.Length; i++)
+                        {
+                            if (cases[i] != "")
+                                qupackets.Enqueue(cases[i]);
+                        }
+                        while (qupackets.Count != 0)
+                        {
+                            ReciveMesFromServ(qupackets.Dequeue());
+                        }
+                    }
+
 
                 }
-        }
+            }
             //catch (Exception ex)
             //{
 
@@ -72,14 +85,14 @@ namespace Client
             //        client.Close();
             //}
         }
-       static private void Send(string mes)
+        static private void Send(string mes)
         {
-            
+
             Byte[] sendBytes = Encoding.Unicode.GetBytes(mes);
             client.GetStream().Write(sendBytes, 0, sendBytes.Length);
             //Console.WriteLine(" >> " + strpacket);
             // networkStream.Close();
-          //  client.GetStream().Flush();
+            //  client.GetStream().Flush();
             //NetworkStream networkStream = client.GetStream();
             //Byte[] sendBytes = Encoding.Unicode.GetBytes(mes);
             //networkStream.Write(sendBytes, 0, sendBytes.Length);
@@ -101,16 +114,14 @@ namespace Client
             {
                 case PacketsToServer.ResultRegPacket:
                     ResultRegPacket result = JsonConvert.DeserializeObject<ResultRegPacket>(message);
-                    if (result.StatusOfRegistr == Status.fail)
-                    {
-                        SendMessage(string.Format("Это имя уже занято!Введите другое имя."));
-                    }
-                    else
-                    {
-                        ChangeForm();
-                        ChangeForm1(result.ListAllClients);
-                        //SendQAFORstWindow();
-                    }
+                    ChangeForm();
+                    ChangeForm1(result.ListAllClients);
+                    //SendQAFORstWindow();
+                    break;
+                case PacketsToServer.ResultRegPacketFailed:
+                    ResultRegPacket resultf = JsonConvert.DeserializeObject<ResultRegPacket>(message);
+                    SendMessage(string.Format("Это имя уже занято!Введите другое имя."));
+
                     break;
                 case PacketsToServer.StartWindowPacket:
                     StartWindowPacket resultWindow = JsonConvert.DeserializeObject<StartWindowPacket>(message);
@@ -123,7 +134,7 @@ namespace Client
                 case PacketsToServer.ListOfWaitingClients:
                     ListOfWaitingClients waitgapacket = JsonConvert.DeserializeObject<ListOfWaitingClients>(message);
                     ChangeForm2(waitgapacket.ListWaitingClients);
-                        break;
+                    break;
                 case PacketsToServer.AskGamePacket:
                     AskGamePacket gameasktpacket = JsonConvert.DeserializeObject<AskGamePacket>(message);
                     MessForME(gameasktpacket.login);
@@ -139,7 +150,7 @@ namespace Client
                     SendMessage("Противник отклонил игру");
 
                     break;
-               
+
             }
         }
         public void SendIFCLose()
@@ -151,7 +162,7 @@ namespace Client
             WaitGamePacket wait = new WaitGamePacket();
             wait.Command = PacketsToServer.WaitGamePacket;
             wait.login = name;
-            string mes = JsonConvert.SerializeObject(wait);
+            string mes = JsonConvert.SerializeObject(wait) + "$";
             Send(mes);
         }
         public void SendQAForSTOPWait()
@@ -159,7 +170,7 @@ namespace Client
             StopLookingForGame wait = new StopLookingForGame();
             wait.Command = PacketsToServer.WaitGamePacket;
             wait.Name = name;
-            string mes = JsonConvert.SerializeObject(wait);
+            string mes = JsonConvert.SerializeObject(wait) + "$";
             Send(mes);
         }
         public void SendQAFORChooseEnemy(string login)
@@ -168,10 +179,10 @@ namespace Client
             chooseenemy.Command = PacketsToServer.ChooseEnemyPacket;
             chooseenemy.EnemyLogin = login;
             chooseenemy.MyLogin = name;
-            string mes = JsonConvert.SerializeObject(chooseenemy);
+            string mes = JsonConvert.SerializeObject(chooseenemy) + "$";
             Send(mes);
         }
-        public void SendAnswerToAskGame(string names,bool flag)
+        public void SendAnswerToAskGame(string names, bool flag)
         {
             AnsGamePacket ans = new AnsGamePacket();
             ans.Command = PacketsToServer.AnsGamePacket;
@@ -184,7 +195,7 @@ namespace Client
             {
                 ans.state = false;
             }
-            string mes = JsonConvert.SerializeObject(ans);
+            string mes = JsonConvert.SerializeObject(ans) + "$";
             Send(mes);
         }
         public void SendQAFORRandom()
@@ -192,17 +203,18 @@ namespace Client
             RandomEnemyPacket chooseenemy = new RandomEnemyPacket();
             chooseenemy.Command = PacketsToServer.ChooseEnemyPacket;
             chooseenemy.Login = name;
-            string mes = JsonConvert.SerializeObject(chooseenemy);
+            string mes = JsonConvert.SerializeObject(chooseenemy) + "$";
             Send(mes);
         }
         public void SendQAIFEXIT(string login)
         {
-            Exit exit= new Exit();
+            Exit exit = new Exit();
             exit.Command = PacketsToServer.EXIT;
             exit.login = login;
-            string mes = JsonConvert.SerializeObject(exit);
+            string mes = JsonConvert.SerializeObject(exit) + "$";
             Send(mes);
         }
     }
-    
+
+
 }
