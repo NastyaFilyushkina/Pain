@@ -16,9 +16,6 @@ namespace Client
         {
             InitializeComponent();
             PaintControl();
-            lPower.Text = "0";
-            lHealth.Text = "0";
-            lPrice.Text = "0";
 
         }
 
@@ -97,9 +94,9 @@ namespace Client
         {
             this.Width = (int)(this.Height / 1.5);
             lName.Location = new Point(this.Width / 2 - this.Width / 4, 0);
-            lName.Font = new Font(this.Font.FontFamily, (int)(0.1*this.Width));
+            lName.Font = new Font(this.Font.FontFamily, (int)(0.1 * this.Width));
             lName.UseCompatibleTextRendering = true;
-            lPower.Location = new Point(0, lName.Height+pictureBox1.Height);
+            lPower.Location = new Point(0, lName.Height + pictureBox1.Height);
             lPower.Font = new Font(this.Font.FontFamily, (int)(0.1 * this.Width));
             lPower.UseCompatibleTextRendering = true;
             lHealth.Location = new Point(this.Width - lHealth.Width, lName.Height + pictureBox1.Height);
@@ -111,7 +108,7 @@ namespace Client
             pictureBox1.Location = new Point(0, lName.Height);
             pictureBox1.Width = this.Width;
             pictureBox1.Height = (int)(0.6f * this.Height);
-            
+
         }
 
         private void CardsForm_Paint(object sender, PaintEventArgs e)

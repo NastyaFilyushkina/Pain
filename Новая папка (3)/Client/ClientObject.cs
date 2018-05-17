@@ -132,7 +132,7 @@ namespace Client
                 case PacketsToServer.ResultChooseEnemyPacketSuccess:
                     ResultChooseEnemyPacketSuccess gamepaket = JsonConvert.DeserializeObject<ResultChooseEnemyPacketSuccess>(message);
                     ChangeFormToNewForm();
-                    MakeCards(gamepaket.listAllCards);
+                    //MakeCards(gamepaket.listAllCards);
                     break;
                 case PacketsToServer.ResultChooseEnemyPacketFailed:
                     // ChangeFormToNewForm();
