@@ -53,12 +53,22 @@ namespace Client
         }
         void ChangeToNewFormListCard()
         {
-            this.Invoke((MethodInvoker)(() => this.Hide()));
-            Form ifrm = new ChooseListOfYourCards(client);
-            //ifrm.Left = this.Left; // задаём открываемой форме позицию слева равную позиции текущей формы
-            //ifrm.Top = this.Top; // задаём открываемой форме позицию сверху равную позиции текущей формы
-           ifrm.Show(); // отображаем Form2
-          // скрываем Form1 (this - текущая форма)
+            if (this.InvokeRequired)
+            {
+                this.Invoke((MethodInvoker)(() => this.Hide()));
+                //this.Hide();
+                this.Invoke((MethodInvoker)(() => new ChooseListOfYourCards(client).Show()));
+                //ifrm.Left = this.Left; // задаём открываемой форме позицию слева равную позиции текущей формы
+                //ifrm.Top = this.Top; // задаём открываемой форме позицию сверху равную позиции текущей формы
+                /*ifrm.Show();*/ // отображаем Form2
+                                 // скрываем Form1 (this - текущая форма)
+            }
+            else
+            {
+                this.Hide();
+                Form ifrm = new ChooseListOfYourCards(client);
+                ifrm.Show();
+            }
         }
         public void Message(string str)
         {
