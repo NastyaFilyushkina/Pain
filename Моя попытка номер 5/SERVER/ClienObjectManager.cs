@@ -18,65 +18,66 @@ namespace SERVER
         public ClienObjectManager(TcpClient client)
         {
             this.client = client;
+
         }
         NetworkStream stream = null;
         public void Proccess()
         {
-            try
+            // try
+            // {
+            stream = client.GetStream();
+            byte[] data = new byte[1024]; // буфер для получаемых данных
+            while (true)
             {
-                stream = client.GetStream();
-                byte[] data = new byte[1024]; // буфер для получаемых данных
-                while (true)
-                {
-                    // получаем сообщение
-                    StringBuilder builder = new StringBuilder();
-                    int bytes = 0;
+                // получаем сообщение
+                StringBuilder builder = new StringBuilder();
+                int bytes = 0;
 
-                    do
+                do
+                {
+                    bytes = stream.Read(data, 0, data.Length);
+                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                }
+                while (stream.DataAvailable);
+                string message = builder.ToString();
+                Queue<string> qupackets = new Queue<string>();
+                if (message != "")
+                {
+                    string[] cases = message.Split('$');
+                    for (int i = 0; i < cases.Length; i++)
                     {
-                        bytes = stream.Read(data, 0, data.Length);
-                        builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                        if (cases[i] != "")
+                            qupackets.Enqueue(cases[i]);
                     }
-                    while (stream.DataAvailable);
-                    string message = builder.ToString();
-                    Queue<string> qupackets = new Queue<string>();
-                    if (message != "")
+                    while (qupackets.Count != 0)
                     {
-                        string[] cases = message.Split('$');
-                        for (int i = 0; i < cases.Length; i++)
-                        {
-                            if (cases[i] != "")
-                                qupackets.Enqueue(cases[i]);
-                        }
-                        while (qupackets.Count != 0)
-                        {
-                            ReciveMessages(qupackets.Dequeue());
-                        }
+                        ReciveMessages(qupackets.Dequeue());
                     }
                 }
-            }
-            catch (Exception ex)
-            {
+            } }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-            }
-            finally
-            {
-                //Console.WriteLine("Клиент покинул игру");
-                //foreach (Player a in ServerMain.gameclients)
-                //{
-                //    if (a.Name == clientinf.Name)
-                //    {
-                //        ServerMain.gameclients.Remove(a);
-                //        ServerMain.FirstList.Remove(a.Name);
-                //    }
-                //}
-                // ServerMain.FirstList.Remove(room.Player1.Name);
-                if (stream != null)
-                    stream.Close();
-                if (client != null)
-                    client.Close();
-            }
-        }
+        //    }
+        //    finally
+        //    {
+        //        //Console.WriteLine("Клиент покинул игру");
+        //        //foreach (Player a in ServerMain.gameclients)
+        //        //{
+        //        //    if (a.Name == clientinf.Name)
+        //        //    {
+        //        //        ServerMain.gameclients.Remove(a);
+        //        //        ServerMain.FirstList.Remove(a.Name);
+        //        //    }
+        //        //}
+        //        // ServerMain.FirstList.Remove(room.Player1.Name);
+        //        if (stream != null)
+        //            stream.Close();
+        //        if (client != null)
+        //            client.Close();
+        //    }
+        //}
 
         public void SendToEnemy(string mes, string Enemy)
         {
@@ -172,149 +173,126 @@ namespace SERVER
         }
         public void ReciveMessages(string message)
         {
-            try
+            // try
+            // {
+            switch (JsonConvert.DeserializeObject<RegPacket>(message).Command)
             {
-                switch (JsonConvert.DeserializeObject<RegPacket>(message).Command)
-                {
-                    case PacketsToServer.RegPacket:
-                        RegPacket reg = JsonConvert.DeserializeObject<RegPacket>(message);
-                        bool flag = ServerMain.Check(reg.Name);
+                case PacketsToServer.RegPacket:
+                    RegPacket reg = JsonConvert.DeserializeObject<RegPacket>(message);
+                    bool flag = ServerMain.Check(reg.Name);
 
-                        if (flag)
-                        {
+                    if (flag)
+                    {
+                        lock (this) {
                             ResultRegPacket result = new ResultRegPacket();
                             result.Command = PacketsToServer.ResultRegPacket;
                             result.StatusOfRegistr = Status.success;
                             clientinf = new Player(reg.Name);
                             ServerMain.gameclients.Add(clientinf);
-                            ServerMain.FirstList.Add(reg.Name, client);
+                            Thread.Sleep(50);
+                            ServerMain.FirstList.Add(reg.Name, this.client);
                             result.ListAllClients = makelist();
                             strpacket = JsonConvert.SerializeObject(result) + "$";
                             Console.WriteLine("Имя клиента " + reg.Name);
-
                         }
-                        else
+                    }
+                    else
+                    {
+                        ResultRegPacketFailed result = new ResultRegPacketFailed();
+                        result.Command = PacketsToServer.ResultRegPacket;
+                        result.StatusOfRegistr = Status.fail;
+                        strpacket = JsonConvert.SerializeObject(result) + "$";
+                        Console.WriteLine("Клиент с таким именем уже существует");
+                    }
+
+                    Send(strpacket);
+                    ListOfAllClients list = new ListOfAllClients();
+                    list.Command = PacketsToServer.ListOfAllClients;
+                    list.ListAllClients = makelist();
+                    strpacket = JsonConvert.SerializeObject(list) + "$";
+                    SendToAllPlayersInTheGameWithOutME(strpacket);
+                    break;
+                case PacketsToServer.AskGamePacket:
+
+                    AskGamePacket stwp = JsonConvert.DeserializeObject<AskGamePacket>(message);
+                    StartWindowPacket stgapc = new StartWindowPacket();//отправляю список клиента при входе в игру
+                    stgapc.Command = PacketsToServer.StartWindowPacket;
+                    stgapc.ListAllClients = makelist();
+                    strpacket = JsonConvert.SerializeObject(stgapc) + "$";
+                    Send(strpacket);
+
+                    break;
+
+                case PacketsToServer.WaitGamePacket:
+                    WaitGamePacket waitfg = JsonConvert.DeserializeObject<WaitGamePacket>(message);
+                    foreach (Player a in ServerMain.gameclients)
+                    {
+                        if (a.Name == waitfg.login)
                         {
-                            ResultRegPacketFailed result = new ResultRegPacketFailed();
-                            result.Command = PacketsToServer.ResultRegPacket;
-                            result.StatusOfRegistr = Status.fail;
-                            strpacket = JsonConvert.SerializeObject(result) + "$";
-                            Console.WriteLine("Клиент с таким именем уже существует");
+                            a.Status = StatusGamer.lookforgame;
                         }
-
-                        Send(strpacket);
-                        ListOfAllClients list = new ListOfAllClients();
-                        list.Command = PacketsToServer.ListOfAllClients;
-                        list.ListAllClients = makelist();
-                        strpacket = JsonConvert.SerializeObject(list) + "$";
-                        SendToAllPlayersInTheGameWithOutME(strpacket);
-                        break;
-                    case PacketsToServer.AskGamePacket:
-
-                        AskGamePacket stwp = JsonConvert.DeserializeObject<AskGamePacket>(message);
-                        StartWindowPacket stgapc = new StartWindowPacket();//отправляю список клиента при входе в игру
-                        stgapc.Command = PacketsToServer.StartWindowPacket;
-                        stgapc.ListAllClients = makelist();
-                        strpacket = JsonConvert.SerializeObject(stgapc) + "$";
-                        Send(strpacket);
-
-                        break;
-
-                    case PacketsToServer.WaitGamePacket:
-                        WaitGamePacket waitfg = JsonConvert.DeserializeObject<WaitGamePacket>(message);
-                        foreach (Player a in ServerMain.gameclients)
+                    }
+                    sendingList();
+                    break;
+                case PacketsToServer.StopLookingforGamePacket:
+                    StopLookingForGame stop = JsonConvert.DeserializeObject<StopLookingForGame>(message);
+                    foreach (Player a in ServerMain.gameclients)
+                    {
+                        if (a.Name == stop.Name)
                         {
-                            if (a.Name == waitfg.login)
-                            {
-                                a.Status = StatusGamer.lookforgame;
-                            }
+                            a.Status = StatusGamer.sleeping;
                         }
-                        sendingList();
-                        break;
-                    case PacketsToServer.StopLookingforGamePacket:
-                        StopLookingForGame stop = JsonConvert.DeserializeObject<StopLookingForGame>(message);
-                        foreach (Player a in ServerMain.gameclients)
+                    }
+                    sendingList();
+                    break;
+                case PacketsToServer.EXIT:
+                    Exit ex = JsonConvert.DeserializeObject<Exit>(message);
+                    Console.WriteLine("Клиент покинул игру");
+                    foreach (Player a in ServerMain.gameclients)
+                    {
+                        if (a.Name == ex.login)
                         {
-                            if (a.Name == stop.Name)
-                            {
-                                a.Status = StatusGamer.sleeping;
-                            }
+                            ServerMain.gameclients.Remove(a);
+                            ServerMain.FirstList.Remove(a.Name);
                         }
-                        sendingList();
-                        break;
-                    case PacketsToServer.EXIT:
-                        Exit ex = JsonConvert.DeserializeObject<Exit>(message);
-                        Console.WriteLine("Клиент покинул игру");
-                        foreach (Player a in ServerMain.gameclients)
+                    }
+                    ListOfAllClients list1 = new ListOfAllClients();
+                    list1.Command = PacketsToServer.ListOfAllClients;
+                    list1.ListAllClients = makelist();
+                    strpacket = JsonConvert.SerializeObject(list1) + "$";
+                    SendToAllPlayersInTheGameWithOutME(strpacket);
+                    foreach (KeyValuePair<string, TcpClient> a in ServerMain.FirstList)
+                    {
+                        if (a.Key == ex.login)
                         {
-                            if (a.Name == ex.login)
-                            {
-                                ServerMain.gameclients.Remove(a);
-                                ServerMain.FirstList.Remove(a.Name);
-                            }
+                            a.Value.Close();
+                            ServerMain.FirstList.Remove(a.Key);
+                            return;
                         }
-                        ListOfAllClients list1 = new ListOfAllClients();
-                        list1.Command = PacketsToServer.ListOfAllClients;
-                        list1.ListAllClients = makelist();
-                        strpacket = JsonConvert.SerializeObject(list1) + "$";
-                        SendToAllPlayersInTheGameWithOutME(strpacket);
-                        foreach (KeyValuePair<string, TcpClient> a in ServerMain.FirstList)
+                    }
+                    {
+
+                    }
+                    break;
+                case PacketsToServer.ChooseEnemyPacket:
+                    ChooseEnemyPacket ch = JsonConvert.DeserializeObject<ChooseEnemyPacket>(message);
+                    this.clientinf.Status = StatusGamer.lookforgame;
+
+                    foreach (Player client in ServerMain.gameclients)
+                    {
+                        if (client.Name == ch.EnemyLogin && client.Status == StatusGamer.lookforgame
+                            && CheckMe(clientinf) == StatusGamer.lookforgame)
                         {
-                            if (a.Key == ex.login)
-                            {
-                                a.Value.Close();
-                                ServerMain.FirstList.Remove(a.Key);
-                                return;
-                            }
+                            AskGamePacket packet = new AskGamePacket();
+                            packet.Command = PacketsToServer.AskGamePacket;
+                            packet.login = ch.MyLogin;
+                            strpacket = JsonConvert.SerializeObject(packet) + "$";
+
+                            SendToEnemy(strpacket, ch.EnemyLogin);
+
+                            return;
                         }
-                        {
-
-                        }
-                        break;
-                    case PacketsToServer.ChooseEnemyPacket:
-                        ChooseEnemyPacket ch = JsonConvert.DeserializeObject<ChooseEnemyPacket>(message);
-                        this.clientinf.Status = StatusGamer.lookforgame;
-
-                        foreach (Player client in ServerMain.gameclients)
-                        {
-                            if (client.Name == ch.EnemyLogin && client.Status == StatusGamer.lookforgame
-                                && CheckMe(clientinf) == StatusGamer.lookforgame)
-                            {
-                                AskGamePacket packet = new AskGamePacket();
-                                packet.Command = PacketsToServer.AskGamePacket;
-                                packet.login = ch.MyLogin;
-                                strpacket = JsonConvert.SerializeObject(packet) + "$";
-
-                                SendToEnemy(strpacket, ch.EnemyLogin);
-
-                                return;
-                            }
-                            else if (client.Name != clientinf.Name)
-                            {
-                                ResultChooseEnemyPacketFailed pack2 = new ResultChooseEnemyPacketFailed();
-                                pack2.Command = PacketsToServer.ResultChooseEnemyPacketFailed;
-                                pack2.StatusOfChoseEnemy = Status.fail;
-                                strpacket = JsonConvert.SerializeObject(pack2) + "$";
-                                Send(strpacket);
-
-                            }
-                        }
-                        break;
-                    case PacketsToServer.AnsGamePacket:
-                        AnsGamePacket answer = JsonConvert.DeserializeObject<AnsGamePacket>(message);
-                        if (answer.state == true)
-                        {
-                            ResultChooseEnemyPacketSuccess resultchen = new ResultChooseEnemyPacketSuccess();
-                            resultchen.Command = PacketsToServer.ResultChooseEnemyPacketSuccess;
-                            resultchen.StatusOfChoseEnemy = Status.success;
-                            resultchen.enemylogin = answer.login;//логин врага
-                            var obj = JsonConvert.DeserializeObject<List<CardHeroes>>(File.ReadAllText("1.json"));
-                            resultchen.listAllCards = obj;
-                            strpacket = JsonConvert.SerializeObject(resultchen) + "$";
-                            SendToAllPlayersInTheRoom(strpacket, answer.login);
-
-                        }
-                        else
+                        else if (client.Name != clientinf.Name)
                         {
                             ResultChooseEnemyPacketFailed pack2 = new ResultChooseEnemyPacketFailed();
                             pack2.Command = PacketsToServer.ResultChooseEnemyPacketFailed;
@@ -323,87 +301,135 @@ namespace SERVER
                             Send(strpacket);
 
                         }
+                    }
+                    break;
+                case PacketsToServer.AnsGamePacket:
+                    AnsGamePacket answer = JsonConvert.DeserializeObject<AnsGamePacket>(message);
+                    if (answer.state == true)
+                    {
 
-                        break;
-                    case PacketsToServer.ChoosenCardListPacket:
-                        ChoosenCardListPacket kol = JsonConvert.DeserializeObject<ChoosenCardListPacket>(message);
-                        ResultChooseCardList packetcheck = new ResultChooseCardList();
-                        ISErrorOfEnemy err = new ISErrorOfEnemy();
-                        err.Command = PacketsToServer.ISErrorOfEnemy;
-                        packetcheck.Command = PacketsToServer.ResultChooseCardList;
-                        if (checkkoloda(kol.Koloda))
-                        {
-                            err.ISErr = false;
-                            packetcheck.ResultOfChooseCard = Status.success;
-                        }
-                        else
-                        {
-                            err.ISErr = true;
-                            packetcheck.ResultOfChooseCard = Status.fail;
-                        }
-                        strpacket = JsonConvert.SerializeObject(packetcheck) + "$";
+                        ResultChooseEnemyPacketSuccess resultchen = new ResultChooseEnemyPacketSuccess();
+                        resultchen.Command = PacketsToServer.ResultChooseEnemyPacketSuccess;
+                        resultchen.StatusOfChoseEnemy = Status.success;
+                        resultchen.enemylogin = answer.Enemylogin;//логин врага
+                        resultchen.MyLogin = answer.Mylogin;//логин врага
+                        var obj = JsonConvert.DeserializeObject<List<CardHeroes>>(File.ReadAllText("1.json"));
+                        resultchen.listAllCards = obj;
+                        strpacket = JsonConvert.SerializeObject(resultchen) + "$";
                         Send(strpacket);
-                        strpacket = JsonConvert.SerializeObject(err) + "$";
-                        SendToEnemy(strpacket, room.Player2.Name);
+                        resultchen.enemylogin = answer.Mylogin;
+                        resultchen.MyLogin = answer.Enemylogin;
+                        strpacket = JsonConvert.SerializeObject(resultchen) + "$";
+                        SendToEnemy(strpacket,answer.Enemylogin);
 
-                        break;
-                    case PacketsToServer.StartGamePacket:
-                        StartGamePacket stgapacket = JsonConvert.DeserializeObject<StartGamePacket>(message);
-                        foreach (Player pl in ServerMain.gameclients)
-                        {
-                            if (stgapacket.Me == pl.Name || stgapacket.Enemy == pl.Name)
-                            {
-                                pl.Status = StatusGamer.playing;
-                            }
-                        }
-                        sendingList();
+                    }
+                    else
+                    {
+                        ResultChooseEnemyPacketFailed pack2 = new ResultChooseEnemyPacketFailed();
+                        pack2.Command = PacketsToServer.ResultChooseEnemyPacketFailed;
+                        pack2.StatusOfChoseEnemy = Status.fail;
+                        strpacket = JsonConvert.SerializeObject(pack2) + "$";
+                        Send(strpacket);
 
-                        //room.Player1 = clientinf;
-                        //room.Player2 = stgapacket.Enemy;
-                        foreach (Player pl in ServerMain.gameclients)
-                        {
-                            if (stgapacket.Enemy == pl.Name)
-                            {
-                                StartGame(this.clientinf, pl);
-                            }
-                        }
-                        break;
-                    case PacketsToServer.StepPacket:
-                        StepPacket stpac = JsonConvert.DeserializeObject<StepPacket>(message);
-                        GameStep(stpac.EnemyCard, stpac.MyCard, stpac.Enemy);
+                    }
 
-                        break;
-                    case PacketsToServer.PacketArenaCardNow:
-                        PacketArenaCardNow parcadnow = JsonConvert.DeserializeObject<PacketArenaCardNow>(message);
-                        if (parcadnow.MyCard.Price < this.clientinf.Mana)
+                    break;
+                case PacketsToServer.CreateNewRoom:
+                    CreateNewRoom rooom = JsonConvert.DeserializeObject<CreateNewRoom>(message);
+                    rooms = new Rooms();
+                    rooms.Player1 = clientinf;
+                    foreach (Player a in ServerMain.gameclients)
+                    {
+                        if (a.Name == rooom.enemylogin)
                         {
-                            controller.ToArena(this.clientinf, parcadnow.MyCard);
-                            SendDataToUsers send = DataToSendPrepare(room.Player2);
-                            strpacket = JsonConvert.SerializeObject(send) + "$";
-                            SendToAllPlayersInTheRoom(strpacket, room.Player2.Name);
+                            rooms.Player2 = a;
                         }
-                        else
-                        {
-                            Error error = new Error();
-                            error.Command = PacketsToServer.Error;
-                            error.ErrorToUser = "Not enouth mana to bring this card";
-                        }
-                        break;
+                    }
 
-                }
+                    break;
+                case PacketsToServer.ChoosenCardListPacket:
+
+
+                    ChoosenCardListPacket kol = JsonConvert.DeserializeObject<ChoosenCardListPacket>(message);
+                    ResultChooseCardList packetcheck = new ResultChooseCardList();
+                    ISErrorOfEnemy err = new ISErrorOfEnemy();
+                    err.Command = PacketsToServer.ISErrorOfEnemy;
+                    packetcheck.Command = PacketsToServer.ResultChooseCardList;
+                    if (checkkoloda(kol.Koloda))
+                    {
+                        err.ISErr = false;
+                        packetcheck.ResultOfChooseCard = Status.success;
+                    }
+                    else
+                    {
+                        err.ISErr = true;
+                        packetcheck.ResultOfChooseCard = Status.fail;
+                    }
+                    strpacket = JsonConvert.SerializeObject(packetcheck) + "$";
+                    Send(strpacket);
+                    strpacket = JsonConvert.SerializeObject(err) + "$";
+                    if(rooms.Player1.Name!=kol.Me)
+                    SendToEnemy(strpacket, rooms.Player1.Name);
+                    else SendToEnemy(strpacket, rooms.Player2.Name);
+
+                    break;
+                case PacketsToServer.StartGamePacket:
+                    StartGamePacket stgapacket = JsonConvert.DeserializeObject<StartGamePacket>(message);
+                    foreach (Player pl in ServerMain.gameclients)
+                    {
+                        if (stgapacket.Me == pl.Name || stgapacket.Enemy == pl.Name)
+                        {
+                            pl.Status = StatusGamer.playing;
+                        }
+                    }
+                    sendingList();
+
+                  
+
+                    foreach (Player pl in ServerMain.gameclients)
+                    {
+                        if (stgapacket.Enemy == pl.Name)
+                        {
+                            StartGame(this.clientinf, pl);
+                        }
+                    }
+                    break;
+                case PacketsToServer.StepPacket:
+                    StepPacket stpac = JsonConvert.DeserializeObject<StepPacket>(message);
+                    GameStep(stpac.EnemyCard, stpac.MyCard, stpac.Enemy);
+
+                    break;
+                case PacketsToServer.PacketArenaCardNow:
+                    PacketArenaCardNow parcadnow = JsonConvert.DeserializeObject<PacketArenaCardNow>(message);
+                    if (parcadnow.MyCard.Price < this.clientinf.Mana)
+                    {
+                        controller.ToArena(this.clientinf, parcadnow.MyCard);
+                        SendDataToUsers send = DataToSendPrepare(rooms.Player2);
+                        strpacket = JsonConvert.SerializeObject(send) + "$";
+                        SendToAllPlayersInTheRoom(strpacket, rooms.Player2.Name);
+                    }
+                    else
+                    {
+                        Error error = new Error();
+                        error.Command = PacketsToServer.Error;
+                        error.ErrorToUser = "Not enouth mana to bring this card";
+                    }
+                    break;
+
             }
-            catch
-            {
-                Console.WriteLine("Ошибочный пакет");
-
-            }
-
-
         }
-        Rooms room;
+        //catch
+        //{
+        //    Console.WriteLine("Ошибочный пакет");
+
+     
+
+
+        
+        Rooms rooms;
         bool checkkoloda(List<CardHeroes> koloda)
         {
-            if (koloda.Count == 14)
+            if (koloda.Count == 15)
             {
                 return true;
             }
@@ -485,11 +511,6 @@ namespace SERVER
         }
     }
 
-    internal class Room
-    {
-        public Room()
-        {
-        }
-    }
+   
 }
 

@@ -72,12 +72,11 @@ namespace Client
         }
 
         int count = 0;
-        List<CardHeroes> koloda;
+        List<CardHeroes> koloda= new List<CardHeroes>();
 
 
         private void cardsFormCLick(object sender, EventArgs e)
         {
-            koloda = new List<CardHeroes>();
             if (count != 15)
             {
                 CardsForm card = (CardsForm)sender;

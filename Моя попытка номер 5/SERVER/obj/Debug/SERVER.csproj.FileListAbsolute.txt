@@ -27,3 +27,12 @@ C:\Users\я\Desktop\Победа\Моя попытка номер 5\SERVER\bin\D
 C:\Users\я\Desktop\Победа\Моя попытка номер 5\SERVER\bin\Debug\ClassLibrary1.pdb
 C:\Users\я\Desktop\Победа\Моя попытка номер 5\SERVER\bin\Debug\Game.pdb
 C:\Users\я\Desktop\Победа\Моя попытка номер 5\SERVER\obj\Debug\SERVER.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\Победа\Моя попытка номер 5\SERVER\obj\Debug\SERVER.exe
+C:\Users\PC\Desktop\Победа\Моя попытка номер 5\SERVER\obj\Debug\SERVER.pdb
+C:\Users\PC\Desktop\Победа\Моя попытка номер 5\SERVER\bin\Debug\SERVER.exe
+C:\Users\PC\Desktop\Победа\Моя попытка номер 5\SERVER\bin\Debug\SERVER.pdb
+C:\Users\PC\Desktop\Победа\Моя попытка номер 5\SERVER\bin\Debug\ClassLibrary1.dll
+C:\Users\PC\Desktop\Победа\Моя попытка номер 5\SERVER\bin\Debug\Game.dll
+C:\Users\PC\Desktop\Победа\Моя попытка номер 5\SERVER\bin\Debug\ClassLibrary1.pdb
+C:\Users\PC\Desktop\Победа\Моя попытка номер 5\SERVER\bin\Debug\Game.pdb
+C:\Users\PC\Desktop\Победа\Моя попытка номер 5\SERVER\obj\Debug\SERVER.csprojResolveAssemblyReference.cache

@@ -13,7 +13,7 @@ namespace ClassLibrary1
     {
         RegPacket, StartWindowPacket, WaitGamePacket, StartGamePacket, ChooseEnemyPacket, RandomEnemyPacket, ChoosenCardListPacket, StopLookingforGamePacket,
         StepPacket, StepIsNull, EndGamePacket, ResultRegPacket, ResultChooseEnemyPacketSuccess, ResultChooseEnemyPacketFailed, WinnerPaclet, ResultChooseCardList,
-        EnemyLeftGamePacket, ResultStepPacket, AllCardsPacket, ListOfAllClients, ListOfWaitingClients,
+        EnemyLeftGamePacket, ResultStepPacket, AllCardsPacket, ListOfAllClients, ListOfWaitingClients,CreateNewRoom,
         SendDataToUsers, PacketArenaCardNow, Error, AskGamePacket, EXIT, AnsGamePacket, ResultRegPacketFailed, ISErrorOfEnemy
     }
     public enum Status { success, fail }
@@ -80,6 +80,7 @@ namespace ClassLibrary1
         public Status StatusOfChoseEnemy { set; get; }
         public List<CardHeroes> listAllCards { set; get; }
         public string enemylogin { set; get; }
+        public string MyLogin { set; get; }
     }
     public class ResultChooseEnemyPacketFailed
     {
@@ -87,6 +88,13 @@ namespace ClassLibrary1
         public PacketsToServer Command { set; get; }
         [JsonConverter(typeof(StringEnumConverter))]
         public Status StatusOfChoseEnemy { set; get; }
+    }
+    public class CreateNewRoom
+    {
+        [JsonConverter(typeof(StringEnumConverter))]
+        public PacketsToServer Command { set; get; }
+        public string enemylogin { set; get; }
+        public string MyLogin { set; get; }
     }
     public class WinnerPaclet
     {
@@ -156,7 +164,8 @@ namespace ClassLibrary1
         [JsonConverter(typeof(StringEnumConverter))]
         public PacketsToServer Command { set; get; }
         public bool state { set; get; }
-        public string login { set; get; }
+        public string Mylogin { set; get; }
+        public string Enemylogin { set; get; }
 
     }
     public class AskGamePacket
@@ -198,6 +207,7 @@ namespace ClassLibrary1
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public PacketsToServer Command { set; get; }
+        public string Me { set; get; }
         public List<CardHeroes> Koloda { set; get; }
     }
     public class StepPacket

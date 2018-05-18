@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace Client
 {
@@ -36,6 +37,7 @@ namespace Client
             pack.Command = PacketsToServer.RegPacket;
             pack.Name = name;
             string mes = JsonConvert.SerializeObject(pack);
+            Thread.Sleep(10);
             Send(mes);
             NetworkStream stream = null;
             // try
@@ -145,6 +147,12 @@ namespace Client
                     break;
                 case PacketsToServer.ResultChooseEnemyPacketSuccess:
                     ResultChooseEnemyPacketSuccess gamepaket = JsonConvert.DeserializeObject<ResultChooseEnemyPacketSuccess>(message);
+                    CreateNewRoom cr = new CreateNewRoom();
+                    cr.enemylogin = gamepaket.enemylogin;
+                    cr.MyLogin = gamepaket.MyLogin;
+                    cr.Command = PacketsToServer.CreateNewRoom;
+                    string mes = JsonConvert.SerializeObject(cr) + "$";
+                    Send(mes);
                     ChangeFormToNewForm();
                     MakeCards(gamepaket.listAllCards);
                     break;
@@ -158,29 +166,40 @@ namespace Client
                     if (anscard.ResultOfChooseCard == Status.fail)
                     {
                         ISCardRight = false;
-                        ChangeFormCard();//добавить обработчик
+                      //  ChangeFormCard();//добавить обработчик
                     }
                     else
                     {
                         ISCardRight = true;
                     }
-                    break;
-                case PacketsToServer.ISErrorOfEnemy:
-                    ISErrorOfEnemy errEnemy = JsonConvert.DeserializeObject<ISErrorOfEnemy>(message);
-                    if (errEnemy.ISErr = false && ISCardRight == true)
+                    if (ISCardRightEnemy == true && ISCardRight == true)
                     {
                         ChangeToFormGame();
                     }
+                    break;
+                case PacketsToServer.ISErrorOfEnemy:
+                    ISErrorOfEnemy errEnemy = JsonConvert.DeserializeObject<ISErrorOfEnemy>(message);
+                    if (errEnemy.ISErr == false)
+                    {
+                        ISCardRightEnemy = true;
+                    }
+                    else
                     if (errEnemy.ISErr != false && ISCardRight == true)
                     {
+                        ISCardRightEnemy = false; 
                         MessForME("подождите, ваш противник еще выбирает карты");
-                        CardClose();//добавить обработчик
+                       // CardClose();//добавить обработчик
+                    }
+                    if (  ISCardRightEnemy == true && ISCardRight == true)
+                    {
+                        ChangeToFormGame();
                     }
                     break;
             }
         }
         string enemyName = "";
         bool ISCardRight = false;//для проверки можно ли начинать игру ,норм ли колоды?
+        bool ISCardRightEnemy = false;
         public void SendIFCLose()
         {
 
@@ -190,6 +209,7 @@ namespace Client
             ChoosenCardListPacket choosecard = new ChoosenCardListPacket();
             choosecard.Command = PacketsToServer.ChoosenCardListPacket;
             choosecard.Koloda = a;
+            choosecard.Me = name;
             string mes = JsonConvert.SerializeObject(choosecard) + "$";
             Send(mes);
         }
@@ -222,7 +242,8 @@ namespace Client
         {
             AnsGamePacket ans = new AnsGamePacket();
             ans.Command = PacketsToServer.AnsGamePacket;
-            ans.login = names;
+            ans.Enemylogin = names;
+            ans.Mylogin = name;
             if (flag)
             {
                 ans.state = true;
