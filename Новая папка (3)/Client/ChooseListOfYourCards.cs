@@ -18,23 +18,33 @@ namespace Client
         {
             InitializeComponent();
             client.MakeCards += MakeCards;
+            
         }
         void MakeCards(List<CardHeroes> list)
         {
-            foreach (Control value in Controls)
+           int count = 0;
+            foreach (Control value in this.groupBox1.Controls)
             {
-                if (value is PictureBox)
+                
+                if (value is CardsForm)
                 {
-                    (value as PictureBox).Image = Resource1.mana11;
+                   (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Image= (Image)Properties.Resources.ResourceManager.GetObject(list[count].Name)));
                 }
                 
             }
         }
-        private void Ready_Click(object sender, EventArgs e)
+
+        private void cardsFormCLick(object sender, EventArgs e)
         {
-
+            CardsForm card = (CardsForm)sender;
+            if (card.BackgroundImage != Resource1.ВЫБРАННАЯКАРТА)
+            {
+                card.BackgroundImage = Resource1.ВЫБРАННАЯКАРТА;
+            }
+            else
+            {
+                card.BackgroundImage = Resource1.ФОН_ЛИСТА;
+            }
         }
-
-        
     }
 }

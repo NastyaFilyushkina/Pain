@@ -114,17 +114,23 @@ namespace Client
             //ListOfPlayers.Items.Clear();
             foreach (string player in list)
             {
-                if (player != name && !ListOfReadyPlayer.Items.Contains(player))
+                bool fla = false;
+                ListOfPlayers.Invoke((MethodInvoker)(() => fla = ListOfPlayers.Items.Contains(player)));
+
+                if (player != name && fla == false)
                     ListOfPlayers.Invoke((MethodInvoker)(() => ListOfPlayers.Items.Add(player)));
             }
         }
         public void ChandeForm2(List<string> list)
         {
-           // ListOfReadyPlayer.Items.Clear();
+            // ListOfReadyPlayer.Items.Clear();
             foreach (string player in list)
             {
-                if(player!= name && !ListOfReadyPlayer.Items.Contains(player))
-                ListOfReadyPlayer.Invoke((MethodInvoker)(() => ListOfReadyPlayer.Items.Add(player)));
+                bool fla = false;
+                ListOfReadyPlayer.Invoke((MethodInvoker)(() => fla = ListOfReadyPlayer.Items.Contains(player)));
+
+                if (player != name && fla == false)
+                    ListOfReadyPlayer.Invoke((MethodInvoker)(() => ListOfReadyPlayer.Items.Add(player)));
             }
         }
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -164,7 +170,9 @@ namespace Client
    
         private void MainMenu_FormClosed(object sender, FormClosedEventArgs e)
         {
+            
             client.SendQAIFEXIT(name);
+            threadcl.Abort();
         }
 
         private void ListOfReadyPlayer_SelectedIndexChanged(object sender, EventArgs e)

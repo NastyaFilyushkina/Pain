@@ -38,9 +38,10 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(0, 21);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 26);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(104, 75);
+            this.pictureBox1.Size = new System.Drawing.Size(139, 92);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -49,9 +50,10 @@
             this.lName.AutoSize = true;
             this.lName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.lName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lName.Location = new System.Drawing.Point(37, 5);
+            this.lName.Location = new System.Drawing.Point(49, 6);
+            this.lName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lName.Name = "lName";
-            this.lName.Size = new System.Drawing.Size(39, 13);
+            this.lName.Size = new System.Drawing.Size(49, 17);
             this.lName.TabIndex = 1;
             this.lName.Text = "Name";
             // 
@@ -60,9 +62,10 @@
             this.lPower.AutoSize = true;
             this.lPower.BackColor = System.Drawing.Color.Red;
             this.lPower.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lPower.Location = new System.Drawing.Point(3, 99);
+            this.lPower.Location = new System.Drawing.Point(4, 122);
+            this.lPower.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lPower.Name = "lPower";
-            this.lPower.Size = new System.Drawing.Size(16, 16);
+            this.lPower.Size = new System.Drawing.Size(19, 20);
             this.lPower.TabIndex = 2;
             this.lPower.Text = "0";
             // 
@@ -71,9 +74,10 @@
             this.lHealth.AutoSize = true;
             this.lHealth.BackColor = System.Drawing.Color.Aqua;
             this.lHealth.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lHealth.Location = new System.Drawing.Point(88, 98);
+            this.lHealth.Location = new System.Drawing.Point(117, 121);
+            this.lHealth.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lHealth.Name = "lHealth";
-            this.lHealth.Size = new System.Drawing.Size(16, 16);
+            this.lHealth.Size = new System.Drawing.Size(19, 20);
             this.lHealth.TabIndex = 3;
             this.lHealth.Text = "0";
             this.lHealth.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -83,15 +87,16 @@
             this.lPrice.AutoSize = true;
             this.lPrice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.lPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lPrice.Location = new System.Drawing.Point(46, 114);
+            this.lPrice.Location = new System.Drawing.Point(61, 140);
+            this.lPrice.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lPrice.Name = "lPrice";
-            this.lPrice.Size = new System.Drawing.Size(16, 16);
+            this.lPrice.Size = new System.Drawing.Size(19, 20);
             this.lPrice.TabIndex = 4;
             this.lPrice.Text = "0";
             // 
             // CardsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Client.Resource1.ФОН_ЛИСТА;
             this.Controls.Add(this.lPrice);
@@ -99,8 +104,9 @@
             this.Controls.Add(this.lPower);
             this.Controls.Add(this.lName);
             this.Controls.Add(this.pictureBox1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "CardsForm";
-            this.Size = new System.Drawing.Size(104, 131);
+            this.Size = new System.Drawing.Size(139, 161);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.CardsForm_Paint);
             this.Resize += new System.EventHandler(this.CardsForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

@@ -160,6 +160,84 @@
       <Name>ClassLibrary1</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ВЫБРАННАЯКАРТА.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Chernobog.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Chislobog.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dajdbog.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Devana.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Gorinich.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Karna.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Krada.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Leshii.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Makosch.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Morena.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Ognenniicvetok.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Perun.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Rusalka.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Slata.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Surica.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Svarog.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sva-Slava.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Svyatibor.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Svyatogor.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Vasilisa.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Veles.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Vodyanoi.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Volhv.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Vujalka.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Belun.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

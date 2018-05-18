@@ -82,10 +82,9 @@ namespace Client
             }
         }
 
-        public PictureBox MyPictureBox
+        public Image Image
         {
-           get { return pictureBox1; }
-
+            set { pictureBox1.BackgroundImage = value; }
         }
 
         public void CardsForm_Resize(object sender, EventArgs e)
@@ -118,5 +117,7 @@ namespace Client
         {
             PaintControl();
         }
+
+      
     }
 }

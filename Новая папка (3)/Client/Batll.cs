@@ -23,7 +23,7 @@ namespace Client
 
         private void cardsForm1_Move(object sender, EventArgs e)
         {
-            cardsForm1.MyPictureBox.Image = null;
+            cardsForm1.Image = null;
             cardsForm1.Visible = false;
             
         }
