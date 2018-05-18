@@ -21,7 +21,7 @@ namespace Client
             lPrice.Text = "0";
 
         }
-
+        bool flag = false;
         public int Price
         {
             get
@@ -33,7 +33,17 @@ namespace Client
                 lPrice.Text = value.ToString();
             }
         }
-
+        public bool ISPRESSED
+        {
+            set
+            {
+                flag = value;
+            }
+            get
+            {
+                return flag;
+            }
+        }
         public int Health
         {
             get

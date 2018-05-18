@@ -107,6 +107,9 @@ namespace Client
         public event Action<List<string>> ChangeForm2;
         public event Action<string> MessForME;
         public event Action<List<CardHeroes>> MakeCards;
+        public event Action ChangeFormCard;
+        public event Action ChangeToFormGame;
+        public event Action CardClose;
         public void ReciveMesFromServ(string message)
         {
 
@@ -150,12 +153,45 @@ namespace Client
                     SendMessage("Противник отклонил игру");
 
                     break;
-
+                case PacketsToServer.ResultChooseCardList:
+                    ResultChooseCardList anscard = JsonConvert.DeserializeObject<ResultChooseCardList>(message);
+                    if (anscard.ResultOfChooseCard == Status.fail)
+                    {
+                        ISCardRight = false;
+                        ChangeFormCard();//добавить обработчик
+                    }
+                    else
+                    {
+                        ISCardRight = true;
+                    }
+                    break;
+                case PacketsToServer.ISErrorOfEnemy:
+                    ISErrorOfEnemy errEnemy = JsonConvert.DeserializeObject<ISErrorOfEnemy>(message);
+                    if (errEnemy.ISErr = false && ISCardRight == true)
+                    {
+                        ChangeToFormGame();
+                    }
+                    if (errEnemy.ISErr != false && ISCardRight == true)
+                    {
+                        MessForME("подождите, ваш противник еще выбирает карты");
+                        CardClose();//добавить обработчик
+                    }
+                    break;
             }
         }
+        string enemyName = "";
+        bool ISCardRight = false;//для проверки можно ли начинать игру ,норм ли колоды?
         public void SendIFCLose()
         {
 
+        }
+        public void SendListCard(List<CardHeroes> a)
+        {
+            ChoosenCardListPacket choosecard = new ChoosenCardListPacket();
+            choosecard.Command = PacketsToServer.ChoosenCardListPacket;
+            choosecard.Koloda = a;
+            string mes = JsonConvert.SerializeObject(choosecard) + "$";
+            Send(mes);
         }
         public void SendQAForWait()
         {

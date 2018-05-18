@@ -13,47 +13,110 @@ namespace Client
 {
     public partial class ChooseListOfYourCards : Form
     {
-       // ClientObject client;
+        ClientObject client;
         public ChooseListOfYourCards(ClientObject client )
         {
             InitializeComponent();
             client.MakeCards += MakeCards;
-            
+            client.ChangeToFormGame += changeToGame;
+            this.client = client;
+        }
+        List<CardHeroes> allcards;
+        void changeToGame()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke((MethodInvoker)(() => this.Hide()));
+                //this.Hide();
+                this.Invoke((MethodInvoker)(() => new Batll().Show()));
+            }
+            else
+            {
+                this.Hide();
+                Form ifrm = new Batll();
+                ifrm.Show();
+            }
         }
         void MakeCards(List<CardHeroes> list)
         {
+            allcards = list;
             int count = 0;
             foreach (Control value in this.groupBox1.Controls)
             {
                 if (value.InvokeRequired)
                 {
                     if (value is CardsForm)
+                        //{
+                        //    if ((value as CardsForm).InvokeRequired)
                         (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Image = (Image)Resource1.ResourceManager.GetObject(list[count].Name)));
-                    
+                    (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).NameCards = list[count].Name));
+                    (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Price = list[count].Price));
+                    (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Health = list[count].Health));
+                    (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Power = list[count].Power));
+                    //else
+                    //    (value as CardsForm).Image = (Image)Properties.Resources.ResourceManager.GetObject(list[count].Name);
+
+                    count++;
                 }
                 else
                 {
                     if (value is CardsForm)
                         (value as CardsForm).Image = (Image)Resource1.ResourceManager.GetObject(list[count].Name);
+                    (value as CardsForm).Name = list[count].Name;
+                    (value as CardsForm).Price = list[count].Price;
+                    (value as CardsForm).Power = list[count].Power;
+                    (value as CardsForm).Health = list[count].Health;
+                    count++;
                 }
-                count++;
             }
         }
-                
-            
-        
+
+        int count = 0;
+        List<CardHeroes> koloda;
+
 
         private void cardsFormCLick(object sender, EventArgs e)
         {
-            CardsForm card = (CardsForm)sender;
-            if (card.BackgroundImage != Resource1.ВЫБРАННАЯКАРТА)
+            koloda = new List<CardHeroes>();
+            if (count != 15)
             {
-                card.BackgroundImage = Resource1.ВЫБРАННАЯКАРТА;
+                CardsForm card = (CardsForm)sender;
+                if (card.ISPRESSED == false)
+                {
+                    card.BackgroundImage = Resource1.ВЫБРАННАЯКАРТА;
+                    foreach (CardHeroes a in allcards)
+                    {
+                        if (card.NameCards == a.Name)
+                        {
+                            koloda.Add(a);
+                            count++;
+                            card.ISPRESSED = true;
+                        }
+                    }
+                }
+                else
+                {
+                    card.BackgroundImage = Resource1.ФОН_ЛИСТА;
+                    foreach (CardHeroes a in allcards)
+                    {
+                        if (card.NameCards == a.Name)
+                        {
+                            count--;
+                            card.ISPRESSED = false;
+                            koloda.Remove(a);
+
+                        }
+                    }
+                }
+                if (count < 15) { Ready.Visible = false; }
+                else
+            if (count == 15) Ready.Visible = true;
+
             }
-            else
-            {
-                card.BackgroundImage = Resource1.ФОН_ЛИСТА;
-            }
+        }
+        private void Ready_Click(object sender, EventArgs e)
+        {
+            client.SendListCard(koloda);
         }
     }
 }
