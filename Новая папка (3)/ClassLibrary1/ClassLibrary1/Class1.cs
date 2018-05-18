@@ -8,12 +8,13 @@ using System.Text;
 
 namespace ClassLibrary1
 {
+
     public enum PacketsToServer
     {
         RegPacket, StartWindowPacket, WaitGamePacket, StartGamePacket, ChooseEnemyPacket, RandomEnemyPacket, ChoosenCardListPacket, StopLookingforGamePacket,
         StepPacket, StepIsNull, EndGamePacket, ResultRegPacket, ResultChooseEnemyPacketSuccess, ResultChooseEnemyPacketFailed, WinnerPaclet, ResultChooseCardList,
         EnemyLeftGamePacket, ResultStepPacket, AllCardsPacket, ListOfAllClients, ListOfWaitingClients,
-        SendDataToUsers, PacketArenaCardNow, Error, AskGamePacket, EXIT, AnsGamePacket, ResultRegPacketFailed
+        SendDataToUsers, PacketArenaCardNow, Error, AskGamePacket, EXIT, AnsGamePacket, ResultRegPacketFailed, ISErrorOfEnemy
     }
     public enum Status { success, fail }
     /// <summary>
@@ -42,6 +43,12 @@ namespace ClassLibrary1
         [JsonConverter(typeof(StringEnumConverter))]
         public PacketsToServer Command { set; get; }
         public List<string> ListAllClients { set; get; }
+    }
+    public class ISErrorOfEnemy
+    {
+        [JsonConverter(typeof(StringEnumConverter))]
+        public PacketsToServer Command { set; get; }
+        public bool ISErr { set; get; } //если нет то фалсе
     }
     public class StartWindowPacket
     {
@@ -182,16 +189,16 @@ namespace ClassLibrary1
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public PacketsToServer Command { set; get; }
-        public Player Me { set; get; }
-        public Player Enemy { set; get; }
-        public List<Card> Koloda { set; get; }
+        public string Me { set; get; }
+        public string Enemy { set; get; }
+        // public List<Card> Koloda { set; get; }
 
     }
     public class ChoosenCardListPacket
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public PacketsToServer Command { set; get; }
-        public List<Card> Koloda { set; get; }
+        public List<CardHeroes> Koloda { set; get; }
     }
     public class StepPacket
     {

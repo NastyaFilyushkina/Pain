@@ -328,26 +328,45 @@ namespace SERVER
                     case PacketsToServer.ChoosenCardListPacket:
                         ChoosenCardListPacket kol = JsonConvert.DeserializeObject<ChoosenCardListPacket>(message);
                         ResultChooseCardList packetcheck = new ResultChooseCardList();
+                        ISErrorOfEnemy err = new ISErrorOfEnemy();
+                        err.Command = PacketsToServer.ISErrorOfEnemy;
                         packetcheck.Command = PacketsToServer.ResultChooseCardList;
                         if (checkkoloda(kol.Koloda))
                         {
+                            err.ISErr = false;
                             packetcheck.ResultOfChooseCard = Status.success;
                         }
                         else
                         {
+                            err.ISErr = true;
                             packetcheck.ResultOfChooseCard = Status.fail;
                         }
                         strpacket = JsonConvert.SerializeObject(packetcheck) + "$";
                         Send(strpacket);
+                        strpacket = JsonConvert.SerializeObject(err) + "$";
+                        SendToEnemy(strpacket, room.Player2.Name);
+
                         break;
                     case PacketsToServer.StartGamePacket:
                         StartGamePacket stgapacket = JsonConvert.DeserializeObject<StartGamePacket>(message);
-                        stgapacket.Me.Status = StatusGamer.playing;
-                        stgapacket.Enemy.Status = StatusGamer.playing;
-                        room = new Rooms();
-                        room.Player1 = clientinf;
-                        room.Player2 = stgapacket.Enemy;
-                        StartGame(this.clientinf, stgapacket.Enemy);
+                        foreach (Player pl in ServerMain.gameclients)
+                        {
+                            if (stgapacket.Me == pl.Name || stgapacket.Enemy == pl.Name)
+                            {
+                                pl.Status = StatusGamer.playing;
+                            }
+                        }
+                        sendingList();
+
+                        //room.Player1 = clientinf;
+                        //room.Player2 = stgapacket.Enemy;
+                        foreach (Player pl in ServerMain.gameclients)
+                        {
+                            if (stgapacket.Enemy == pl.Name)
+                            {
+                                StartGame(this.clientinf, pl);
+                            }
+                        }
                         break;
                     case PacketsToServer.StepPacket:
                         StepPacket stpac = JsonConvert.DeserializeObject<StepPacket>(message);
@@ -382,7 +401,7 @@ namespace SERVER
 
         }
         Rooms room;
-        bool checkkoloda(List<Card> koloda)
+        bool checkkoloda(List<CardHeroes> koloda)
         {
             if (koloda.Count == 14)
             {
