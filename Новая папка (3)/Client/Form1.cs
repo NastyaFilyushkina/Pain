@@ -111,14 +111,17 @@ namespace Client
         //}
         public void ChandeForm1(List<string> list)
         {
-            //ListOfPlayers.Items.Clear();
-            foreach (string player in list)
+            if (list != null)
             {
-                bool fla = false;
-                ListOfPlayers.Invoke((MethodInvoker)(() => fla = ListOfPlayers.Items.Contains(player)));
+                //ListOfPlayers.Items.Clear();
+                foreach (string player in list)
+                {
+                    bool fla = false;
+                    ListOfPlayers.Invoke((MethodInvoker)(() => fla = ListOfPlayers.Items.Contains(player)));
 
-                if (player != name && fla == false)
-                    ListOfPlayers.Invoke((MethodInvoker)(() => ListOfPlayers.Items.Add(player)));
+                    if (player != name && fla == false)
+                        ListOfPlayers.Invoke((MethodInvoker)(() => ListOfPlayers.Items.Add(player)));
+                }
             }
         }
         public void ChandeForm2(List<string> list)

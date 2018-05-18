@@ -213,9 +213,6 @@
     <None Include="Resources\Svarog.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Sva-Slava.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Svyatibor.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -238,6 +235,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Belun.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Sva_Slava.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

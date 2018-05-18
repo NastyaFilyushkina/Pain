@@ -28,21 +28,15 @@ namespace Client
                 if (value.InvokeRequired)
                 {
                     if (value is CardsForm)
-                        //{
-                        //    if ((value as CardsForm).InvokeRequired)
                         (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Image = (Image)Resource1.ResourceManager.GetObject(list[count].Name)));
-                    //else
-                    //    (value as CardsForm).Image = (Image)Properties.Resources.ResourceManager.GetObject(list[count].Name);
-
-                    count++;
+                    
                 }
                 else
                 {
                     if (value is CardsForm)
                         (value as CardsForm).Image = (Image)Resource1.ResourceManager.GetObject(list[count].Name);
-
-                    count++;
                 }
+                count++;
             }
         }
                 
