@@ -22,17 +22,32 @@ namespace Client
         }
         void MakeCards(List<CardHeroes> list)
         {
-           int count = 0;
+            int count = 0;
             foreach (Control value in this.groupBox1.Controls)
             {
-                
-                if (value is CardsForm)
+                if (value.InvokeRequired)
                 {
-                   (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Image= (Image)Properties.Resources.ResourceManager.GetObject(list[count].Name)));
+                    if (value is CardsForm)
+                        //{
+                        //    if ((value as CardsForm).InvokeRequired)
+                        (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Image = Image.FromFile(list[count].Name)));
+                    //else
+                    //    (value as CardsForm).Image = (Image)Properties.Resources.ResourceManager.GetObject(list[count].Name);
+
+                    count++;
                 }
-                
+                else
+                {
+                    if (value is CardsForm)
+                        (value as CardsForm).Image = Image.FromFile(list[count].Name);
+
+                    count++;
+                }
             }
         }
+                
+            
+        
 
         private void cardsFormCLick(object sender, EventArgs e)
         {

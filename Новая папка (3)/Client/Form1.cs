@@ -152,10 +152,13 @@ namespace Client
 
         private void ChooseEnemyBUT_Click(object sender, EventArgs e)
         {
-            nameenemy = ListOfReadyPlayer.SelectedItem.ToString();
             if (nameenemy != "")
             {
-                client.SendQAFORChooseEnemy(nameenemy);
+                nameenemy = ListOfReadyPlayer.SelectedItem.ToString();
+                if (nameenemy != "")
+                {
+                    client.SendQAFORChooseEnemy(nameenemy);
+                }
             }
         }
 

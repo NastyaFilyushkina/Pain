@@ -85,6 +85,7 @@ namespace Client
         public Image Image
         {
             set { pictureBox1.BackgroundImage = value; }
+            get { return pictureBox1.BackgroundImage; }
         }
 
         public void CardsForm_Resize(object sender, EventArgs e)

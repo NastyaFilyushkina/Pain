@@ -103,6 +103,7 @@
     <EmbeddedResource Include="Resource1.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -164,79 +165,79 @@
     <None Include="Resources\ВЫБРАННАЯКАРТА.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Chernobog.jpg" />
+    <None Include="Resources\Chernobog.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Chislobog.jpg" />
+    <None Include="Resources\Chislobog.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Dajdbog.jpg" />
+    <None Include="Resources\Dajdbog.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Devana.jpg" />
+    <None Include="Resources\Devana.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Gorinich.jpg" />
+    <None Include="Resources\Gorinich.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Karna.jpg" />
+    <None Include="Resources\Karna.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Krada.jpg" />
+    <None Include="Resources\Krada.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Leshii.jpg" />
+    <None Include="Resources\Leshii.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Makosch.jpg" />
+    <None Include="Resources\Makosch.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Morena.jpg" />
+    <None Include="Resources\Morena.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Ognenniicvetok.jpg" />
+    <None Include="Resources\Ognenniicvetok.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Perun.jpg" />
+    <None Include="Resources\Perun.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Rusalka.jpg" />
+    <None Include="Resources\Rusalka.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Slata.jpg" />
+    <None Include="Resources\Slata.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Surica.jpg" />
+    <None Include="Resources\Surica.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Svarog.jpg" />
+    <None Include="Resources\Svarog.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sva-Slava.jpg" />
+    <None Include="Resources\Sva-Slava.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Svyatibor.jpg" />
+    <None Include="Resources\Svyatibor.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Svyatogor.jpg" />
+    <None Include="Resources\Svyatogor.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Vasilisa.jpg" />
+    <None Include="Resources\Vasilisa.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Veles.jpg" />
+    <None Include="Resources\Veles.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Vodyanoi.jpg" />
+    <None Include="Resources\Vodyanoi.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Volhv.jpg" />
+    <None Include="Resources\Volhv.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Vujalka.jpg" />
+    <None Include="Resources\Vujalka.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Belun.jpg" />
+    <None Include="Resources\Belun.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
