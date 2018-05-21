@@ -376,8 +376,8 @@ namespace SERVER
                      if (ServerMain.rooms[clientinf.NumRoom].Player2.Name!=clientinf.Name) SendToEnemy(strpacket, ServerMain.rooms[clientinf.NumRoom].Player2.Name);
                     else { SendToEnemy(strpacket, ServerMain.rooms[clientinf.NumRoom].Player1.Name); }
 
-
                     break;
+               
                 case PacketsToServer.StartGamePacket:
                     StartGamePacket stgapacket = JsonConvert.DeserializeObject<StartGamePacket>(message);
                     foreach (Player pl in ServerMain.gameclients)
@@ -392,14 +392,15 @@ namespace SERVER
                     {
                         if (stgapacket.Enemy == pl.Name)
                         {
-                            StartGame( pl);
+                            StartGame(pl);
                         }
                     }
                     break;
                 case PacketsToServer.StepPacket:
                     StepPacket stpac = JsonConvert.DeserializeObject<StepPacket>(message);
-                    GameStep(stpac.EnemyCard, stpac.MyCard,WhoIsHe( stpac.Enemy));
-
+                    GameStep(stpac.EnemyCard, stpac.MyCard, WhoIsHe(stpac.Enemy));
+                    SendDataToUsers sendData = new SendDataToUsers();
+                    sendData.AmIFirst =;
                     break;
                 case PacketsToServer.PacketArenaCardNow:
                     PacketArenaCardNow parcadnow = JsonConvert.DeserializeObject<PacketArenaCardNow>(message);
@@ -429,19 +430,20 @@ namespace SERVER
         //{
         //    Console.WriteLine("Ошибочный пакет");
 
-     
 
-       int InWhichRoom(Player pl)
+
+        int InWhichRoom(Player pl)
         {
-           for(int i = 0; i < ServerMain.rooms.Count; i++)
+            for (int i = 0; i < ServerMain.rooms.Count; i++)
             {
-                if (ServerMain.rooms[i].Player1==pl|| ServerMain.rooms[i].Player2 == pl)
+                if (ServerMain.rooms[i].Player1 == pl || ServerMain.rooms[i].Player2 == pl)
                 {
                     return i;
                 }
-            }return 0;
+            }
+            return 0;
         }
-        
+
         Rooms rooms;
         bool checkkoloda(List<CardHeroes> koloda)
         {
@@ -493,15 +495,15 @@ namespace SERVER
             send.MyMana = clientinf.Mana;
             Random r = new Random();
             List<CardHeroes> firstkoloda = new List<CardHeroes>();
-           
+
             for (int i = 0; i < 20; i++)
             {
                 firstkoloda.Add(clientinf.Deck[r.Next(0, 15)]);
-             }
+            }
             send.StartKoloda = firstkoloda;
             send.ListCardInAHandFirst = clientinf.CardHand;
             bool whosfirst;
-            Player pl= controller.First(clientinf, Player2);
+            Player pl = controller.First(clientinf, Player2);
             if (pl.Name == clientinf.Name)
             {
                 whosfirst = true;
@@ -536,11 +538,14 @@ namespace SERVER
         {
             SendDataToUsers send = new SendDataToUsers();
             send.Command = PacketsToServer.SendDataToUsers;
-            
+            send.AmIFirst = clientinf.;
+            send.EnemyHealth = Enemy.Health;
+            send.MyHealth = clientinf.Health;
+            send.MyMana = clientinf.Mana;
+
             return send;
         }
     }
 
-   
 }
 
