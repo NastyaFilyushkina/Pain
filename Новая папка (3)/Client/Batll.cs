@@ -212,6 +212,7 @@ namespace Client
             }
             client.StepToSend(enemy, my);
         }
+        
     }
 }
 

@@ -43,3 +43,11 @@ C:\Users\PC\Desktop\Победа1\Новая папка (3)\ClassLibrary1\ClassL
 C:\Users\PC\Desktop\Победа1\Новая папка (3)\ClassLibrary1\ClassLibrary1\obj\Debug\ClassLibrary1.csprojResolveAssemblyReference.cache
 C:\Users\PC\Desktop\Победа1\Новая папка (3)\ClassLibrary1\ClassLibrary1\obj\Debug\ClassLibrary1.dll
 C:\Users\PC\Desktop\Победа1\Новая папка (3)\ClassLibrary1\ClassLibrary1\obj\Debug\ClassLibrary1.pdb
+C:\Users\я\Desktop\Pain\Новая папка (3)\ClassLibrary1\ClassLibrary1\bin\Debug\ClassLibrary1.dll
+C:\Users\я\Desktop\Pain\Новая папка (3)\ClassLibrary1\ClassLibrary1\bin\Debug\ClassLibrary1.pdb
+C:\Users\я\Desktop\Pain\Новая папка (3)\ClassLibrary1\ClassLibrary1\bin\Debug\Game.dll
+C:\Users\я\Desktop\Pain\Новая папка (3)\ClassLibrary1\ClassLibrary1\bin\Debug\Newtonsoft.Json.dll
+C:\Users\я\Desktop\Pain\Новая папка (3)\ClassLibrary1\ClassLibrary1\bin\Debug\Game.pdb
+C:\Users\я\Desktop\Pain\Новая папка (3)\ClassLibrary1\ClassLibrary1\obj\Debug\ClassLibrary1.csprojResolveAssemblyReference.cache
+C:\Users\я\Desktop\Pain\Новая папка (3)\ClassLibrary1\ClassLibrary1\obj\Debug\ClassLibrary1.dll
+C:\Users\я\Desktop\Pain\Новая папка (3)\ClassLibrary1\ClassLibrary1\obj\Debug\ClassLibrary1.pdb

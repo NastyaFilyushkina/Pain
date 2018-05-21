@@ -118,29 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAB3RJ
-        TUUH4gUPFCM0g+kHdwAAA6NJREFUOE9lVH9M1GUY/zzv9/cdd8dxv1UQDvQOkoudUAwZ0OkZnCAh6kLR
-        yow1HdZik2VuBIPDppENlBXNWRjOLV2wmTlxZb9WJuVitmktUm6IkwC3Vm3903s/ahx99u7d3mfP530+
-        z/M+z4tkiIANVMKkHUxqBK0F1YEqwMoBLwkVID+QkvBNhhJlopDYVsXSoTpOyLYByTkk6AckY6/mfMPg
-        viwoLaDCWIwkqICbB1HtPZLltM790YrdkTXHZuo/+7vo8P388JS3867Jc1lzvQOqAVIBluBFb6IcoFzU
-        7VOXfpW1/vtA+/3gkZlA11SwczJ0fGbXlT+f/umvnBcmLMXX5LQeoGiBeDIDDzNpp7JsZE3zRODliKPw
-        IqmHgGbgeeCAZhssbrpZ++6s47GbmutDUXsRlAcInGoBcgSpQbJfKNkTqWj5FcJrQBmwjJiJmIGIF8IH
-        NGWWfV756l0tYzjNNyabw7yuXHxINndqmefdlT9ubJ+CeAR4iEiOa0qAGBPswA7/th8e3XNHcpxXLa8T
-        C0HUt6Z6L7ievLNlcN5d+imwlhgve5SxYPGN75lyak9g/6TRc1EydghKIwxZ7+vTz7pqvqs/Pq9YjgFZ
-        /zIXInpkTAdsD+yf8L/EBXYTbYNkaFfsva6yr9cdnGa6doDLS3gvAjEJqPQ3Xi9o+tn0yKijfBRSSpe5
-        4NKS4Hj1oXtCShhwxj1jexKI8UJUFz17w9c0bvCNOkq/BQnlquWkfd317Wf/MC4fBPJi6S1C1ELEe2Nv
-        sC2yqnlSXdov6Q9wo1WQ66EOlLZM+p8aBxqYYIoRODgnvnhY3pIFaZ7TofBv+hVfSIZXmLSZ2/l9KwW1
-        JSXzSl3fnMlzDggywczd/+MS482bC7SFuqez118TjKdE7TlQgJN5GTJIrCI17K4Zr3trNnXlMLALWM3f
-        BkiP0TZAPfp4V6Rk3y+Q3lTM3Uyu43MWFQdwnbmitpu0E9lbbzQM/16095Y1f0S19iuWXlPOkHfzWO3b
-        c2WdU/KSEVE7CFbN+y8WNQo+Ii5B3alznjHmf+Jtna7ou7fh5Hztew+q+mar+udKWm+7Sr9RM67q00+R
-        sAnEtWhxZhz8GWwkVBuzP3YExoy+Lz1t0+5nbjsDt4x5V0kbUqxnVGtY0PE54fPHu2UxeHw7iZXAE7Kp
-        y5T7gWI7qlgOS6YOJm0hMch7PlYFQ8L9f+Bp8CdxxL4bnlgxsArwAMujxuQ/AMA/sZDV1pt3KvIAAAAA
-        SUVORK5CYII=
-</value>
-  </data>
   <data name="cardsForm1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         /9j/4AAQSkZJRgABAQEAAAAAAAD/4QCqRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAZKG

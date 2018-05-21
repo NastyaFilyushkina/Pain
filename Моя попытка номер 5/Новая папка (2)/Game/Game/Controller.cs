@@ -32,17 +32,30 @@ namespace Game
             if (player1.IsHod == false)
             {
                 player1.IsHod = true;
+                int i = 0;
+                while (i < player2.CardArena1.Count)
+                {
+                    player2.CardArena2.Add(player2.CardArena1.ElementAt(i));
+                    i++;
+                }
+                player2.CardArena1.Clear();
                 player2.IsHod = false;
+                player1.Mana += 1;
             }
             else
             {
                 player1.IsHod = false;
+                int i = 0;
+                while (i < player1.CardArena1.Count)
+                {
+                    player1.CardArena2.Add(player1.CardArena1.ElementAt(i));
+                    i++;
+                }
+                player1.CardArena1.Clear();
                 player2.IsHod = true;
+                player2.Mana += 1;
             }
-            ismhod = true;
-            hod++;
-            player1.Mana = hod;
-            player2.Mana = hod;
+            //ismhod = true;
         }
 
         /// <summary>
@@ -79,8 +92,16 @@ namespace Game
             Player2.Health = 30;
             DistrOfCards(Player1);
             DistrOfCards(Player2);
-            Player1.Mana = 1;
-            Player2.Mana = 1;
+            if (First(Player1, Player2) == Player1)
+            {
+                Player1.Mana = 1;
+                Player2.Mana = 2;
+            }
+            else
+            {
+                Player1.Mana = 2;
+                Player2.Mana = 1;
+            }
         }
         /// <summary>
         /// Раздача карт в начале игры
@@ -129,23 +150,9 @@ namespace Game
                 {
 
                 }
-                if (ismhod)
-                {
-                    int i = 0;
-                    while (i < player.CardArena1.Count)
-                    {
-                        player.CardArena2.Add(player.CardArena1.ElementAt(i));
-                        i++;
-                    }
-                    player.CardArena1.Clear();
-                    player.CardHand.Remove(card);
-                    player.CardArena1.Add(card);
-                    ismhod = false;
-                }
-                else
-                {
-                    player.CardArena1.Add(card);
-                }
+                player.CardArena1.Add(card);
+                
+
                 
                 //перерисовка
             }
@@ -185,6 +192,10 @@ namespace Game
             }
             if (CardVinctim.Health <= 0)
             {
+                if (playervinctim.CardArena1.Contains(CardVinctim))
+                    playervinctim.CardArena1.Remove(CardVinctim);
+                else if (playervinctim.CardArena2.Contains(CardVinctim))
+                    playervinctim.CardArena2.Remove(CardVinctim);
                 playervinctim.CardHand.Remove(CardVinctim);
             }
 

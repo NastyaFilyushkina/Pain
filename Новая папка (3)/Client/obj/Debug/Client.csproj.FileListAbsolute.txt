@@ -99,3 +99,11 @@ C:\Users\PC\Desktop\Победа1\Новая папка (3)\Client\bin\Debug\Cla
 C:\Users\PC\Desktop\Победа1\Новая папка (3)\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
 C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.exe
 C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.pdb
+C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.Batll.resources
+C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.CardsForm.resources
+C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.ChooseListOfYourCards.resources
+C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.MainMenu.resources
+C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.Properties.Resources.resources
+C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.Resource1.resources
+C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.csproj.GenerateResource.Cache

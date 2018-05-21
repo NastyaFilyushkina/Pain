@@ -49,3 +49,11 @@ F:\Победа1\Моя попытка номер 5\Новая папка (2)\Ga
 F:\Победа1\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.csproj.GenerateResource.Cache
 F:\Победа1\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.dll
 F:\Победа1\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.pdb
+C:\Users\я\Desktop\Pain\Моя попытка номер 5\Новая папка (2)\Game\Game\bin\Debug\Game.dll
+C:\Users\я\Desktop\Pain\Моя попытка номер 5\Новая папка (2)\Game\Game\bin\Debug\Game.pdb
+C:\Users\я\Desktop\Pain\Моя попытка номер 5\Новая папка (2)\Game\Game\bin\Debug\Newtonsoft.Json.dll
+C:\Users\я\Desktop\Pain\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.csprojResolveAssemblyReference.cache
+C:\Users\я\Desktop\Pain\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.Properties.Resources.resources
+C:\Users\я\Desktop\Pain\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.csproj.GenerateResource.Cache
+C:\Users\я\Desktop\Pain\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.dll
+C:\Users\я\Desktop\Pain\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.pdb

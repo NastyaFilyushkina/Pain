@@ -9,14 +9,15 @@ namespace Game
 {
     public class Controller
     {
-        public bool ismhod { get; set; }
+        bool ismhod = false;
+        Board board;
         int hod;
 
 
 
         public Controller()
         {
-           // this.board = board;
+            //this.board = board;
             hod = 1;
         }
 
@@ -31,17 +32,30 @@ namespace Game
             if (player1.IsHod == false)
             {
                 player1.IsHod = true;
+                int i = 0;
+                while (i < player2.CardArena1.Count)
+                {
+                    player2.CardArena2.Add(player2.CardArena1.ElementAt(i));
+                    i++;
+                }
+                player2.CardArena1.Clear();
                 player2.IsHod = false;
+                player1.Mana += 1;
             }
             else
             {
                 player1.IsHod = false;
+                int i = 0;
+                while (i < player1.CardArena1.Count)
+                {
+                    player1.CardArena2.Add(player1.CardArena1.ElementAt(i));
+                    i++;
+                }
+                player1.CardArena1.Clear();
                 player2.IsHod = true;
+                player2.Mana += 1;
             }
-            ismhod = true;
-            hod++;
-            player1.Mana = hod;
-            player2.Mana = hod;
+            //ismhod = true;
         }
 
         /// <summary>
@@ -78,29 +92,31 @@ namespace Game
             Player2.Health = 30;
             DistrOfCards(Player1);
             DistrOfCards(Player2);
-            Player1.Mana = 1;
-            Player2.Mana = 1;
-            Player2.CardArena1 = Cardarena1;
-            Player2.CardArena1 = Cardarena1;
-            Player2.CardArena2 = Cardarena2;
-            Player2.CardArena2 = Cardarena2;
+            if (First(Player1, Player2) == Player1)
+            {
+                Player1.Mana = 1;
+                Player2.Mana = 2;
+            }
+            else
+            {
+                Player1.Mana = 2;
+                Player2.Mana = 1;
+            }
         }
         /// <summary>
         /// Раздача карт в начале игры
         /// </summary>
         /// <param name="Player"></param>
-        public void DistrOfCards(Player Player)//Раздача карт в начале
+        private void DistrOfCards(Player Player)
         {
             Random R = new Random(0);
-            CardHeroes card;
-            int j = 15;
-            Player.CardHand = new List<CardHeroes>();
+            Card card;
+            int j = 30;
             for (int i = 0; i < 7; i++)
             {
                 card = Player.Deck[R.Next(j)];
-                
                 Player.CardHand.Add(card);
-                
+                j--;
             }
         }
 
@@ -116,7 +132,7 @@ namespace Game
                 while (player.CardHand.Count < 7)
                 {
                     player.CardHand.Add(player.Deck[R.Next(player.Deck.Count)]);
-                    player.Deck.Remove(player.Deck[R.Next(player.Deck.Count)]);
+                    //player.Deck.Remove(player.Deck[R.Next(player.Deck.Count)]);
                 }
             }
         }
@@ -126,28 +142,38 @@ namespace Game
         /// </summary>
         /// <param name="player"></param>
         /// <param name="card"></param>
-        List<CardHeroes> Cardarena1 = new List<CardHeroes>();
-        List<CardHeroes> Cardarena2 = new List<CardHeroes>();
-        public void ToArena(Player player,int index)
+        public void ToArena(Player player, CardHeroes card)
         {
-            
-            //  if (ismhod)
-            // {
-            CardHeroes card = player.CardHand[index];     
-                    int i = 0;
-                    while (i < player.CardArena1.Count)
-                    {
-                        player.CardArena2.Add(player.CardArena1.ElementAt(i));
-                        i++;
-                    }
-                    player.CardArena1.Clear();
-                    player.CardHand.Remove(card);
-                    player.CardArena1.Add(card);
+            if (player.Mana <= card.Price && player.CardHand.Contains(card))
+            {
+                if (card.Ability != null)
+                {
+
                 }
+                player.CardArena1.Add(card);
+
+
 
                 //перерисовка
-           // }
-        
+            }
+            else
+            {
+                throw new Exception("Недостаточно маны");
+            }
+
+        }
+
+        private void Applicationability(string Ability)
+        {
+            switch (Ability)
+            {
+                case "":
+                    {
+
+                        break;
+                    }
+            }
+        }
 
         /// <summary>
         /// атака на карту противника
@@ -156,24 +182,25 @@ namespace Game
         /// <param name="playervinctim"></param>
         /// <param name="CardAgressor"></param>
         /// <param name="CardVinctim"></param>
-        public void AttackCard(Player playeragressor,Player playervinctim, CardHeroes CardAgressor, CardHeroes CardVinctim)
+        public void AttackCard(Player playeragressor, Player playervinctim, CardHeroes CardAgressor, CardHeroes CardVinctim)
         {
-            if (CardAgressor.Price <= playeragressor.Mana)
+            CardVinctim.Health -= CardAgressor.Power;
+            CardAgressor.Health -= CardAgressor.Power;
+            if (CardAgressor.Health <= 0)
             {
-                CardVinctim.Health -= CardAgressor.Power;
-                playeragressor.Mana -= CardAgressor.Price;
                 playeragressor.CardArena2.Remove(CardAgressor);
-                if (CardVinctim.Health <= 0)
-                {
-                    playervinctim.CardHand.Remove(CardVinctim);
-                }
-
-                //перерисовка
             }
-            else
+            if (CardVinctim.Health <= 0)
             {
-                throw new Exception("Вы не можете ходить этой картой");
+                if (playervinctim.CardArena1.Contains(CardVinctim))
+                    playervinctim.CardArena1.Remove(CardVinctim);
+                else if (playervinctim.CardArena2.Contains(CardVinctim))
+                    playervinctim.CardArena2.Remove(CardVinctim);
+                playervinctim.CardHand.Remove(CardVinctim);
             }
+
+            //перерисовка
+
         }
         /// <summary>
         /// Атака на лицо противника
@@ -183,21 +210,83 @@ namespace Game
         /// <param name="CardAgressor"></param>
         public void AttackLico(Player playeragressor, Player playervinctim, CardHeroes CardAgressor)
         {
-            if (CardAgressor.Price <= playeragressor.Mana)
+            playervinctim.Health -= CardAgressor.Power;
+            if (playervinctim.Health <= 0)
             {
-                playervinctim.Health -= CardAgressor.Power;
-                playeragressor.CardArena2.Remove(CardAgressor);
-                if (playervinctim.Health <= 0)
-                {
-                    GameOver(playeragressor);
-                }
+                GameOver(playeragressor);
             }
-            else
-            {
-                throw new Exception("Вы не можете ходить этой картой");
-            }
-
         }
+
+        /// <summary>
+        /// Применение карт способностей
+        /// </summary>
+        /// <param name="playeragressor"></param>
+        /// <param name="playervinctim"></param>
+        /// <param name="CardAgressor"></param>
+        public void Spell(Player playeragressor, Player playervinctim, CardHeroes CardAgressor, CardHeroes CardVinctim = null)
+        {
+            string result = "";
+            switch (CardAgressor.Ability)
+            {
+                case "damage2":
+                    {
+                        //если атакуем лицо
+                        if (CardVinctim == null)
+                        {
+                            if (playeragressor.Mana <= CardAgressor.Price)
+                            {
+                                playervinctim.Health -= 2;
+                                if (playervinctim.Health <= 0)
+                                    result = GameOver(playeragressor);
+                                playeragressor.CardHand.Remove(CardAgressor);
+                            }
+                            else
+                            {
+                                throw new Exception("Недостаточно маны!");
+                            }
+                        }
+                        //если атакуем карту
+                        else
+                        {
+                            if (playeragressor.Mana <= CardAgressor.Price)
+                            {
+                                CardVinctim.Health -= 2;
+                                if (CardVinctim.Health <= 0)
+                                {
+                                    playervinctim.CardArena2.Remove(CardVinctim);
+                                }
+                                playeragressor.CardHand.Remove(CardAgressor);
+                            }
+                            else
+                            {
+                                throw new Exception("Недостаточно маны!");
+                            }
+                        }
+                        break;
+                    }
+                //возьмите X карт
+                case "take1cards":
+                    {
+                        Random R = new Random();
+                        playeragressor.CardHand.Add(playeragressor.Deck[R.Next(playeragressor.Deck.Count)]);
+                        break;
+                    }
+                //оппонент сбрасывает одну карту
+                case "opponentdiscardscard":
+                    {
+                        Random R = new Random();
+                        playervinctim.CardHand.RemoveAt(R.Next(playervinctim.CardHand.Count));
+                        break;
+                    }
+                case "plushp3":
+                    {
+                        playeragressor.Health += 3;
+                        break;
+                    }
+            }
+        }
+
+
         /// <summary>
         /// Конец игры
         /// </summary>

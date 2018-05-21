@@ -10,6 +10,7 @@ namespace Client
         public MainMenu()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             
         }
          string name;
