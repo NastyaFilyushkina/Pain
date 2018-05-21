@@ -377,7 +377,7 @@ namespace SERVER
                     else { SendToEnemy(strpacket, ServerMain.rooms[clientinf.NumRoom].Player1.Name); }
 
                     break;
-               
+
                 case PacketsToServer.StartGamePacket:
                     StartGamePacket stgapacket = JsonConvert.DeserializeObject<StartGamePacket>(message);
                     foreach (Player pl in ServerMain.gameclients)
@@ -399,8 +399,7 @@ namespace SERVER
                 case PacketsToServer.StepPacket:
                     StepPacket stpac = JsonConvert.DeserializeObject<StepPacket>(message);
                     GameStep(stpac.EnemyCard, stpac.MyCard, WhoIsHe(stpac.Enemy));
-                    SendDataToUsers sendData = new SendDataToUsers();
-                    sendData.AmIFirst =;
+
                     break;
                 case PacketsToServer.PacketArenaCardNow:
                     PacketArenaCardNow parcadnow = JsonConvert.DeserializeObject<PacketArenaCardNow>(message);
@@ -538,11 +537,12 @@ namespace SERVER
         {
             SendDataToUsers send = new SendDataToUsers();
             send.Command = PacketsToServer.SendDataToUsers;
-            send.AmIFirst = clientinf.;
+            send.AmIFirst = clientinf.IsHod;
             send.EnemyHealth = Enemy.Health;
             send.MyHealth = clientinf.Health;
             send.MyMana = clientinf.Mana;
-
+            send.Arena1 = clientinf.CardArena1;
+            send.Arena2 = clientinf.CardArena2;
             return send;
         }
     }

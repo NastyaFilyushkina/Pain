@@ -16,19 +16,24 @@ namespace ClassLibrary1
     {
         RegPacket, StartWindowPacket, WaitGamePacket, StartGamePacket, ChooseEnemyPacket, RandomEnemyPacket, ChoosenCardListPacket, StopLookingforGamePacket,
         StepPacket, StepIsNull, EndGamePacket, ResultRegPacket, ResultChooseEnemyPacketSuccess, ResultChooseEnemyPacketFailed, WinnerPaclet, ResultChooseCardList,
-        EnemyLeftGamePacket, ResultStepPacket, AllCardsPacket, ListOfAllClients, ListOfWaitingClients,SendDataToUserFirstTime,
-        SendDataToUsers, PacketArenaCardNow, Error, AskGamePacket, EXIT, AnsGamePacket, ResultRegPacketFailed, ISErrorOfEnemy,PacketPickCard,CardOnABoard
+        EnemyLeftGamePacket, ResultStepPacket, AllCardsPacket, ListOfAllClients, ListOfWaitingClients, SendDataToUserFirstTime,
+        SendDataToUsers, PacketArenaCardNow, Error, AskGamePacket, EXIT, AnsGamePacket, ResultRegPacketFailed, ISErrorOfEnemy, PacketPickCard, CardOnABoard, EndStep
     }
     public enum Status { success, fail }
     /// <summary>
     /// Серверные
     /// </summary>
-    /// 
+
+    public class EndStep
+    {
+        [JsonConverter(typeof(StringEnumConverter))]
+        public PacketsToServer Command { set; get; }
+    }
     public class PacketPickCard
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public PacketsToServer Command { set; get; }
-        public CardHeroes Card{ set; get; }
+        public CardHeroes Card { set; get; }
     }
     public class Error
     {
@@ -153,16 +158,17 @@ namespace ClassLibrary1
         public List<CardHeroes> StartKoloda { set; get; }
         public List<CardHeroes> ListCardInAHandFirst { set; get; }
     }
+    //
     public class SendDataToUsers
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public PacketsToServer Command { set; get; }
-       /// public Player Player1 { set; get; }
-        public int MyHealth { set; get;}
+        /// public Player Player1 { set; get; }
+        public int MyHealth { set; get; }
         public int EnemyHealth { set; get; }
         public int MyMana { set; get; }
-        
-        //  public Player Player2 { set; get; }
+        public List<CardHeroes> Arena1 { set; get; }
+        public List<CardHeroes> Arena2 { set; get; }
         public bool AmIFirst { set; get; }
     }
     /// <summary>
