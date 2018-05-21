@@ -53,6 +53,8 @@ namespace Game
         /// <returns></returns>
         public Player First(Player player1, Player player2)
         {
+            Random R = new Random();
+            int n = R.Next(1, 3);
             if (n == 1)
             {
                 player1.IsHod = true;
