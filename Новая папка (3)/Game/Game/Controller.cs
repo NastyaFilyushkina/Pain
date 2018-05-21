@@ -10,7 +10,6 @@ namespace Game
     public class Controller
     {
         public bool ismhod { get; set; }
-        Board board;
         int hod;
 
 
@@ -60,6 +59,10 @@ namespace Game
             DistrOfCards(Player2);
             Player1.Mana = 1;
             Player2.Mana = 1;
+            Player2.CardArena1 = Cardarena1;
+            Player2.CardArena1 = Cardarena1;
+            Player2.CardArena2 = Cardarena2;
+            Player2.CardArena2 = Cardarena2;
         }
         /// <summary>
         /// Раздача карт в начале игры
@@ -68,13 +71,15 @@ namespace Game
         public void DistrOfCards(Player Player)//Раздача карт в начале
         {
             Random R = new Random(0);
-            Card card;
-            int j = 30;
+            CardHeroes card;
+            int j = 15;
+            Player.CardHand = new List<CardHeroes>();
             for (int i = 0; i < 7; i++)
             {
                 card = Player.Deck[R.Next(j)];
+                
                 Player.CardHand.Add(card);
-                j--;
+                
             }
         }
 
@@ -94,19 +99,20 @@ namespace Game
                 }
             }
         }
-        
+
         /// <summary>
         /// Выставить карты на арену
         /// </summary>
         /// <param name="player"></param>
         /// <param name="card"></param>
-        public void ToArena(Player player,  Card card)
+        List<CardHeroes> Cardarena1 = new List<CardHeroes>();
+        List<CardHeroes> Cardarena2 = new List<CardHeroes>();
+        public void ToArena(Player player,int index)
         {
-            if (player.CardHand.Contains(card))
-            {
-                if (ismhod)
-                {
-                    
+            
+            //  if (ismhod)
+            // {
+            CardHeroes card = player.CardHand[index];     
                     int i = 0;
                     while (i < player.CardArena1.Count)
                     {
@@ -119,8 +125,8 @@ namespace Game
                 }
 
                 //перерисовка
-            }
-        }
+           // }
+        
 
         /// <summary>
         /// атака на карту противника

@@ -14,7 +14,7 @@ namespace Client
     public partial class ChooseListOfYourCards : Form
     {
         ClientObject client;
-        public ChooseListOfYourCards(ClientObject client )
+        public ChooseListOfYourCards(ClientObject client)
         {
             InitializeComponent();
             client.MakeCards += MakeCards;
@@ -28,12 +28,12 @@ namespace Client
             {
                 this.Invoke((MethodInvoker)(() => this.Hide()));
                 //this.Hide();
-                this.Invoke((MethodInvoker)(() => new Batll().Show()));
+                this.Invoke((MethodInvoker)(() => new Batll(client).Show()));
             }
             else
             {
                 this.Hide();
-                Form ifrm = new Batll();
+                Form ifrm = new Batll(client);
                 ifrm.Show();
             }
         }
@@ -46,27 +46,26 @@ namespace Client
                 if (value.InvokeRequired)
                 {
                     if (value is CardsForm)
-                        //{
-                        //    if ((value as CardsForm).InvokeRequired)
+                    {
                         (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Image = (Image)Resource1.ResourceManager.GetObject(list[count].Name)));
-                    (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).NameCards = list[count].Name));
-                    (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Price = list[count].Price));
-                    (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Health = list[count].Health));
-                    (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Power = list[count].Power));
-                    //else
-                    //    (value as CardsForm).Image = (Image)Properties.Resources.ResourceManager.GetObject(list[count].Name);
-
-                    count++;
+                        (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).NameCards = list[count].Name));
+                        (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Price = list[count].Price));
+                        (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Health = list[count].Health));
+                        (value as CardsForm).Invoke((MethodInvoker)(() => (value as CardsForm).Power = list[count].Power));
+                        count++;
+                    }
                 }
                 else
                 {
                     if (value is CardsForm)
+                    {
                         (value as CardsForm).Image = (Image)Resource1.ResourceManager.GetObject(list[count].Name);
-                    (value as CardsForm).Name = list[count].Name;
-                    (value as CardsForm).Price = list[count].Price;
-                    (value as CardsForm).Power = list[count].Power;
-                    (value as CardsForm).Health = list[count].Health;
-                    count++;
+                        (value as CardsForm).Name = list[count].Name;
+                        (value as CardsForm).Price = list[count].Price;
+                        (value as CardsForm).Power = list[count].Power;
+                        (value as CardsForm).Health = list[count].Health;
+                        count++;
+                    }
                 }
             }
         }

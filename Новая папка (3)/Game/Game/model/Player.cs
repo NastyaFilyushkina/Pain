@@ -11,20 +11,20 @@ namespace Game.model
     public enum StatusGamer { sleeping, playing, lookforgame }
     public class Player
     {
-
+        public int NumRoom { get; set; }
         public int Mana { get; set; } = 9999;
 
         public string Name { get; set; }
 
         public int Health { get; set; } = 4564;
         
-        public IList <Card> CardArena1 { get; set; }
+        public List <CardHeroes> CardArena1 { get; set; }
+      
+        public List<CardHeroes> CardArena2 { get; set; }
     
-        public IList<Card> CardArena2 { get; set; }
+        public List <CardHeroes> Deck { get; set;}
         
-        public IList <Card> Deck { get; set;}
-     
-        public IList <Card> CardHand { get; set; }
+        public List <CardHeroes> CardHand { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public StatusGamer Status { set; get; }
       

@@ -9,7 +9,7 @@
 "Name":"Vodyanoi",
 "Power": "2",
 "Health": "3",
-"Price": "2"
+"Price": "1"
 },
 {
 "Name":"Volhv",
@@ -19,51 +19,51 @@
 },
 {
 "Name":"Vujalka",
-"Power": "3",
+"Power": "2",
 "Health": "2",
-"Price": "2"
+"Price": "1"
 },
 {
 "Name":"Gorinich",
 "Power": "8",
 "Health": "8",
-"Price": "8"
+"Price": "1"
 },
 {
 "Name":"Dajdbog",
 "Power": "8",
 "Health": "8",
-"Price": "8"
+"Price": "1"
 },
 {
 "Name":"Devana",
 "Power": "6",
 "Health": "6",
-"Price": "6"
+"Price": "1"
 },
 {
 "Name":"Slata",
-"Power": "3",
-"Health": "6",
-"Price": "4"
+"Power": "7",
+"Health": "1",
+"Price": "1"
 },
 {
 "Name":"Karna",
-"Power": "3",
-"Health": "3",
-"Price": "3"
+"Power": "4",
+"Health": "4",
+"Price": "2"
 },
 {
 "Name":"Krada",
 "Power": "5",
-"Health": "10",
+"Health": "9",
 "Price": "7"
 },
 {
 "Name":"Leshii",
 "Power": "3",
-"Health": "3",
-"Price": "3"
+"Health": "4",
+"Price": "1"
 },
 {
 "Name":"Makosch",
@@ -73,68 +73,68 @@
 },
 {
 "Name":"Morena",
-"Power": "6",
-"Health": "6",
-"Price": "6"
+"Power": "2",
+"Health": "2",
+"Price": "1"
 },
 {
 "Name":"Ognenniicvetok",
 "Power": "6",
 "Health": "4",
-"Price": "6"
+"Price": "1"
 },
 {
 "Name":"Perun",
-"Power": "8",
-"Health": "8",
-"Price": "8"
+"Power": "5",
+"Health": "3",
+"Price": "1"
 },
 {
 "Name":"Sva_Slava",
-"Power": "7",
-"Health": "7",
-"Price": "7"
+"Power": "4",
+"Health": "6",
+"Price": "1"
 },
 {
 "Name":"Rusalka",
 "Power": "4",
 "Health": "4",
-"Price": "4"
-},
-{
-"Name":"Svarog",
-"Power": "8",
-"Health": "8",
-"Price": "8"
-},
-{
-"Name":"Svyatibor",
-"Power": "6",
-"Health": "6",
-"Price": "6"
-},
-{
-"Name":"Svyatogor",
-"Power": "6",
-"Health": "6",
-"Price": "6"
-},
-{
-"Name":"Surica",
-"Power": "3",
-"Health": "3",
 "Price": "3"
 },
 {
+"Name":"Svarog",
+"Power": "6",
+"Health": "8",
+"Price": "1"
+},
+{
+"Name":"Svyatibor",
+"Power": "5",
+"Health": "6",
+"Price": "4"
+},
+{
+"Name":"Svyatogor",
+"Power": "7",
+"Health": "4",
+"Price": "1"
+},
+{
+"Name":"Surica",
+"Power": "2",
+"Health": "3",
+"Price": "1"
+},
+{
 "Name":"Chernobog",
-"Power": "4",
+"Power": "3",
 "Health": "4",
 "Price": "4"
 },
 {
 "Name":"Chislobog",
-"Power":"5",
-"Health":"5",
-"Price":"5"
+"Power":"4",
+"Health":"3",
+"Price":"1"
 }
 ]

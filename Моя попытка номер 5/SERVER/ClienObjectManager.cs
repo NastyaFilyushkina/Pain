@@ -171,6 +171,17 @@ namespace SERVER
             { list.Add(a.Name); }
             return list;
         }
+        public Player WhoIsHe(string name)
+        {
+            foreach(Player a in ServerMain.gameclients)
+            {
+                if (a.Name == name)
+                {
+                    return a;
+                }
+            }
+            return null;
+        }
         public void ReciveMessages(string message)
         {
             // try
@@ -270,9 +281,7 @@ namespace SERVER
                             return;
                         }
                     }
-                    {
-
-                    }
+                    
                     break;
                 case PacketsToServer.ChooseEnemyPacket:
                     ChooseEnemyPacket ch = JsonConvert.DeserializeObject<ChooseEnemyPacket>(message);
@@ -321,6 +330,10 @@ namespace SERVER
                         resultchen.MyLogin = answer.Enemylogin;
                         strpacket = JsonConvert.SerializeObject(resultchen) + "$";
                         SendToEnemy(strpacket,answer.Enemylogin);
+                        Rooms room = new Rooms();
+                        room.Player1 = clientinf;
+                        room.Player2 = WhoIsHe(answer.Enemylogin);
+                        ServerMain.rooms.Add(room);
 
                     }
                     else
@@ -334,22 +347,9 @@ namespace SERVER
                     }
 
                     break;
-                case PacketsToServer.CreateNewRoom:
-                    CreateNewRoom rooom = JsonConvert.DeserializeObject<CreateNewRoom>(message);
-                    rooms = new Rooms();
-                    rooms.Player1 = clientinf;
-                    foreach (Player a in ServerMain.gameclients)
-                    {
-                        if (a.Name == rooom.enemylogin)
-                        {
-                            rooms.Player2 = a;
-                        }
-                    }
-
-                    break;
+              
                 case PacketsToServer.ChoosenCardListPacket:
-
-
+                    
                     ChoosenCardListPacket kol = JsonConvert.DeserializeObject<ChoosenCardListPacket>(message);
                     ResultChooseCardList packetcheck = new ResultChooseCardList();
                     ISErrorOfEnemy err = new ISErrorOfEnemy();
@@ -359,6 +359,7 @@ namespace SERVER
                     {
                         err.ISErr = false;
                         packetcheck.ResultOfChooseCard = Status.success;
+                        clientinf.Deck = kol.Koloda;
                     }
                     else
                     {
@@ -366,11 +367,15 @@ namespace SERVER
                         packetcheck.ResultOfChooseCard = Status.fail;
                     }
                     strpacket = JsonConvert.SerializeObject(packetcheck) + "$";
+                    clientinf.NumRoom = InWhichRoom(clientinf);
                     Send(strpacket);
                     strpacket = JsonConvert.SerializeObject(err) + "$";
-                    if(rooms.Player1.Name!=kol.Me)
-                    SendToEnemy(strpacket, rooms.Player1.Name);
-                    else SendToEnemy(strpacket, rooms.Player2.Name);
+                    ////int i=InWhichRoom()
+                    ////if(ServerMain.rooms[].Player1.Name!=kol.Me)
+                    ////SendToEnemy(strpacket, rooms.Player1.Name);
+                     if (ServerMain.rooms[clientinf.NumRoom].Player2.Name!=clientinf.Name) SendToEnemy(strpacket, ServerMain.rooms[clientinf.NumRoom].Player2.Name);
+                    else { SendToEnemy(strpacket, ServerMain.rooms[clientinf.NumRoom].Player1.Name); }
+
 
                     break;
                 case PacketsToServer.StartGamePacket:
@@ -383,36 +388,38 @@ namespace SERVER
                         }
                     }
                     sendingList();
-
-                  
-
                     foreach (Player pl in ServerMain.gameclients)
                     {
                         if (stgapacket.Enemy == pl.Name)
                         {
-                            StartGame(this.clientinf, pl);
+                            StartGame( pl);
                         }
                     }
                     break;
                 case PacketsToServer.StepPacket:
                     StepPacket stpac = JsonConvert.DeserializeObject<StepPacket>(message);
-                    GameStep(stpac.EnemyCard, stpac.MyCard, stpac.Enemy);
+                    GameStep(stpac.EnemyCard, stpac.MyCard,WhoIsHe( stpac.Enemy));
 
                     break;
                 case PacketsToServer.PacketArenaCardNow:
                     PacketArenaCardNow parcadnow = JsonConvert.DeserializeObject<PacketArenaCardNow>(message);
-                    if (parcadnow.MyCard.Price < this.clientinf.Mana)
+                    if (parcadnow.MyCard.Price <= this.clientinf.Mana)
                     {
-                        controller.ToArena(this.clientinf, parcadnow.MyCard);
-                        SendDataToUsers send = DataToSendPrepare(rooms.Player2);
-                        strpacket = JsonConvert.SerializeObject(send) + "$";
-                        SendToAllPlayersInTheRoom(strpacket, rooms.Player2.Name);
+                        controller.ToArena(this.clientinf, parcadnow.IndeXMyCard);
+                        CardOnABoard card = new CardOnABoard();
+                        card.Command = PacketsToServer.CardOnABoard;
+                        card.login = clientinf.Name;
+                        card.card = parcadnow.MyCard;
+                        strpacket = JsonConvert.SerializeObject(card) + "$";
+                        if (clientinf.Name != ServerMain.rooms[clientinf.NumRoom].Player2.Name)
+                            SendToAllPlayersInTheRoom(strpacket, ServerMain.rooms[clientinf.NumRoom].Player2.Name);
+                        else SendToAllPlayersInTheRoom(strpacket, ServerMain.rooms[clientinf.NumRoom].Player1.Name);
                     }
                     else
                     {
                         Error error = new Error();
                         error.Command = PacketsToServer.Error;
-                        error.ErrorToUser = "Not enouth mana to bring this card";
+                        error.ErrorToUser = MessagesToClientErrors.NotEnouthMana;
                     }
                     break;
 
@@ -424,7 +431,16 @@ namespace SERVER
 
      
 
-
+       int InWhichRoom(Player pl)
+        {
+           for(int i = 0; i < ServerMain.rooms.Count; i++)
+            {
+                if (ServerMain.rooms[i].Player1==pl|| ServerMain.rooms[i].Player2 == pl)
+                {
+                    return i;
+                }
+            }return 0;
+        }
         
         Rooms rooms;
         bool checkkoloda(List<CardHeroes> koloda)
@@ -465,22 +481,38 @@ namespace SERVER
             return list;
         }
         Controller controller;
-        public void StartGame(Player Player1, Player Player2)
+        public void StartGame(Player Player2)
         {
             controller = new Controller();
-            controller.GameStart(Player1, Player2);
+            controller.GameStart(clientinf, Player2);
             SendDataToUsersFirstTime send = new SendDataToUsersFirstTime();
-            send.Command = PacketsToServer.SendDataToUsers;
-            send.Player1 = Player1;
-            send.Player2 = Player2;
-            var obj = JsonConvert.DeserializeObject<List<Card>>(File.ReadAllText("1.json"));
-            send.ListCard = obj;
-            send.WhoIsFirst = controller.First(Player1, Player2);
+            send.Command = PacketsToServer.SendDataToUserFirstTime;
+            send.EnemyName = Player2.Name;
+            send.EnemyHealth = Player2.Health;
+            send.MyHealth = clientinf.Health;
+            send.MyMana = clientinf.Mana;
+            Random r = new Random();
+            List<CardHeroes> firstkoloda = new List<CardHeroes>();
+           
+            for (int i = 0; i < 20; i++)
+            {
+                firstkoloda.Add(clientinf.Deck[r.Next(0, 15)]);
+             }
+            send.StartKoloda = firstkoloda;
+            send.ListCardInAHandFirst = clientinf.CardHand;
+            bool whosfirst;
+            Player pl= controller.First(clientinf, Player2);
+            if (pl.Name == clientinf.Name)
+            {
+                whosfirst = true;
+            }
+            else whosfirst = false;
+            send.AmIFirst = whosfirst;
             strpacket = JsonConvert.SerializeObject(send) + "$";
             Send(strpacket);
         }
 
-        public void GameStep(Card EnemyCard, Card MyCard, Player Enemy)
+        public void GameStep(CardHeroes EnemyCard, CardHeroes MyCard, Player Enemy)
         {
             if (EnemyCard == null)
             {
@@ -504,9 +536,7 @@ namespace SERVER
         {
             SendDataToUsers send = new SendDataToUsers();
             send.Command = PacketsToServer.SendDataToUsers;
-            send.Player1 = this.clientinf;
-            send.Player2 = Enemy;
-            send.WhoIsFirst = Enemy;
+            
             return send;
         }
     }

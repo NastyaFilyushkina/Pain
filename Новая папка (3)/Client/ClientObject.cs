@@ -33,17 +33,18 @@ namespace Client
         public void ClObjProcess()
         {
 
-            RegPacket pack = new RegPacket();
-            pack.Command = PacketsToServer.RegPacket;
-            pack.Name = name;
-            string mes = JsonConvert.SerializeObject(pack);
-            Thread.Sleep(10);
-            Send(mes);
+            
             NetworkStream stream = null;
             // try
             {
                 stream = client.GetStream();
                 byte[] data = new byte[1024]; // буфер для получаемых данных
+                RegPacket pack = new RegPacket();
+                pack.Command = PacketsToServer.RegPacket;
+                pack.Name = name;
+                string mes = JsonConvert.SerializeObject(pack) + "$";
+
+                Send(mes);
                 while (true)
                 {
                     // получаем сообщение
@@ -74,6 +75,7 @@ namespace Client
 
 
                 }
+
             }
             //catch (Exception ex)
             //{
@@ -112,6 +114,9 @@ namespace Client
         public event Action ChangeFormCard;
         public event Action ChangeToFormGame;
         public event Action CardClose;
+        public event Action<CardHeroes> CardOnABoard;
+        public event Action<CardHeroes> CardOnOtherABoard;
+        public event Action <bool ,int ,string ,int ,int ,List<CardHeroes>,string, List<CardHeroes>> ChangeGameForm;
         public void ReciveMesFromServ(string message)
         {
 
@@ -147,12 +152,7 @@ namespace Client
                     break;
                 case PacketsToServer.ResultChooseEnemyPacketSuccess:
                     ResultChooseEnemyPacketSuccess gamepaket = JsonConvert.DeserializeObject<ResultChooseEnemyPacketSuccess>(message);
-                    CreateNewRoom cr = new CreateNewRoom();
-                    cr.enemylogin = gamepaket.enemylogin;
-                    cr.MyLogin = gamepaket.MyLogin;
-                    cr.Command = PacketsToServer.CreateNewRoom;
-                    string mes = JsonConvert.SerializeObject(cr) + "$";
-                    Send(mes);
+                   
                     ChangeFormToNewForm();
                     MakeCards(gamepaket.listAllCards);
                     break;
@@ -174,7 +174,7 @@ namespace Client
                     }
                     if (ISCardRightEnemy == true && ISCardRight == true)
                     {
-                        ChangeToFormGame();
+                        ChangeToFormGame(); SendStart(enemyName);
                     }
                     break;
                 case PacketsToServer.ISErrorOfEnemy:
@@ -192,17 +192,49 @@ namespace Client
                     }
                     if (  ISCardRightEnemy == true && ISCardRight == true)
                     {
-                        ChangeToFormGame();
+                        ChangeToFormGame();SendStart(enemyName);
+                    }
+                    break;
+                case PacketsToServer.SendDataToUserFirstTime:
+                    SendDataToUsersFirstTime DataFirst = JsonConvert.DeserializeObject<SendDataToUsersFirstTime>(message);
+                    ChangeGameForm(DataFirst.AmIFirst,DataFirst.EnemyHealth,DataFirst.EnemyName,DataFirst.MyHealth,DataFirst.MyMana,DataFirst.StartKoloda,name,DataFirst.ListCardInAHandFirst);
+                    break;
+                case PacketsToServer.Error:
+                    Error carder = JsonConvert.DeserializeObject<Error>(message);
+                    if (carder.ErrorToUser == MessagesToClientErrors.NotEnouthMana)
+                    {
+                        MessForME("У вас не хватает маны");
+                    }
+                    break;
+                case PacketsToServer.CardOnABoard:
+                    CardOnABoard card = JsonConvert.DeserializeObject<CardOnABoard>(message);
+                    if (card.login==name)
+                    {
+                        CardOnABoard(card.card);
+                    }
+                    else
+                    {
+                        CardOnOtherABoard(card.card);
                     }
                     break;
             }
         }
+        //
         string enemyName = "";
         bool ISCardRight = false;//для проверки можно ли начинать игру ,норм ли колоды?
         bool ISCardRightEnemy = false;
         public void SendIFCLose()
         {
 
+        }
+        public void SendStart(string enemy)
+        {
+            StartGamePacket st = new StartGamePacket();
+            st.Command = PacketsToServer.StartGamePacket;
+            st.Enemy = enemy;
+            st.Me = name;
+            string mes = JsonConvert.SerializeObject(st) + "$";
+            Send(mes);
         }
         public void SendListCard(List<CardHeroes> a)
         {
@@ -221,12 +253,47 @@ namespace Client
             string mes = JsonConvert.SerializeObject(wait) + "$";
             Send(mes);
         }
+        public void StepToSend(CardHeroes EnemyCard,CardHeroes MyCard)
+        {
+            StepPacket step = new StepPacket();
+            step.Command = PacketsToServer.StepPacket;
+            step.Enemy = enemyName;
+            step.EnemyCard = EnemyCard;
+            step.MyCard = MyCard;
+            string mes = JsonConvert.SerializeObject(step) + "$";
+            Send(mes);
+        }
+        public void ArenaCardNowSend(CardHeroes MyCard,int index)
+        {
+            PacketArenaCardNow pack = new PacketArenaCardNow();
+            pack.Command = PacketsToServer.PacketArenaCardNow;
+            pack.MyCard = MyCard;
+            pack.IndeXMyCard = index;
+            string mes = JsonConvert.SerializeObject(pack) + "$";
+            Send(mes);
+
+        }
+        public void PickAndPayMana(CardHeroes MyCard)
+        {
+            PacketPickCard pick = new PacketPickCard();//оплата карты маной из предложенной коллоды
+            pick.Command = PacketsToServer.PacketPickCard;
+            pick.Card = MyCard;
+            string mes = JsonConvert.SerializeObject(pick) + "$";
+            Send(mes);
+        }
         public void SendQAForSTOPWait()
         {
             StopLookingForGame wait = new StopLookingForGame();
             wait.Command = PacketsToServer.WaitGamePacket;
             wait.Name = name;
             string mes = JsonConvert.SerializeObject(wait) + "$";
+            Send(mes);
+        }
+        public void sendStepPass()
+        {
+            StepIsNull step = new StepIsNull();
+            step.Command =PacketsToServer.StepIsNull;
+            string mes = JsonConvert.SerializeObject(step) + "$";
             Send(mes);
         }
         public void SendQAFORChooseEnemy(string login)
@@ -237,6 +304,7 @@ namespace Client
             chooseenemy.MyLogin = name;
             string mes = JsonConvert.SerializeObject(chooseenemy) + "$";
             Send(mes);
+            enemyName = login;
         }
         public void SendAnswerToAskGame(string names, bool flag)
         {
@@ -254,6 +322,7 @@ namespace Client
             }
             string mes = JsonConvert.SerializeObject(ans) + "$";
             Send(mes);
+            enemyName = names;
         }
         public void SendQAFORRandom()
         {

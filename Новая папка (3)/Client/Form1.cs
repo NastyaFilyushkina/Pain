@@ -62,7 +62,7 @@ namespace Client
         }
         void MessFORme(string names)
         {
-            DialogResult result=MessageBox.Show("С вами хотят играть!Вы согласны начать игру?", name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result=MessageBox.Show("С вами хотят играть! Вы согласны начать игру?", name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.No) //Если нажал нет
             {
@@ -79,12 +79,7 @@ namespace Client
             if (this.InvokeRequired)
             {
                 this.Invoke((MethodInvoker)(() => this.Hide()));
-                //this.Hide();
                 this.Invoke((MethodInvoker)(() => new ChooseListOfYourCards(client).Show()));
-                //ifrm.Left = this.Left; // задаём открываемой форме позицию слева равную позиции текущей формы
-                //ifrm.Top = this.Top; // задаём открываемой форме позицию сверху равную позиции текущей формы
-                /*ifrm.Show();*/ // отображаем Form2
-                                 // скрываем Form1 (this - текущая форма)
             }
             else
             {
@@ -92,6 +87,7 @@ namespace Client
                 Form ifrm = new ChooseListOfYourCards(client);
                 ifrm.Show();
             }
+
         }
         public void Message(string str)
         {
@@ -184,16 +180,31 @@ namespace Client
         }
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            //ListOfReadyPlayer.Items.Clear();
-            
+            if (this.InvokeRequired)
+            {
+                ListOfReadyPlayer.Invoke((MethodInvoker)(() => ListOfReadyPlayer.Items.Clear()));
+            }
+            else
+            {
+                ListOfReadyPlayer.Items.Clear();
+            }
             client.SendQAForWait();
-            ListOfReadyPlayer.Invoke((MethodInvoker)(() => ListOfReadyPlayer.Items.Clear()));
+         
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
+            if (this.InvokeRequired)
+            {
+                ListOfReadyPlayer.Invoke((MethodInvoker)(() => ListOfReadyPlayer.Items.Clear()));
+            }
+            else
+            {
+                ListOfReadyPlayer.Items.Clear();
+            }
+           
             client.SendQAForSTOPWait();
-            ListOfReadyPlayer.Invoke((MethodInvoker)(() => ListOfReadyPlayer.Items.Clear()));
+            
           //  ListOfReadyPlayer. ListOfReadyPlayer.Items.Clear();
         }
 

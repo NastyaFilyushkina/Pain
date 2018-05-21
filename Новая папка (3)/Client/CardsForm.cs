@@ -128,7 +128,6 @@ namespace Client
         {
             PaintControl();
         }
-
-      
+       
     }
 }

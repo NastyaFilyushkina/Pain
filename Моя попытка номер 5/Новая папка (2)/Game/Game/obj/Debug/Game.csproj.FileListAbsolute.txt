@@ -42,3 +42,10 @@ C:\Users\PC\Desktop\Победа\Моя попытка номер 5\Новая �
 C:\Users\PC\Desktop\Победа\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.csproj.GenerateResource.Cache
 C:\Users\PC\Desktop\Победа\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.dll
 C:\Users\PC\Desktop\Победа\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.pdb
+F:\Победа1\Моя попытка номер 5\Новая папка (2)\Game\Game\bin\Debug\Game.dll
+F:\Победа1\Моя попытка номер 5\Новая папка (2)\Game\Game\bin\Debug\Game.pdb
+F:\Победа1\Моя попытка номер 5\Новая папка (2)\Game\Game\bin\Debug\Newtonsoft.Json.dll
+F:\Победа1\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.Properties.Resources.resources
+F:\Победа1\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.csproj.GenerateResource.Cache
+F:\Победа1\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.dll
+F:\Победа1\Моя попытка номер 5\Новая папка (2)\Game\Game\obj\Debug\Game.pdb

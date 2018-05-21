@@ -13,6 +13,7 @@ namespace SERVER
         ConnectManager connectManager;
         public static Dictionary<string, TcpClient> FirstList;
         public static List<Player> gameclients = new List<Player>();
+        public static List<Rooms> rooms = new List<Rooms>();
 
         public void ServerMainST()
         {
