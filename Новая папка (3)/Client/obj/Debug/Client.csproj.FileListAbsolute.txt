@@ -97,3 +97,5 @@ C:\Users\PC\Desktop\Победа1\Новая папка (3)\Client\bin\Debug\Gam
 C:\Users\PC\Desktop\Победа1\Новая папка (3)\Client\bin\Debug\Game.pdb
 C:\Users\PC\Desktop\Победа1\Новая папка (3)\Client\bin\Debug\ClassLibrary1.pdb
 C:\Users\PC\Desktop\Победа1\Новая папка (3)\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.exe
+C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.pdb

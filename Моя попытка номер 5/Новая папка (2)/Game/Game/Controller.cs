@@ -29,6 +29,16 @@ namespace Game
         /// <param name="player2"></param>
         public void IsmHoda(Player player1, Player player2)
         {
+            if (player1.IsHod == false)
+            {
+                player1.IsHod = true;
+                player2.IsHod = false;
+            }
+            else
+            {
+                player1.IsHod = false;
+                player2.IsHod = true;
+            }
             ismhod = true;
             hod++;
             player1.Mana = hod;
@@ -43,10 +53,18 @@ namespace Game
         /// <returns></returns>
         public Player First(Player player1, Player player2)
         {
-            Random R = new Random();
-            int n = R.Next(1, 3);
-            if (n == 1) return player1;
-            else return player2;
+            if (n == 1)
+            {
+                player1.IsHod = true;
+                player2.IsHod = false;
+                return player1;
+            }
+            else
+            {
+                player1.IsHod = false;
+                player2.IsHod = true;
+                return player2;
+            }
         }
         /// <summary>
         /// начало игры

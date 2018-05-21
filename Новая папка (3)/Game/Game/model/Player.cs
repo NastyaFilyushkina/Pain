@@ -28,6 +28,8 @@ namespace Game.model
         [JsonConverter(typeof(StringEnumConverter))]
         public StatusGamer Status { set; get; }
       
+        public bool IsHod { set; get; }
+
         public Player(string name, int mana, int health)
         {
             this.Mana = mana;

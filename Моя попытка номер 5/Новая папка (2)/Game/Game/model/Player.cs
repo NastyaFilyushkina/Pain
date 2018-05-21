@@ -20,6 +20,7 @@ namespace Game.model
         public IList <Card> CardHand { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public StatusGamer Status { set; get; }
+        public bool IsHod { set; get; }
 
         public Player(string name, int mana, int health)
         {
