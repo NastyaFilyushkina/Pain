@@ -152,7 +152,7 @@ namespace Client
                     break;
                 case PacketsToServer.ResultChooseEnemyPacketSuccess:
                     ResultChooseEnemyPacketSuccess gamepaket = JsonConvert.DeserializeObject<ResultChooseEnemyPacketSuccess>(message);
-                   
+
                     ChangeFormToNewForm();
                     MakeCards(gamepaket.listAllCards);
                     break;
@@ -166,7 +166,7 @@ namespace Client
                     if (anscard.ResultOfChooseCard == Status.fail)
                     {
                         ISCardRight = false;
-                      //  ChangeFormCard();//добавить обработчик
+                        //  ChangeFormCard();//добавить обработчик
                     }
                     else
                     {
@@ -186,18 +186,18 @@ namespace Client
                     else
                     if (errEnemy.ISErr != false && ISCardRight == true)
                     {
-                        ISCardRightEnemy = false; 
+                        ISCardRightEnemy = false;
                         MessForME("подождите, ваш противник еще выбирает карты");
-                       // CardClose();//добавить обработчик
+                        // CardClose();//добавить обработчик
                     }
-                    if (  ISCardRightEnemy == true && ISCardRight == true)
+                    if (ISCardRightEnemy == true && ISCardRight == true)
                     {
-                        ChangeToFormGame();SendStart(enemyName);
+                        ChangeToFormGame(); SendStart(enemyName);
                     }
                     break;
                 case PacketsToServer.SendDataToUserFirstTime:
                     SendDataToUsersFirstTime DataFirst = JsonConvert.DeserializeObject<SendDataToUsersFirstTime>(message);
-                    ChangeGameForm(DataFirst.AmIFirst,DataFirst.EnemyHealth,DataFirst.EnemyName,DataFirst.MyHealth,DataFirst.MyMana,DataFirst.StartKoloda,name,DataFirst.ListCardInAHandFirst);
+                    ChangeGameForm(DataFirst.AmIFirst, DataFirst.EnemyHealth, DataFirst.EnemyName, DataFirst.MyHealth, DataFirst.MyMana, DataFirst.StartKoloda, name, DataFirst.ListCardInAHandFirst);
                     break;
                 case PacketsToServer.Error:
                     Error carder = JsonConvert.DeserializeObject<Error>(message);
@@ -208,7 +208,7 @@ namespace Client
                     break;
                 case PacketsToServer.CardOnABoard:
                     CardOnABoard card = JsonConvert.DeserializeObject<CardOnABoard>(message);
-                    if (card.login==name)
+                    if (card.login == name)
                     {
                         CardOnABoard(card.card);
                     }
@@ -253,7 +253,7 @@ namespace Client
             string mes = JsonConvert.SerializeObject(wait) + "$";
             Send(mes);
         }
-        public void StepToSend(CardHeroes EnemyCard,CardHeroes MyCard)
+        public void StepToSend(CardHeroes EnemyCard, CardHeroes MyCard)
         {
             StepPacket step = new StepPacket();
             step.Command = PacketsToServer.StepPacket;
@@ -263,7 +263,7 @@ namespace Client
             string mes = JsonConvert.SerializeObject(step) + "$";
             Send(mes);
         }
-        public void ArenaCardNowSend(CardHeroes MyCard,int index)
+        public void ArenaCardNowSend(CardHeroes MyCard, int index)
         {
             PacketArenaCardNow pack = new PacketArenaCardNow();
             pack.Command = PacketsToServer.PacketArenaCardNow;
@@ -292,7 +292,7 @@ namespace Client
         public void sendStepPass()
         {
             StepIsNull step = new StepIsNull();
-            step.Command =PacketsToServer.StepIsNull;
+            step.Command = PacketsToServer.StepIsNull;
             string mes = JsonConvert.SerializeObject(step) + "$";
             Send(mes);
         }
