@@ -117,9 +117,9 @@ namespace Client
         public event Action<CardHeroes> CardOnABoard;
         public event Action<CardHeroes> CardOnOtherABoard;
         public event Action <bool ,int ,string ,int ,int ,List<CardHeroes>,string, List<CardHeroes>> ChangeGameForm;
+        public event Action<bool, int, string, int, int, List<CardHeroes>, List<CardHeroes>> ChangeAftepStep;
         public void ReciveMesFromServ(string message)
         {
-
             switch (JsonConvert.DeserializeObject<ResultRegPacket>(message).Command)
             {
                 case PacketsToServer.ResultRegPacket:
@@ -217,6 +217,10 @@ namespace Client
                         CardOnOtherABoard(card.card);
                     }
                     break;
+                case PacketsToServer.SendDataToUsers:
+                    SendDataToUsers Data = JsonConvert.DeserializeObject<SendDataToUsers>(message);
+                    ChangeAftepStep(Data.AmIFirst, Data.EnemyHealth, enemyName, Data.MyHealth, Data.MyMana, Data.Arena1, Data.Arena2);
+                    break;
             }
         }
         //
@@ -226,6 +230,13 @@ namespace Client
         public void SendIFCLose()
         {
 
+        }
+        public void EndSteps()
+        {
+            EndStep end = new EndStep();
+            end.Command = PacketsToServer.EndStep;
+            string mes = JsonConvert.SerializeObject(end) + "$";
+            Send(mes);
         }
         public void SendStart(string enemy)
         {

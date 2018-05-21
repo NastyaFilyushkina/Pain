@@ -23,6 +23,7 @@ namespace Client
             client.CardOnABoard += CardOnABoard;
             client.CardOnOtherABoard += CardOnAOtherBoard;
             this.client = client;
+            client.ChangeAftepStep += ChangeAfterStep;
         }
         public void CardOnABoard(CardHeroes card)
         {
@@ -49,7 +50,7 @@ namespace Client
                 {
                     CardHand.Remove(card);
                     a.Invoke((MethodInvoker)(() =>
-                    a.Dispose())); break;
+                    a.NameCards = "")); break;
                 }
             }
         }
@@ -77,6 +78,7 @@ namespace Client
         {
             MessageBox.Show(str);
         }
+
         void RasdachaCard(bool AmIFirst, int EnemyHealth, string EnemyName, int MyHealth, int MyMana, List<CardHeroes> StartKoloda, string name, List<CardHeroes> FirstInHand)
         {
             int mana = MyMana;
@@ -116,7 +118,12 @@ namespace Client
                 if (AmIFirst == false)
                 {
                     this.Enabled = false;
-
+                    ENSt.Visible = true;
+                }
+                else
+                {
+                    this.Enabled = true;
+                    ENSt.Visible = false;
                 }
             }
             else
@@ -128,7 +135,36 @@ namespace Client
         int count = 0;
         List<CardHeroes> ClickCards = new List<CardHeroes>();
         List<CardHeroes> CardHand = new List<CardHeroes>(); //как достать с сервера?
+        private void ChangeAfterStep(bool AmIFirst, int EnemyHealth, string enemyName, int MyHealth,
+            int MyMana, List<CardHeroes> Arena1, List<CardHeroes> Arena2)
+        {
+            int mana = MyMana;
+            foreach (PictureBox a in pMana.Controls)
+            {
+                while (mana != 0)
+                {
+                    a.Visible = true;
+                }
+            }
+            if (this.InvokeRequired)
+            {
+                lHealthPlayer1.Invoke((MethodInvoker)(() => lHealthPlayer1.Text = MyHealth.ToString()));
+                lHealthPlayer2.Invoke((MethodInvoker)(() => lHealthPlayer2.Text = EnemyHealth.ToString()));
 
+
+            }
+            if (AmIFirst == false)
+            {
+                this.Enabled = false;
+                ENSt.Visible = true;
+            }
+            else
+            {
+                this.Enabled = true;
+                ENSt.Visible = false;
+            }
+
+        }
 
         private void bPas_Click(object sender, EventArgs e)
         {
@@ -170,6 +206,7 @@ namespace Client
             else
             if (choosenCard != sender && choosenCard != null)
             {
+                chooseFace = false;
                 choosenCard.BackgroundImage = Resource1.ФОН_ЛИСТА;
                 choosenCard.ISPRESSED = false;
                 choosenCard = (CardsForm)sender;
@@ -212,7 +249,21 @@ namespace Client
             }
             client.StepToSend(enemy, my);
         }
-        
+        bool chooseFace = false;
+        private void lNamePlayer2_Click(object sender, EventArgs e)
+        {
+            chooseFace = true;
+            if (chooseFace == true && choosenCard != null && choosenEnemyCard == null)
+            {
+                client.EndSteps();
+                ENSt.Visible = true;
+            }
+        }
+
+        private void EndStep_Click(object sender, EventArgs e)
+        {
+            client.EndSteps();
+        }
     }
 }
 
