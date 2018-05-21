@@ -32,6 +32,20 @@ namespace Game.model
         {
             this.Name = name;
         }
-
+        static public bool operator ==(Player a, Player b)
+        {
+            try
+            {
+                if (a.Name == b.Name && a.Health == b.Health) { return true; } else return false;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+        static public bool operator !=(Player a, Player b)
+        {
+            if (a.Name != b.Name || a.Health != b.Health) { return true; } else return false;
+        }
     }
 }

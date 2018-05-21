@@ -10,5 +10,6 @@ namespace SERVER
     {
         public Player Player1 { set; get; }
         public Player Player2 { set; get; }
+        public Player playerFirst { set; get; }
     }
 }

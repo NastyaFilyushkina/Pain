@@ -16,6 +16,22 @@
             this.Health = Health;
             this.Ability = Ability;
         }
-      
+        public static bool operator ==(CardHeroes a, CardHeroes b)
+        {
+            if (a.Health == b.Health && a.Name == b.Name && a.Power == b.Power && a.Price == b.Price && a.Ability == b.Ability)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        public static bool operator !=(CardHeroes a, CardHeroes b)
+        {
+            if (a.Health != b.Health || a.Name != b.Name || a.Power != b.Power || a.Price != b.Price || a.Ability != b.Ability)
+            {
+                return true;
+            }
+            else return false;
+        }
     }
 }

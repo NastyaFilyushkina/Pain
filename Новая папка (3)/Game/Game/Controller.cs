@@ -10,7 +10,7 @@ namespace Game
     public class Controller
     {
         bool ismhod = false;
-        Board board;
+     
         int hod;
 
 
@@ -40,7 +40,7 @@ namespace Game
                 }
                 player2.CardArena1.Clear();
                 player2.IsHod = false;
-                player1.Mana += 1;
+                player2.Mana += 1;
             }
             else
             {
@@ -53,7 +53,7 @@ namespace Game
                 }
                 player1.CardArena1.Clear();
                 player2.IsHod = true;
-                player2.Mana += 1;
+                player1.Mana += 1;
             }
             //ismhod = true;
         }
@@ -86,32 +86,41 @@ namespace Game
         /// </summary>
         /// <param name="Player1"></param>
         /// <param name="Player2"></param>
-        public void GameStart(Player Player1, Player Player2)
+        Player FirstPl=null ;
+        public Player GameStart(Player Player1, Player Player2)
         {
             Player1.Health = 30;
-            Player2.Health = 30;
+         //   Player2.Health = 30;
             DistrOfCards(Player1);
-            DistrOfCards(Player2);
-            if (First(Player1, Player2) == Player1)
-            {
+           // DistrOfCards(Player2);
+            
                 Player1.Mana = 1;
-                Player2.Mana = 2;
-            }
-            else
-            {
-                Player1.Mana = 2;
                 Player2.Mana = 1;
-            }
+            
+            Player1.CardArena1 = Cardarena11;
+            Player1.CardArena2 = Cardarena12;
+            //Player2.CardArena1 = Cardarena21;
+           // Player2.CardArena2 = Cardarena22;
+            if (FirstPl == null)
+            { FirstPl = First(Player1, Player2); }
+            return FirstPl;
         }
         /// <summary>
         /// Раздача карт в начале игры
         /// </summary>
         /// <param name="Player"></param>
+        List<CardHeroes> list;
+        List<CardHeroes> Cardarena11 = new List<CardHeroes>();
+        List<CardHeroes> Cardarena12 = new List<CardHeroes>();
+        List<CardHeroes> Cardarena21 = new List<CardHeroes>();
+        List<CardHeroes> Cardarena22 = new List<CardHeroes>();
+        List<CardHeroes> CardHand = new List<CardHeroes>();
         private void DistrOfCards(Player Player)
         {
+            Player.CardHand = CardHand;
             Random R = new Random(0);
-            Card card;
-            int j = 30;
+            CardHeroes card;
+            int j = 15;
             for (int i = 0; i < 7; i++)
             {
                 card = Player.Deck[R.Next(j)];
@@ -144,14 +153,20 @@ namespace Game
         /// <param name="card"></param>
         public void ToArena(Player player, CardHeroes card)
         {
-            if (player.Mana <= card.Price && player.CardHand.Contains(card))
+            bool flag = false;
+            foreach(CardHeroes a in CardHand)
+            {
+                if (a == card) { flag = true; }
+            }
+            if (player.Mana >= card.Price && flag)
             {
                 if (card.Ability != null)
                 {
 
                 }
                 player.CardArena1.Add(card);
-
+                player.CardHand.Remove(card);
+                player.Mana=player.Mana-card.Price;
 
 
                 //перерисовка
