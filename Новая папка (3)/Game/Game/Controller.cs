@@ -10,7 +10,7 @@ namespace Game
     public class Controller
     {
         bool ismhod = false;
-     
+
         int hod;
 
 
@@ -86,17 +86,17 @@ namespace Game
         /// </summary>
         /// <param name="Player1"></param>
         /// <param name="Player2"></param>
-        Player FirstPl=null ;
+        Player FirstPl = null;
         public Player GameStart(Player Player1, Player Player2)
         {
             Player1.Health = 30;
             Player2.Health = 30;
             DistrOfCards(Player1);
             DistrOfCards(Player2);
-            
-                Player1.Mana = 1;
-                Player2.Mana = 1;
-            
+
+            Player1.Mana = 1;
+            Player2.Mana = 1;
+
             Player1.CardArena1 = Cardarena11;
             Player1.CardArena2 = Cardarena12;
             Player2.CardArena1 = Cardarena21;
@@ -154,7 +154,7 @@ namespace Game
         public void ToArena(Player player, CardHeroes card)
         {
             bool flag = false;
-            foreach(CardHeroes a in CardHand)
+            foreach (CardHeroes a in CardHand)
             {
                 if (a == card) { flag = true; }
             }
@@ -162,11 +162,11 @@ namespace Game
             {
                 if (card.Ability != null)
                 {
-
+                    Applicationability(player, card.Ability);
                 }
                 player.CardArena1.Add(card);
                 player.CardHand.Remove(card);
-                player.Mana=player.Mana-card.Price;
+                player.Mana = player.Mana - card.Price;
 
 
                 //перерисовка
@@ -178,13 +178,21 @@ namespace Game
 
         }
 
-        private void Applicationability(string Ability)
+        private void Applicationability(Player player, string Ability)
         {
             switch (Ability)
             {
-                case "":
+                case "plusHP"://+5hp к лицу
                     {
-
+                        player.Health += 5;
+                        break;
+                    }
+                case "plusmana"://+2mana, если mana<=8
+                    {
+                        if (player.Mana <= 8)
+                            player.Mana += 2;
+                        else if (player.Mana < 10)
+                            player.Mana += 1;
                         break;
                     }
             }
@@ -198,10 +206,17 @@ namespace Game
         /// <param name="CardAgressor"></param>
         /// <param name="CardVinctim"></param>
         public void AttackCard(Player playeragressor, Player playervinctim, CardHeroes CardAgressor, CardHeroes CardVinctim)
-        {if (playeragressor.CardArena2.Contains(CardAgressor))
+        {
+            if (CardAgressor.Power == 0 && CardAgressor.Health == 0)
+            {
+                Spell(playeragressor, playervinctim, CardAgressor, CardVinctim);
+                if (CardVinctim.Health <= 0) playervinctim.CardArena2.Remove(CardVinctim);
+
+            }
+            else
             {
                 CardVinctim.Health -= CardAgressor.Power;
-                CardAgressor.Health -= CardVinctim.Power;
+                CardAgressor.Health -= CardAgressor.Power;
                 if (CardAgressor.Health <= 0)
                 {
                     playeragressor.CardArena2.Remove(CardAgressor);
@@ -215,10 +230,7 @@ namespace Game
                     playervinctim.CardHand.Remove(CardVinctim);
                 }
             }
-            else
-            {
-              
-            }
+
             //перерисовка
 
         }
@@ -228,12 +240,24 @@ namespace Game
         /// <param name="playeragressor"></param>
         /// <param name="playervinctim"></param>
         /// <param name="CardAgressor"></param>
-        public void AttackLico(Player playeragressor, Player playervinctim, CardHeroes CardAgressor)
+        public void AttackLico(Player playeragressor, Player playervictim, CardHeroes CardAgressor)
         {
-            playervinctim.Health -= CardAgressor.Power;
-            if (playervinctim.Health <= 0)
+            if (CardAgressor.Power == 0 && CardAgressor.Health == 0)
             {
-                GameOver(playeragressor);
+                Spell(playeragressor, playervictim, CardAgressor);
+                if (playervictim.Health <= 0)
+                {
+                    GameOver(playeragressor);
+                }
+            }
+            else
+            {
+                playervictim.Health -= CardAgressor.Power;
+                if (playervictim.Health <= 0)
+                {
+                    GameOver(playeragressor);
+                }
+                playeragressor.Mana -= CardAgressor.Price;
             }
         }
 
@@ -243,9 +267,8 @@ namespace Game
         /// <param name="playeragressor"></param>
         /// <param name="playervinctim"></param>
         /// <param name="CardAgressor"></param>
-        public void Spell(Player playeragressor, Player playervinctim, CardHeroes CardAgressor, CardHeroes CardVinctim = null)
+        private void Spell(Player playeragressor, Player playervinctim, CardHeroes CardAgressor, CardHeroes CardVinctim = null)
         {
-            string result = "";
             switch (CardAgressor.Ability)
             {
                 case "damage2":
@@ -256,9 +279,10 @@ namespace Game
                             if (playeragressor.Mana <= CardAgressor.Price)
                             {
                                 playervinctim.Health -= 2;
-                                if (playervinctim.Health <= 0)
-                                    result = GameOver(playeragressor);
+                                //if (playervinctim.Health <= 0)
+                                //    result = GameOver(playeragressor);
                                 playeragressor.CardHand.Remove(CardAgressor);
+                                playeragressor.Mana -= CardAgressor.Price;
                             }
                             else
                             {
@@ -276,6 +300,8 @@ namespace Game
                                     playervinctim.CardArena2.Remove(CardVinctim);
                                 }
                                 playeragressor.CardHand.Remove(CardAgressor);
+                                playeragressor.Mana -= CardAgressor.Price;
+                                playeragressor.CardHand.Remove(CardAgressor);
                             }
                             else
                             {
@@ -284,23 +310,18 @@ namespace Game
                         }
                         break;
                     }
-                //возьмите X карт
-                case "take1cards":
-                    {
-                        Random R = new Random();
-                        playeragressor.CardHand.Add(playeragressor.Deck[R.Next(playeragressor.Deck.Count)]);
-                        break;
-                    }
-                //оппонент сбрасывает одну карту
+                //оппонент сбрасывает одну рандомную карту
                 case "opponentdiscardscard":
                     {
                         Random R = new Random();
                         playervinctim.CardHand.RemoveAt(R.Next(playervinctim.CardHand.Count));
+                        playeragressor.CardHand.Remove(CardAgressor);
                         break;
                     }
                 case "plushp3":
                     {
                         playeragressor.Health += 3;
+                        playeragressor.CardHand.Remove(CardAgressor);
                         break;
                     }
             }

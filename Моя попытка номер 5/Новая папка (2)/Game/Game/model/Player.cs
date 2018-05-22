@@ -14,10 +14,10 @@ namespace Game.model
         public int Mana { get; set; }
         public string Name { get; set; }
         public int Health { get; set; }
-        public IList <Card> CardArena1 { get; set; }
-        public IList<Card> CardArena2 { get; set; }
-        public IList <Card> Deck { get; set;}
-        public IList <Card> CardHand { get; set; }
+        public List <CardHeroes> CardArena1 { get; set; }
+        public List<CardHeroes> CardArena2 { get; set; }
+        public List <CardHeroes> Deck { get; set;}
+        public List <CardHeroes> CardHand { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public StatusGamer Status { set; get; }
         public bool IsHod { set; get; }

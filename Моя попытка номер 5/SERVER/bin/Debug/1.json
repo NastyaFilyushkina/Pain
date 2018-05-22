@@ -3,7 +3,8 @@
 "Name":"Veles",
 "Power":"5",
 "Health":"7",
-"Price":"6"
+"Price":"6",
+"Ability":"plusHP"
 },
 {
 "Name":"Vodyanoi",
@@ -27,13 +28,14 @@
 "Name":"Gorinich",
 "Power": "8",
 "Health": "8",
-"Price": "1"
+"Price": "5",
+"Ability":"plusmana"
 },
 {
 "Name":"Dajdbog",
 "Power": "8",
 "Health": "8",
-"Price": "1"
+"Price": "6"
 },
 {
 "Name":"Devana",
@@ -55,9 +57,8 @@
 },
 {
 "Name":"Krada",
-"Power": "5",
-"Health": "9",
-"Price": "7"
+"Price": "7",
+"Ability":"opponentdiscardscard"
 },
 {
 "Name":"Leshii",
@@ -73,15 +74,13 @@
 },
 {
 "Name":"Morena",
-"Power": "2",
-"Health": "2",
-"Price": "1"
+"Price": "1",
+"Ability":"damage2"
 },
 {
 "Name":"Ognenniicvetok",
-"Power": "6",
-"Health": "4",
-"Price": "1"
+"Price": "1",
+"Ability":"plushp3"
 },
 {
 "Name":"Perun",
@@ -106,6 +105,7 @@
 "Power": "6",
 "Health": "8",
 "Price": "1"
+
 },
 {
 "Name":"Svyatibor",

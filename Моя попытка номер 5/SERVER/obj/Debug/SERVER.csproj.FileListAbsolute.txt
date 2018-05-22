@@ -57,3 +57,5 @@ C:\Users\PC\Desktop\Победа1\Моя попытка номер 5\SERVER\bin\
 C:\Users\PC\Desktop\Победа1\Моя попытка номер 5\SERVER\obj\Debug\SERVER.csprojResolveAssemblyReference.cache
 C:\Users\я\Desktop\Pain\Моя попытка номер 5\SERVER\obj\Debug\SERVER.exe
 C:\Users\я\Desktop\Pain\Моя попытка номер 5\SERVER\obj\Debug\SERVER.pdb
+C:\Users\я\Desktop\Pain5\Моя попытка номер 5\SERVER\obj\Debug\SERVER.exe
+C:\Users\я\Desktop\Pain5\Моя попытка номер 5\SERVER\obj\Debug\SERVER.pdb
