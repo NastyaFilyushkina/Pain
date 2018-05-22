@@ -20,10 +20,34 @@ namespace Client
             client.MakeCards += MakeCards;
             client.ChangeToFormGame += changeToGame;
             client.MessForME += Mess;
+            client.MessForMEWait += MessW;
             this.client = client;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
         List<CardHeroes> allcards;
+        void MessW(string s)
+        {
+
+            if (this.InvokeRequired)
+            {
+                Wait.Invoke((MethodInvoker)(() => Wait.Visible = true));
+            }
+            else
+            {
+                Wait.Visible = true;
+            }
+            foreach (CardsForm a in Cards.Controls)
+            {
+                if (this.InvokeRequired)
+                {
+                    a.Invoke((MethodInvoker)(() => a.Visible = true));
+                }
+                else
+                {
+                    a.Visible = true;
+                }
+            }
+        }
         void Mess(string s)
         {
             MessageBox.Show(s);
@@ -47,7 +71,7 @@ namespace Client
         {
             allcards = list;
             int count = 0;
-            foreach (Control value in this.groupBox1.Controls)
+            foreach (Control value in this.Cards.Controls)
             {
                 if (value.InvokeRequired)
                 {
@@ -112,9 +136,29 @@ namespace Client
                         }
                     }
                 }
-                if (count < 15) { Ready.Visible = false; }
+                if (count < 15)
+                {
+                    if (Ready.InvokeRequired)
+                    {
+                        Ready.Invoke((MethodInvoker)(() => Ready.Visible = false));
+                    }
+                    else
+                    {
+                        Ready.Visible = false;
+                    }
+                }
                 else
-            if (count == 15) Ready.Visible = true;
+            if (count == 15)
+                {
+                    if (Ready.InvokeRequired)
+                    {
+                        Ready.Invoke((MethodInvoker)(() => Ready.Visible = true));
+                    }
+                    else
+                    {
+                        Ready.Visible = true;
+                    }
+                }
 
             }
         }
@@ -126,8 +170,31 @@ namespace Client
         private void ChooseListOfYourCards_Resize(object sender, EventArgs e)
         {
             label2.Location = new Point(this.Width / 2 - label2.Width / 2, label2.Height / 4);
-            groupBox1.Location = new Point(this.Width / 2 - groupBox1.Width / 2, label2.Height / 4 + label2.Height);
-            Ready.Location = new Point(this.Width / 2 - Ready.Width / 2, label2.Height / 4 + label2.Height + groupBox1.Height);
+            Cards.Location = new Point(this.Width / 2 - Cards.Width / 2, label2.Height / 4 + label2.Height);
+            Ready.Location = new Point(this.Width / 2 - Ready.Width / 2, label2.Height / 4 + label2.Height + Cards.Height);
+            if (count < 15)
+            {
+                if (Ready.InvokeRequired)
+                {
+                    Ready.Invoke((MethodInvoker)(() => Ready.Visible = false));
+                }
+                else
+                {
+                    Ready.Visible = false;
+                }
+            }
+            else
+           if (count == 15)
+            {
+                if (Ready.InvokeRequired)
+                {
+                    Ready.Invoke((MethodInvoker)(() => Ready.Visible = true));
+                }
+                else
+                {
+                    Ready.Visible = true;
+                }
+            }
 
         }
     }

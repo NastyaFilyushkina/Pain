@@ -24,10 +24,29 @@ namespace Client
             client.MessForME += messforme;
             client.CardOnABoard += CardOnABoard;
             client.CardOnOtherABoard += CardOnAOtherBoard;
+            client.IfEnemyLeft += IFENEMYLEFT;
             this.client = client;
             client.ChangeAftepStep += ChangeAfterStep;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+        }bool ICloser = true;
+        void IFENEMYLEFT(string a)
+        {
+            ICloser = false;
+            Application.OpenForms[2].Invoke((MethodInvoker)(() =>
+                      Application.OpenForms[2].Close())) ;
+
+            //Form ifrm1 = Application.OpenForms[1];
+           // ifrm1.Close();
+            // вызываем главную форму, которая открыла текущую, главная форма всегда = 0 - [0]
+            Form ifrm = Application.OpenForms[0];
+            ifrm.Invoke((MethodInvoker)(() => ifrm.StartPosition = FormStartPosition.Manual));
+            ifrm.Invoke((MethodInvoker)(() => ifrm.Left = this.Left));
+            ifrm.Invoke((MethodInvoker)(() => ifrm.Top = this.Top));
+            ifrm.Invoke((MethodInvoker)(() => ifrm.Show()));// меняем параметр StartPosition у Form1, иначе она будет использовать тот, который у неё прописан в настройках и всегда будет открываться по центру экрана
+            // отображаем Form1
+            MessageBox.Show(a);
+
         }
         public void CardOnABoard(CardHeroes card)
         {
@@ -438,6 +457,33 @@ namespace Client
             client.EndSteps();
         }
 
+        private void Batll_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (ICloser != false)
+            {
+
+                DialogResult result = MessageBox.Show("Вы хотите покинуть игру?", "ВНИМАНИЕ!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.No) //Если нажал нет
+                {
+
+                }
+
+                if (result == DialogResult.Yes) //Если нажал Да
+                {
+                    client.SendIFCLose();
+                    Form ifrm1 = Application.OpenForms[1];
+                    ifrm1.Close();
+                    // вызываем главную форму, которая открыла текущую, главная форма всегда = 0 - [0]
+                    Form ifrm = Application.OpenForms[0];
+                    ifrm.StartPosition = FormStartPosition.Manual; // меняем параметр StartPosition у Form1, иначе она будет использовать тот, который у неё прописан в настройках и всегда будет открываться по центру экрана
+                    ifrm.Left = this.Left; // задаём открываемой форме позицию слева равную позиции текущей формы
+                    ifrm.Top = this.Top; // задаём открываемой форме позицию сверху равную позиции текущей формы
+                    ifrm.Show(); // отображаем Form1
+                }
+
+            }
+        }
     }
 }
 

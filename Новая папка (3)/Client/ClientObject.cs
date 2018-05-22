@@ -29,80 +29,73 @@ namespace Client
                 SendMessage("Сервер отключен");
             }
         }
-        // Queue<string> que = new Queue<string>();
+
         public void ClObjProcess()
         {
 
-            
+
             NetworkStream stream = null;
-            // try
+            //try
+            //{
+            stream = client.GetStream();
+            byte[] data = new byte[1024]; // буфер для получаемых данных
+            RegPacket pack = new RegPacket();
+            pack.Command = PacketsToServer.RegPacket;
+            pack.Name = name;
+            string mes = JsonConvert.SerializeObject(pack) + "$";
+            Thread.Sleep(5);
+            Send(mes);
+            while (true)
             {
-                stream = client.GetStream();
-                byte[] data = new byte[1024]; // буфер для получаемых данных
-                RegPacket pack = new RegPacket();
-                pack.Command = PacketsToServer.RegPacket;
-                pack.Name = name;
-                string mes = JsonConvert.SerializeObject(pack) + "$";
-                Thread.Sleep(5);
-                Send(mes);
-                while (true)
+                // получаем сообщение
+                StringBuilder builder = new StringBuilder();
+                int bytes = 0;
+
+                do
                 {
-                    // получаем сообщение
-                    StringBuilder builder = new StringBuilder();
-                    int bytes = 0;
-
-                    do
-                    {
-                        bytes = stream.Read(data, 0, data.Length);
-                        builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
-                    }
-                    while (stream.DataAvailable);
-                    string message = builder.ToString();
-                    Queue<string> qupackets = new Queue<string>();
-                    if (message != "")
-                    {
-                        string[] cases = message.Split('$');
-                        for (int i = 0; i < cases.Length; i++)
-                        {
-                            if (cases[i] != "")
-                                qupackets.Enqueue(cases[i]);
-                        }
-                        while (qupackets.Count != 0)
-                        {
-                            ReciveMesFromServ(qupackets.Dequeue());
-                        }
-                    }
-
+                    bytes = stream.Read(data, 0, data.Length);
+                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
 
                 }
+                while (stream.DataAvailable);
+                string message = builder.ToString();
+                Queue<string> qupackets = new Queue<string>();
+                if (message != "")
+                {
+                    string[] cases = message.Split('$');
+                    for (int i = 0; i < cases.Length; i++)
+                    {
+                        if (cases[i] != "")
+                            qupackets.Enqueue(cases[i]);
+                    }
+                    while (qupackets.Count != 0)
+                    {
+                        ReciveMesFromServ(qupackets.Dequeue());
+                    }
+                }
+
 
             }
-            //catch (Exception ex)
-            //{
 
-            //}
-            //finally
-            //{
-            //    if (stream != null)
-            //        stream.Close();
-            //    if (client != null)
-            //        client.Close();
-            //}
         }
+        //catch (Exception ex)
+        //{
+
+        //}
+        //finally
+        //{
+        //    if (stream != null)
+        //        stream.Close();
+        //    if (client != null)
+        //        client.Close();
+        //}
+    
         static private void Send(string mes)
         {
 
             Byte[] sendBytes = Encoding.Unicode.GetBytes(mes);
             client.GetStream().Write(sendBytes, 0, sendBytes.Length);
-            //Console.WriteLine(" >> " + strpacket);
-            // networkStream.Close();
-            //  client.GetStream().Flush();
-            //NetworkStream networkStream = client.GetStream();
-            //Byte[] sendBytes = Encoding.Unicode.GetBytes(mes);
-            //networkStream.Write(sendBytes, 0, sendBytes.Length);
-            ////Console.WriteLine(" >> " + strpacket);
-            //// client.Close();  
-            //networkStream.Close();
+          
         }
         public event Action ChangeFormToNewForm;
         public event Action<string> SendMessage;
@@ -110,12 +103,14 @@ namespace Client
         public event Action<List<string>> ChangeForm1;
         public event Action<List<string>> ChangeForm2;
         public event Action<string> MessForME;
+        public event Action<string> MessForMEWait;
         public event Action<List<CardHeroes>> MakeCards;
         public event Action ChangeFormCard;
         public event Action ChangeToFormGame;
         public event Action CardClose;
         public event Action<CardHeroes> CardOnABoard;
         public event Action<CardHeroes> CardOnOtherABoard;
+        public event Action<string> IfEnemyLeft;
         public event Action <bool ,int ,string ,int ,int ,List<CardHeroes>,string, List<CardHeroes>> ChangeGameForm;
         public event Action<bool, int, string, int, int, List<CardHeroes>, List<CardHeroes>> ChangeAftepStep;
         public void ReciveMesFromServ(string message)
@@ -187,7 +182,7 @@ namespace Client
                     if (errEnemy.ISErr != false && ISCardRight == true)
                     {
                         ISCardRightEnemy = false;
-                        MessForME("подождите, ваш противник еще выбирает карты");
+                        MessForMEWait("подождите, ваш противник еще выбирает карты");
                         // CardClose();//добавить обработчик
                     }
                     if (ISCardRightEnemy == true && ISCardRight == true)
@@ -221,6 +216,9 @@ namespace Client
                     SendDataToUsers Data = JsonConvert.DeserializeObject<SendDataToUsers>(message);
                     ChangeAftepStep(Data.AmIFirst, Data.EnemyHealth, enemyName, Data.MyHealth, Data.MyMana, Data.Arena1, Data.Arena2);
                     break;
+                case PacketsToServer.EnemyLeftGamePacket:
+                    IfEnemyLeft("Ваш противник сдался! Вы выйграли!");
+                    break;
             }
         }
         //
@@ -229,7 +227,11 @@ namespace Client
         bool ISCardRightEnemy = false;
         public void SendIFCLose()
         {
-
+            EnemyLeftGamePacket pack = new EnemyLeftGamePacket();
+            pack.Command = PacketsToServer.EnemyLeftGamePacket;
+            pack.login = name;
+            string mes = JsonConvert.SerializeObject(pack) + "$";
+            Send(mes);
         }
         public void EndSteps()
         {
@@ -262,6 +264,14 @@ namespace Client
             wait.Command = PacketsToServer.WaitGamePacket;
             wait.login = name;
             string mes = JsonConvert.SerializeObject(wait) + "$";
+            Send(mes);
+        }
+        public void SendIleft()
+        {
+            EnemyLeftGamePacket left = new EnemyLeftGamePacket();
+            left.Command = PacketsToServer.WaitGamePacket;
+            left.login = name;
+            string mes = JsonConvert.SerializeObject(left) + "$";
             Send(mes);
         }
         public void StepToSend(CardHeroes EnemyCard, CardHeroes MyCard)

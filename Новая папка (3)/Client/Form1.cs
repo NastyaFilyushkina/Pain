@@ -24,20 +24,24 @@ namespace Client
                 bool flag = (bool)NameTextBox.Invoke((MethodInvoker)(() => Equals(NameTextBox.Text, "")));
                 if (!flag)
                 {
-                    ErrorMessage.Invoke((MethodInvoker)(() => ErrorMessage.Text="Введите имя"));
+                    ErrorMessage.Invoke((MethodInvoker)(() => ErrorMessage.Text = "Введите имя"));
                 }
                 else
                 {
-                    NameTextBox.Invoke((MethodInvoker)(() => name = NameTextBox.Text));
-                    client = new ClientObject(name);
-                    client.ChangeForm += ChangeForm;
-                    client.SendMessage += Message;
-                    client.ChangeForm1 += ChandeForm1;
-                    client.ChangeForm2 += ChandeForm2;
-                    client.MessForME += MessFORme;
-                    client.ChangeFormToNewForm += ChangeToNewFormListCard;
-                    threadcl = new Thread(new ThreadStart(client.ClObjProcess));
-                    threadcl.Start();
+                    try
+                    {
+                        NameTextBox.Invoke((MethodInvoker)(() => name = NameTextBox.Text));
+                        client = new ClientObject(name);
+                        client.ChangeForm += ChangeForm;
+                        client.SendMessage += Message;
+                        client.ChangeForm1 += ChandeForm1;
+                        client.ChangeForm2 += ChandeForm2;
+                        client.MessForME += MessFORme;
+                        client.ChangeFormToNewForm += ChangeToNewFormListCard;
+                        threadcl = new Thread(new ThreadStart(client.ClObjProcess));
+                        threadcl.Start();
+                    }
+                    catch { MessageBox.Show("Извините, сервер выключен, попробуйте позже"); }
                 }
             }
             else
@@ -48,16 +52,20 @@ namespace Client
                 }
                 else
                 {
-                    name = NameTextBox.Text;
-                    client = new ClientObject(name);
-                    client.ChangeForm += ChangeForm;
-                    client.SendMessage += Message;
-                    client.ChangeForm1 += ChandeForm1;
-                    client.ChangeForm2 += ChandeForm2;
-                    client.MessForME += MessFORme;
-                    client.ChangeFormToNewForm += ChangeToNewFormListCard;
-                    threadcl = new Thread(new ThreadStart(client.ClObjProcess));
-                    threadcl.Start();
+                    try
+                    {
+                        name = NameTextBox.Text;
+                        client = new ClientObject(name);
+                        client.ChangeForm += ChangeForm;
+                        client.SendMessage += Message;
+                        client.ChangeForm1 += ChandeForm1;
+                        client.ChangeForm2 += ChandeForm2;
+                        client.MessForME += MessFORme;
+                        client.ChangeFormToNewForm += ChangeToNewFormListCard;
+                        threadcl = new Thread(new ThreadStart(client.ClObjProcess));
+                        threadcl.Start();
+                    }
+                    catch { MessageBox.Show("Извините, сервер выключен, попробуйте позже"); }
                 }
             }
       
@@ -155,6 +163,15 @@ namespace Client
         //}
         public void ChandeForm1(List<string> list)
         {
+            //if (this.InvokeRequired)
+            //{
+            //    ListOfPlayers.Invoke((MethodInvoker)(() => ListOfPlayers.Items.Clear()));
+            //}
+            //else
+            //{
+            //    ListOfPlayers.Items.Clear();
+            //}
+
             if (list != null)
             {
                 //ListOfPlayers.Items.Clear();
@@ -170,6 +187,15 @@ namespace Client
         }
         public void ChandeForm2(List<string> list)
         {
+        //    if (this.InvokeRequired)
+        //    {
+        //        ListOfPlayers.Invoke((MethodInvoker)(() => ListOfPlayers.Items.Clear()));
+        //    }
+        //    else
+        //    {
+        //        ListOfPlayers.Items.Clear();
+        //    }
+
             // ListOfReadyPlayer.Items.Clear();
             foreach (string player in list)
             {
@@ -232,15 +258,13 @@ namespace Client
             
         }
         string nameenemy;
-
-       
-        
-   
         private void MainMenu_FormClosed(object sender, FormClosedEventArgs e)
         {
-            
-            client.SendQAIFEXIT(name);
-            threadcl.Abort();
+            if (client != null)
+            {
+                client.SendQAIFEXIT(name);
+                threadcl.Abort();
+            }
         }
 
         private void ListOfReadyPlayer_SelectedIndexChanged(object sender, EventArgs e)
@@ -251,8 +275,8 @@ namespace Client
         private void MainMenu_Resize(object sender, EventArgs e)
         {
             if (this.Size != new System.Drawing.Size(1366, 768))
-                this.BackgroundImage = Resource1.ФОН1;
-            else this.BackgroundImage = Resource1.ФОН;
+                this.BackgroundImage = Resource1.ФОН;
+            else this.BackgroundImage = Resource1.ФОН1;
             NameTextBox.Location = new System.Drawing.Point(this.Width / 2 - NameTextBox.Width / 4, this.Height - 3 * SignINBut.Height - NameTextBox.Height);
             SignINBut.Location = new System.Drawing.Point(this.Width / 2 - SignINBut.Width / 2, this.Height - 3 * SignINBut.Height + NameUserLabel.Height / 2);
             NameUserLabel.Location = new System.Drawing.Point(this.Width / 2 - NameTextBox.Width - NameUserLabel.Width / 6, this.Height - 3 * SignINBut.Height - NameUserLabel.Height);

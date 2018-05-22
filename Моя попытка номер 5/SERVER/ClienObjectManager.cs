@@ -24,62 +24,64 @@ namespace SERVER
         NetworkStream stream = null;
         public void Proccess()
         {
-            // try
-            // {
-            stream = client.GetStream();
-            byte[] data = new byte[1024]; // буфер для получаемых данных
-            while (true)
+            try
             {
-                // получаем сообщение
-                StringBuilder builder = new StringBuilder();
-                int bytes = 0;
-
-                do
+                stream = client.GetStream();
+                byte[] data = new byte[1024]; // буфер для получаемых данных
+                while (true)
                 {
-                    bytes = stream.Read(data, 0, data.Length);
-                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
-                }
-                while (stream.DataAvailable);
-                string message = builder.ToString();
-                Queue<string> qupackets = new Queue<string>();
-                if (message != "")
-                {
-                    string[] cases = message.Split('$');
-                    for (int i = 0; i < cases.Length; i++)
-                    {
-                        if (cases[i] != "")
-                            qupackets.Enqueue(cases[i]);
-                    }
-                    while (qupackets.Count != 0)
-                    {
-                        
-                        ReciveMessages(qupackets.Dequeue());
-                    }
-                }
-            } }
-        //    }
-        //    catch (Exception ex)
-        //    {
+                    // получаем сообщение
+                    StringBuilder builder = new StringBuilder();
+                    int bytes = 0;
 
-        //    }
-        //    finally
-        //    {
-        //        //Console.WriteLine("Клиент покинул игру");
-        //        //foreach (Player a in ServerMain.gameclients)
-        //        //{
-        //        //    if (a.Name == clientinf.Name)
-        //        //    {
-        //        //        ServerMain.gameclients.Remove(a);
-        //        //        ServerMain.FirstList.Remove(a.Name);
-        //        //    }
-        //        //}
-        //        // ServerMain.FirstList.Remove(room.Player1.Name);
-        //        if (stream != null)
-        //            stream.Close();
-        //        if (client != null)
-        //            client.Close();
-        //    }
-        //}
+                    do
+                    {
+                        bytes = stream.Read(data, 0, data.Length);
+                        builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                    }
+                    while (stream.DataAvailable);
+                    string message = builder.ToString();
+                    Queue<string> qupackets = new Queue<string>();
+                    if (message != "")
+                    {
+                        string[] cases = message.Split('$');
+                        for (int i = 0; i < cases.Length; i++)
+                        {
+                            if (cases[i] != "")
+                                qupackets.Enqueue(cases[i]);
+                        }
+                        while (qupackets.Count != 0)
+                        {
+
+                            ReciveMessages(qupackets.Dequeue());
+                        }
+                    }
+                }
+            }
+
+
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                //Console.WriteLine("Клиент покинул игру");
+                //foreach (Player a in ServerMain.gameclients)
+                //{
+                //    if (a.Name == clientinf.Name)
+                //    {
+                //        ServerMain.gameclients.Remove(a);
+                //        ServerMain.FirstList.Remove(a.Name);
+                //    }
+                //}
+                // ServerMain.FirstList.Remove(room.Player1.Name);
+                if (stream != null)
+                    stream.Close();
+                if (client != null)
+                    client.Close();
+            }
+        }
 
         public void SendToEnemy(string mes, string Enemy)
         {
@@ -264,14 +266,14 @@ namespace SERVER
                 case PacketsToServer.EXIT:
                     Exit ex = JsonConvert.DeserializeObject<Exit>(message);
                     Console.WriteLine("Клиент покинул игру");
-                    //foreach (Player b in ServerMain.gameclients)
-                    //{
-                    //    if (b.Name == ex.login)
-                    //    {
-                    //        ServerMain.gameclients.Remove(b);
-                    //        ServerMain.FirstList.Remove(b.Name);
-                    //    }
-                    //}
+                    foreach (Player b in ServerMain.gameclients)
+                    {
+                        if (b.Name == ex.login)
+                        {
+                            ServerMain.gameclients.Remove(b);
+                          //  ServerMain.FirstList.Remove(b.Name);
+                        }
+                    }
                     ListOfAllClients list1 = new ListOfAllClients();
                     list1.Command = PacketsToServer.ListOfAllClients;
                     list1.ListAllClients = makelist();
@@ -456,6 +458,34 @@ namespace SERVER
                         error.Command = PacketsToServer.Error;
                         error.ErrorToUser = MessagesToClientErrors.NotEnouthMana;
                     }
+                    break;
+                case PacketsToServer.EnemyLeftGamePacket:
+                    EnemyLeftGamePacket left = JsonConvert.DeserializeObject<EnemyLeftGamePacket>(message);
+                    EnemyLeftGamePacket newleft = new EnemyLeftGamePacket();
+                    newleft.Command = PacketsToServer.EnemyLeftGamePacket;
+                    newleft.login = left.login;
+                    strpacket = JsonConvert.SerializeObject(newleft) + "$";
+                    if (ServerMain.rooms[clientinf.NumRoom].Player1 == clientinf)
+                    {
+                        SendToEnemy(strpacket, ServerMain.rooms[clientinf.NumRoom].Player2.Name);
+                        foreach (Player player in ServerMain.gameclients)
+                        {
+                            if (player == clientinf || player == ServerMain.rooms[clientinf.NumRoom].Player2) { player.Status = StatusGamer.sleeping; sendingList(); }
+                    }
+                    }
+                    else
+                    {
+                        SendToEnemy(strpacket, ServerMain.rooms[clientinf.NumRoom].Player1.Name);
+                        foreach (Player player in ServerMain.gameclients)
+                        {
+                            if (player == clientinf || player == ServerMain.rooms[clientinf.NumRoom].Player2) { player.Status = StatusGamer.sleeping;sendingList(); }
+                    }
+                    }
+                 
+                    ServerMain.gameclients.Remove(WhoIsHe(left.login));
+                    ServerMain.FirstList.Remove(left.login);
+                    ServerMain.rooms.Remove(ServerMain.rooms[clientinf.NumRoom]);
+                
                     break;
 
             }
