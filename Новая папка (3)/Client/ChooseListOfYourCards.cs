@@ -19,9 +19,14 @@ namespace Client
             InitializeComponent();
             client.MakeCards += MakeCards;
             client.ChangeToFormGame += changeToGame;
+            client.MessForME += Mess;
             this.client = client;
         }
         List<CardHeroes> allcards;
+        void Mess(string s)
+        {
+            MessageBox.Show(s);
+        }
         void changeToGame()
         {
             if (this.InvokeRequired)

@@ -43,7 +43,7 @@ namespace Client
                 pack.Command = PacketsToServer.RegPacket;
                 pack.Name = name;
                 string mes = JsonConvert.SerializeObject(pack) + "$";
-
+                Thread.Sleep(5);
                 Send(mes);
                 while (true)
                 {

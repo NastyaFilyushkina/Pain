@@ -90,17 +90,17 @@ namespace Game
         public Player GameStart(Player Player1, Player Player2)
         {
             Player1.Health = 30;
-         //   Player2.Health = 30;
+            Player2.Health = 30;
             DistrOfCards(Player1);
-           // DistrOfCards(Player2);
+            DistrOfCards(Player2);
             
                 Player1.Mana = 1;
                 Player2.Mana = 1;
             
             Player1.CardArena1 = Cardarena11;
             Player1.CardArena2 = Cardarena12;
-            //Player2.CardArena1 = Cardarena21;
-           // Player2.CardArena2 = Cardarena22;
+            Player2.CardArena1 = Cardarena21;
+            Player2.CardArena2 = Cardarena22;
             if (FirstPl == null)
             { FirstPl = First(Player1, Player2); }
             return FirstPl;

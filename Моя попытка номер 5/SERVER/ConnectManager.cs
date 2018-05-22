@@ -35,9 +35,11 @@ namespace SERVER
                     
                     Console.WriteLine("Клиент подключен");
                     ClienObjectManager clientObject = new ClienObjectManager(client);
+                  
                     // создаем новый поток для обслуживания нового клиента
                     Thread clientThread = new Thread(new ThreadStart(clientObject.Proccess));
                     clientThread.Start();
+                   
 
                 }
             }

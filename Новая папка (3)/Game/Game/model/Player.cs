@@ -55,10 +55,13 @@ namespace Game.model
         {
             try
             {
+                
                 if (a.Name != b.Name || a.Health != b.Health) { return true; } else return false;
             }
             catch
             {
+
+
                 return true;
             }
 

@@ -40,6 +40,10 @@ namespace Game.model
             }
             catch
             {
+                if (a != null || b != null)
+                {
+                    return false;
+                }
                 return true;
             }
         }
