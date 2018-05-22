@@ -9,9 +9,10 @@ namespace Client
     {
         public MainMenu()
         {
+
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            
+
         }
          string name;
       public  ClientObject client;
@@ -245,6 +246,28 @@ namespace Client
         private void ListOfReadyPlayer_SelectedIndexChanged(object sender, EventArgs e)
         {
             nameenemy = ListOfReadyPlayer.SelectedItem.ToString();
+        }
+
+        private void MainMenu_Resize(object sender, EventArgs e)
+        {
+            if (this.Size != new System.Drawing.Size(1366, 768))
+                this.BackgroundImage = Resource1.ФОН1;
+            else this.BackgroundImage = Resource1.ФОН;
+            NameTextBox.Location = new System.Drawing.Point(this.Width / 2 - NameTextBox.Width / 4, this.Height - 3 * SignINBut.Height - NameTextBox.Height);
+            SignINBut.Location = new System.Drawing.Point(this.Width / 2 - SignINBut.Width / 2, this.Height - 3 * SignINBut.Height + NameUserLabel.Height / 2);
+            NameUserLabel.Location = new System.Drawing.Point(this.Width / 2 - NameTextBox.Width - NameUserLabel.Width / 6, this.Height - 3 * SignINBut.Height - NameUserLabel.Height);
+            SettingsBUT.Location = new System.Drawing.Point(this.Width / 2 - SettingsBUT.Width / 2, this.Height / 2 - SettingsBUT.Height / 2);
+            StartGameBUT.Location = new System.Drawing.Point(this.Width / 2 - StartGameBUT.Width / 2, this.Height / 2 - 2 * SettingsBUT.Height);
+            EscapeBUT.Location = new System.Drawing.Point(this.Width / 2 - EscapeBUT.Width / 2, this.Height / 2 + SettingsBUT.Height);
+            Title.Location = new System.Drawing.Point(this.Width / 2, Title.Height / 2);
+            Status.Location = new System.Drawing.Point(this.Width / 2 - Status.Width - Title.Width / 4, Status.Height / 2);
+            ListOfPlayers.Location = new System.Drawing.Point(this.Width / 2, 2 * Title.Height);
+            groupChoose.Location = new System.Drawing.Point(this.Width / 2 - groupChoose.Width - Title.Width / 4, 2 * Status.Height);
+            Title2.Location = new System.Drawing.Point(this.Width / 2, 2 * Title.Height + ListOfPlayers.Height + Title.Height / 2);
+            ListOfReadyPlayer.Location = new System.Drawing.Point(this.Width / 2, 2 * Title.Height + ListOfPlayers.Height + Title.Height);
+            RandomEnemyBUT.Location = new System.Drawing.Point(this.Width / 2 - Title.Width / 4 - RandomEnemyBUT.Width, 2 * Status.Height + groupChoose.Height + Status.Height / 2);
+            ChooseEnemyBUT.Location = new System.Drawing.Point(this.Width / 2 - Title.Width / 4 - RandomEnemyBUT.Width, 4 * Status.Height + groupChoose.Height + RandomEnemyBUT.Height);
+
         }
     }
 }

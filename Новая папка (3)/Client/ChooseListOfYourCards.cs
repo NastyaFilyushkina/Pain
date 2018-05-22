@@ -21,6 +21,7 @@ namespace Client
             client.ChangeToFormGame += changeToGame;
             client.MessForME += Mess;
             this.client = client;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
         List<CardHeroes> allcards;
         void Mess(string s)
@@ -120,6 +121,14 @@ namespace Client
         private void Ready_Click(object sender, EventArgs e)
         {
             client.SendListCard(koloda);
+        }
+
+        private void ChooseListOfYourCards_Resize(object sender, EventArgs e)
+        {
+            label2.Location = new Point(this.Width / 2 - label2.Width / 2, label2.Height / 4);
+            groupBox1.Location = new Point(this.Width / 2 - groupBox1.Width / 2, label2.Height / 4 + label2.Height);
+            Ready.Location = new Point(this.Width / 2 - Ready.Width / 2, label2.Height / 4 + label2.Height + groupBox1.Height);
+
         }
     }
 }

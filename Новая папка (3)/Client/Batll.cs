@@ -26,6 +26,8 @@ namespace Client
             client.CardOnOtherABoard += CardOnAOtherBoard;
             this.client = client;
             client.ChangeAftepStep += ChangeAfterStep;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
         public void CardOnABoard(CardHeroes card)
         {
@@ -435,6 +437,7 @@ namespace Client
         {
             client.EndSteps();
         }
+
     }
 }
 

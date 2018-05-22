@@ -107,3 +107,5 @@ C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.MainM
 C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.Properties.Resources.resources
 C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.Resource1.resources
 C:\Users\я\Desktop\Pain\Новая папка (3)\Client\obj\Debug\Client.csproj.GenerateResource.Cache
+C:\Users\я\Desktop\Pain3\Новая папка (3)\Client\obj\Debug\Client.exe
+C:\Users\я\Desktop\Pain3\Новая папка (3)\Client\obj\Debug\Client.pdb
