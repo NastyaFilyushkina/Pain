@@ -441,7 +441,8 @@ namespace SERVER
                 case PacketsToServer.PacketArenaCardNow:
                     PacketArenaCardNow parcadnow = JsonConvert.DeserializeObject<PacketArenaCardNow>(message);
                     if (parcadnow.MyCard.Price <= this.clientinf.Mana)
-                    {
+                    { 
+                        
                         controller.ToArena(this.clientinf, parcadnow.MyCard);
                         CardOnABoard card = new CardOnABoard();
                         card.Command = PacketsToServer.CardOnABoard;
@@ -587,7 +588,7 @@ namespace SERVER
 
         public void GameStep(CardHeroes EnemyCard, CardHeroes MyCard, Player Enemy)
         {
-            if (EnemyCard == null)
+            if (EnemyCard.Name == Enemy.Name)
             {
                 controller.AttackLico(this.clientinf, Enemy, (CardHeroes)MyCard);
                 if (Enemy.Health <= 0)

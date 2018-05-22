@@ -60,6 +60,7 @@ namespace Client
                      CardHand.Remove(card);
                         a.Invoke((MethodInvoker)(() =>
                         a.Visible = false));
+
                         CardHand.Remove(card);
                         a.Invoke((MethodInvoker)(() =>
                         a.NameCards = ""));
@@ -81,6 +82,8 @@ namespace Client
             {
                 if (b.Visible == false)
                 {
+                    b.Invoke((MethodInvoker)(() =>
+                    b.Enabled = false));
                     card.Index = b.Index;
                     b.Invoke((MethodInvoker)(() =>
                     b.Visible = true));
@@ -149,8 +152,8 @@ namespace Client
                         a.Invoke((MethodInvoker)(() => flag = (bool)Equals(a.Image, null)));
                         if (flag)
                         {
-                            // a.Index = count;
-                            FirstInHand[i].Index = a.Index;
+                             
+                            CardHand[i].Index = a.Index;
                             a.Invoke((MethodInvoker)(() => a.Index = pMyHand.Controls.IndexOf(a)));
                             a.Invoke((MethodInvoker)(() => a.Image = (Image)Resource1.ResourceManager.GetObject(FirstInHand[i].Name)));
                             a.Invoke((MethodInvoker)(() => a.NameCards = FirstInHand[i].Name));
@@ -218,6 +221,7 @@ namespace Client
                                         a.Invoke((MethodInvoker)(() => a.Power = Arena1[i].Power));
                                         a.Invoke((MethodInvoker)(() => a.Health = Arena1[i].Health));
                                         a.Invoke((MethodInvoker)(() => a.Price = Arena1[i].Price));
+                                        a.Invoke((MethodInvoker)(() => a.Enabled = false));
 
                                         break;
                                     }
@@ -307,6 +311,7 @@ namespace Client
         }
         CardsForm choosenCard;
         CardsForm choosenEnemyCard;
+
         private void bArena_Click(object sender, EventArgs e)
         {
             int count = pMyHand.Controls.IndexOf(choosenCard);
@@ -335,7 +340,7 @@ namespace Client
                 {
                     choosenEnemyCard.ISPRESSED = false;
                     choosenEnemyCard = null;
-                    choosenEnemyCard.Index = -1;
+                    
                     card.BackgroundImage = Resource1.ФОН_ЛИСТА;
                     Step.Visible = false;
                 }
@@ -405,7 +410,7 @@ namespace Client
                     card.BackgroundImage = Resource1.ФОН_ЛИСТА;
                     card.ISPRESSED = false;
                     choosenCard = null;
-                    choosenCard.Index = 0;
+              
                     bArena.Visible = false;
                 }
             }

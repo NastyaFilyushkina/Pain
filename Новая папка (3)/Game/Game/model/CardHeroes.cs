@@ -7,7 +7,7 @@
         public int Power { get; set; }//сила
         public int Health { get; set; }//здоровье
         public string Ability { get; set; }//способность
-
+        public int Index { set; get; }
         public CardHeroes(string Name, int Price, int Power = 0, int Health = 0, string Ability = null)
         {
             this.Name = Name;

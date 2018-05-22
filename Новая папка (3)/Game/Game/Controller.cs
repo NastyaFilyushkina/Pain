@@ -198,22 +198,27 @@ namespace Game
         /// <param name="CardAgressor"></param>
         /// <param name="CardVinctim"></param>
         public void AttackCard(Player playeragressor, Player playervinctim, CardHeroes CardAgressor, CardHeroes CardVinctim)
-        {
-            CardVinctim.Health -= CardAgressor.Power;
-            CardAgressor.Health -= CardAgressor.Power;
-            if (CardAgressor.Health <= 0)
+        {if (playeragressor.CardArena2.Contains(CardAgressor))
             {
-                playeragressor.CardArena2.Remove(CardAgressor);
+                CardVinctim.Health -= CardAgressor.Power;
+                CardAgressor.Health -= CardVinctim.Power;
+                if (CardAgressor.Health <= 0)
+                {
+                    playeragressor.CardArena2.Remove(CardAgressor);
+                }
+                if (CardVinctim.Health <= 0)
+                {
+                    if (playervinctim.CardArena1.Contains(CardVinctim))
+                        playervinctim.CardArena1.Remove(CardVinctim);
+                    else if (playervinctim.CardArena2.Contains(CardVinctim))
+                        playervinctim.CardArena2.Remove(CardVinctim);
+                    playervinctim.CardHand.Remove(CardVinctim);
+                }
             }
-            if (CardVinctim.Health <= 0)
+            else
             {
-                if (playervinctim.CardArena1.Contains(CardVinctim))
-                    playervinctim.CardArena1.Remove(CardVinctim);
-                else if (playervinctim.CardArena2.Contains(CardVinctim))
-                    playervinctim.CardArena2.Remove(CardVinctim);
-                playervinctim.CardHand.Remove(CardVinctim);
+              
             }
-
             //перерисовка
 
         }
