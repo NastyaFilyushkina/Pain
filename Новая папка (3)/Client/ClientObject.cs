@@ -120,8 +120,9 @@ namespace Client
         public event Action<CardHeroes> CardOnABoard;
         public event Action<CardHeroes> CardOnOtherABoard;
         public event Action<string> IfEnemyLeft;
-        public event Action <bool ,int ,string ,int ,int ,List<CardHeroes>,string, List<CardHeroes>> ChangeGameForm;
-        public event Action<bool, int, string, int, int, List<CardHeroes>, List<CardHeroes>> ChangeAftepStep;
+
+        public event Action<bool, int, string, int, int, List<CardHeroes>, string, List<CardHeroes>> ChangeGameForm;
+        public event Action<bool, int, string, int, int, List<CardHeroes>, List<CardHeroes>, List<CardHeroes>, List<CardHeroes>> ChangeAftepStep;
         public void ReciveMesFromServ(string message)
         {
             switch (JsonConvert.DeserializeObject<ResultRegPacket>(message).Command)
@@ -223,14 +224,13 @@ namespace Client
                     break;
                 case PacketsToServer.SendDataToUsers:
                     SendDataToUsers Data = JsonConvert.DeserializeObject<SendDataToUsers>(message);
-                    ChangeAftepStep(Data.AmIFirst, Data.EnemyHealth, enemyName, Data.MyHealth, Data.MyMana, Data.Arena1, Data.Arena2);
+                    ChangeAftepStep(Data.AmIFirst, Data.EnemyHealth, enemyName, Data.MyHealth, Data.MyMana, Data.Arena1, Data.Arena2, Data.EnemyArena1, Data.EnemyArena2);
                     break;
                 case PacketsToServer.EnemyLeftGamePacket:
                     IfEnemyLeft("Ваш противник сдался! Вы выйграли!");
                     break;
             }
         }
-        //
         string enemyName = "";
         bool ISCardRight = false;//для проверки можно ли начинать игру ,норм ли колоды?
         bool ISCardRightEnemy = false;

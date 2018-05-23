@@ -29,109 +29,106 @@ namespace Client
             client.ChangeAftepStep += ChangeAfterStep;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-        }bool ICloser = true;
-        void IFENEMYLEFT(string a)
-        {
-            ICloser = false;
-            Application.OpenForms[2].Invoke((MethodInvoker)(() =>
-                      Application.OpenForms[2].Close())) ;
-
-            //Form ifrm1 = Application.OpenForms[1];
-           // ifrm1.Close();
-            // вызываем главную форму, которая открыла текущую, главная форма всегда = 0 - [0]
-            Form ifrm = Application.OpenForms[0];
-            ifrm.Invoke((MethodInvoker)(() => ifrm.StartPosition = FormStartPosition.Manual));
-            ifrm.Invoke((MethodInvoker)(() => ifrm.Left = this.Left));
-            ifrm.Invoke((MethodInvoker)(() => ifrm.Top = this.Top));
-            ifrm.Invoke((MethodInvoker)(() => ifrm.Show()));// меняем параметр StartPosition у Form1, иначе она будет использовать тот, который у неё прописан в настройках и всегда будет открываться по центру экрана
-            // отображаем Form1
-            MessageBox.Show(a);
-
         }
-        public void CardOnABoard(CardHeroes card)
+    
+    bool ICloser = true;
+    void IFENEMYLEFT(string a)
+    {
+        ICloser = false;
+        Application.OpenForms[2].Invoke((MethodInvoker)(() =>
+                  Application.OpenForms[2].Close()));
+
+        //Form ifrm1 = Application.OpenForms[1];
+        // ifrm1.Close();
+        // вызываем главную форму, которая открыла текущую, главная форма всегда = 0 - [0]
+        Form ifrm = Application.OpenForms[0];
+        ifrm.Invoke((MethodInvoker)(() => ifrm.StartPosition = FormStartPosition.Manual));
+        ifrm.Invoke((MethodInvoker)(() => ifrm.Left = this.Left));
+        ifrm.Invoke((MethodInvoker)(() => ifrm.Top = this.Top));
+        ifrm.Invoke((MethodInvoker)(() => ifrm.Show()));// меняем параметр StartPosition у Form1, иначе она будет использовать тот, который у неё прописан в настройках и всегда будет открываться по центру экрана
+                                                        // отображаем Form1
+        MessageBox.Show(a);
+
+    }
+    public void CardOnABoard(CardHeroes card)
+    {
+        MyArena.Add(card);
+        foreach (CardsForm a in pMyHand.Controls)
         {
-            MyArena.Add(card);
-            foreach (CardsForm a in pMyHand.Controls)
+            CardHeroes cardh = null;
+            int count = pMyHand.Controls.IndexOf(a);
+            if (oldIndex == count)
             {
-                CardHeroes cardh = null;
-                int count = pMyHand.Controls.IndexOf(a);
-                if (card.Index == count)
-                {
-                     CardHand.Remove(card);
-                        a.Invoke((MethodInvoker)(() =>
-                        a.Visible = false));
+                CardHand.Remove(card);
+                a.Invoke((MethodInvoker)(() =>
+                a.Visible = false));
 
-                        CardHand.Remove(card);
-                        a.Invoke((MethodInvoker)(() =>
-                        a.NameCards = ""));
-                        CardHand.Remove(card);
-                        a.Invoke((MethodInvoker)(() =>
-                        a.Power = 0));
-                        CardHand.Remove(card);
-                        a.Invoke((MethodInvoker)(() =>
-                        a.Price = 0));
-                        CardHand.Remove(card);
-                        a.Invoke((MethodInvoker)(() =>
-                        a.Health = 0));
-                        a.Invoke((MethodInvoker)(() => a.Image = null));
-                        break;
-                    
-                }
-            }
-            foreach (CardsForm b in pMe.Controls)
-            {
-                if (b.Visible == false)
-                {
-                    b.Invoke((MethodInvoker)(() =>
-                    b.Enabled = false));
-                    card.Index = b.Index;
-                    b.Invoke((MethodInvoker)(() =>
-                    b.Visible = true));
-                    b.Invoke((MethodInvoker)(() =>
-                    b.Health = card.Health));
-                    b.Invoke((MethodInvoker)(() =>
-                    b.Power = card.Power));
-                    b.Invoke((MethodInvoker)(() =>
-                    b.Price = card.Price));
-                    b.Invoke((MethodInvoker)(() =>
-                    b.NameCards = card.Name));
+                CardHand.Remove(card);
+                a.Invoke((MethodInvoker)(() =>
+                a.NameCards = ""));
+                CardHand.Remove(card);
+                a.Invoke((MethodInvoker)(() =>
+                a.Power = 0));
+                CardHand.Remove(card);
+                a.Invoke((MethodInvoker)(() =>
+                a.Price = 0));
+                CardHand.Remove(card);
+                a.Invoke((MethodInvoker)(() =>
+                a.Health = 0));
+                a.Invoke((MethodInvoker)(() => a.Image = null));
+                break;
 
-                    b.Invoke((MethodInvoker)(() => b.Image = (Image)Resource1.ResourceManager.GetObject(card.Name))); break;
-                }
             }
         }
-        public void CardOnAOtherBoard(CardHeroes card)
+        foreach (CardsForm b in pMe.Controls)
         {
-            EnemyArena.Add(card);
-            foreach (CardsForm b in pEnemy.Controls)
+            if (b.Visible == false)
             {
-                if (b.Visible == false)
-                {
-                    card.Index = b.Index;
-                    b.Invoke((MethodInvoker)(() =>
-                    b.Visible = true));
-                    b.Invoke((MethodInvoker)(() =>
-                    b.Health = card.Health));
-                    b.Invoke((MethodInvoker)(() =>
-                    b.Power = card.Power));
-                    b.Invoke((MethodInvoker)(() =>
-                    b.Price = card.Price));
-                    b.Invoke((MethodInvoker)(() =>
-                    b.Name = card.Name));
-                    b.Invoke((MethodInvoker)(() =>
-                    b.NameCards = card.Name));
-                    b.Invoke((MethodInvoker)(() =>
-                    b.Image = (Image)Resource1.ResourceManager.GetObject(card.Name)));
-                    break;
-                }
+                b.Invoke((MethodInvoker)(() =>
+                b.Enabled = false));
+                card.Index = b.Index;
+                index = card.Index;
+                b.Invoke((MethodInvoker)(() =>
+                b.Visible = true));
+                b.Invoke((MethodInvoker)(() =>
+                b.Health = card.Health));
+                b.Invoke((MethodInvoker)(() =>
+                b.Power = card.Power));
+                b.Invoke((MethodInvoker)(() =>
+                b.Price = card.Price));
+                b.Invoke((MethodInvoker)(() => b.Image = (Image)Resource1.ResourceManager.GetObject(card.Name))); break;
             }
         }
-        void messforme(string str)
+    }
+    public void CardOnAOtherBoard(CardHeroes card)
+    {
+        EnemyArena.Add(card);
+        foreach (CardsForm b in pEnemy.Controls)
         {
-            MessageBox.Show(str);
+            if (b.Visible == false)
+            {
+                card.Index = b.Index;
+                b.Invoke((MethodInvoker)(() =>
+                b.Visible = true));
+                b.Invoke((MethodInvoker)(() =>
+                b.Health = card.Health));
+                b.Invoke((MethodInvoker)(() =>
+                b.Power = card.Power));
+                b.Invoke((MethodInvoker)(() =>
+                b.Price = card.Price));
+                b.Invoke((MethodInvoker)(() =>
+                b.Image = (Image)Resource1.ResourceManager.GetObject(card.Name)));
+                break;
+            }
         }
+    }
+    int index = 0;
+    void messforme(string str)
+    {
+        MessageBox.Show(str);
+    }
 
-        void RasdachaCard(bool AmIFirst, int EnemyHealth, string EnemyName, int MyHealth, int MyMana, List<CardHeroes> StartKoloda, string name, List<CardHeroes> FirstInHand)
+    void RasdachaCard(bool AmIFirst, int EnemyHealth, string EnemyName, int MyHealth, int MyMana, List<CardHeroes> StartKoloda, string name, List<CardHeroes> FirstInHand)
         {
             int mana = MyMana;
             foreach (PictureBox a in pMana.Controls)
@@ -194,7 +191,7 @@ namespace Client
         List<CardHeroes> ClickCards = new List<CardHeroes>();
         List<CardHeroes> CardHand = new List<CardHeroes>(); //как достать с сервера?
         private void ChangeAfterStep(bool AmIFirst, int EnemyHealth, string enemyName, int MyHealth,
-            int MyMana, List<CardHeroes> Arena1, List<CardHeroes> Arena2)
+              int MyMana, List<CardHeroes> Arena1, List<CardHeroes> Arena2, List<CardHeroes> EnemyArena1, List<CardHeroes> EnemyArena2)
         {
             int mana = MyMana;
 
@@ -211,19 +208,17 @@ namespace Client
                 }
                 mana--;
             }
-        
-            if (AmIFirst == false)
-            {
+            
                 if (this.InvokeRequired)
                 {
                     lHealthPlayer2.Invoke((MethodInvoker)(() => lHealthPlayer2.Text = MyHealth.ToString()));
                     lHealthPlayer1.Invoke((MethodInvoker)(() => lHealthPlayer1.Text = EnemyHealth.ToString()));
-
-                    foreach (CardsForm a in pMe.Controls)
+                    int count1 = 0; int count2 = 0;
+                    for (int i = 0; i < Arena1.Count; i++)
                     {
-                        if (a.Image != null)
+                        foreach (CardsForm a in pMe.Controls)
                         {
-                            for (int i = 0; i < Arena1.Count; i++)
+                            if (a.Image != null)
                             {
                                 if (Arena1[i].Name != null)
                                 {
@@ -241,83 +236,98 @@ namespace Client
                                     }
                                 }
                             }
-                            for (int i = 0; i < Arena2.Count; i++)
-                            {
-                                if (Arena2[i].Name != null)
-                                {
-                                    if (a.Index == Arena2[i].Index)
-                                    {
-                                        a.Invoke((MethodInvoker)(() => a.Index = pMyHand.Controls.IndexOf(a)));
-                                        a.Invoke((MethodInvoker)(() => a.Image = (Image)Resource1.ResourceManager.GetObject(Arena2[i].Name)));
-                                        a.Invoke((MethodInvoker)(() => a.NameCards = Arena2[i].Name));
-                                        a.Invoke((MethodInvoker)(() => a.Power = Arena2[i].Power));
-                                        a.Invoke((MethodInvoker)(() => a.Health = Arena2[i].Health));
-                                        a.Invoke((MethodInvoker)(() => a.Price = Arena2[i].Price));
+                        }
 
-                                        break;
+                        for (int j = 0; j < Arena2.Count; j++)
+                        {
+                            foreach (CardsForm a in pMe.Controls)
+                            {
+                                if (a.Image != null)
+                                {
+                                    if (a.Index == Arena2[j].Index)
+                                    {
+                                        if (Arena2[j].Name != null)
+                                        {
+                                            a.Invoke((MethodInvoker)(() => a.Index = pMyHand.Controls.IndexOf(a)));
+                                            a.Invoke((MethodInvoker)(() => a.Image = (Image)Resource1.ResourceManager.GetObject(Arena2[j].Name)));
+                                            a.Invoke((MethodInvoker)(() => a.NameCards = Arena2[j].Name));
+                                            a.Invoke((MethodInvoker)(() => a.Power = Arena2[j].Power));
+                                            a.Invoke((MethodInvoker)(() => a.Health = Arena2[j].Health));
+                                            a.Invoke((MethodInvoker)(() => a.Price = Arena2[j].Price));
+                                            a.Invoke((MethodInvoker)(() => a.Enabled = true));
+                                            break;
+                                        }
                                     }
                                 }
                             }
-
                         }
                     }
 
-                }
-                this.Invoke((MethodInvoker)(() => this.Enabled = false));
-                ENSt.Invoke((MethodInvoker)(() => ENSt.Visible = true));
-            }
-            else
-            {
 
-                this.Invoke((MethodInvoker)(() => this.Enabled = true));
-                ENSt.Invoke((MethodInvoker)(() => ENSt.Visible = false));
-                if (this.InvokeRequired)
-                {
-                    lHealthPlayer2.Invoke((MethodInvoker)(() => lHealthPlayer2.Text = MyHealth.ToString()));
-                    lHealthPlayer1.Invoke((MethodInvoker)(() => lHealthPlayer1.Text = EnemyHealth.ToString()));
+                    if (AmIFirst == false)
+                    {
+                        this.Invoke((MethodInvoker)(() => this.Enabled = false));
+                        ENSt.Invoke((MethodInvoker)(() => ENSt.Visible = true));
+                    }
+                    else
+                    {
+                        this.Invoke((MethodInvoker)(() => this.Enabled = true));
+                        ENSt.Invoke((MethodInvoker)(() => ENSt.Visible = false));
+                    }
+
+
 
                     foreach (CardsForm a in pEnemy.Controls)
                     {
                         if (a.Image != null)
                         {
-                            for (int i = 0; i < Arena1.Count; i++)
+                            for (int i = 0; i < EnemyArena1.Count; i++)
                             {
-                                if (Arena1[i].Name != null)
+                                if (EnemyArena1[i].Name != null)
                                 {
-                                    if (a.Index == Arena1[i].Index)
+                                    if (a.Index == EnemyArena1[i].Index)
                                     {
-                                        a.Invoke((MethodInvoker)(() => a.Index = pMyHand.Controls.IndexOf(a)));
-                                        a.Invoke((MethodInvoker)(() => a.Image = (Image)Resource1.ResourceManager.GetObject(Arena1[i].Name)));
-                                        a.Invoke((MethodInvoker)(() => a.NameCards = Arena1[i].Name));
-                                        a.Invoke((MethodInvoker)(() => a.Power = Arena1[i].Power));
-                                        a.Invoke((MethodInvoker)(() => a.Health = Arena1[i].Health));
-                                        a.Invoke((MethodInvoker)(() => a.Price = Arena1[i].Price)); break;
+                                        a.Invoke((MethodInvoker)(() => a.Index = pEnemy.Controls.IndexOf(a)));
+                                        a.Invoke((MethodInvoker)(() => a.Image = (Image)Resource1.ResourceManager.GetObject(EnemyArena1[i].Name)));
+                                        a.Invoke((MethodInvoker)(() => a.NameCards = EnemyArena1[i].Name));
+                                        a.Invoke((MethodInvoker)(() => a.Power = EnemyArena1[i].Power));
+                                        a.Invoke((MethodInvoker)(() => a.Health = EnemyArena1[i].Health));
+                                        a.Invoke((MethodInvoker)(() => a.Price = EnemyArena1[i].Price));
+                                        a.Invoke((MethodInvoker)(() => a.Enabled = false));
+
+                                        break;
                                     }
                                 }
                             }
-                            for (int i = 0; i < Arena2.Count; i++)
+                        }
+                    }
+                    for (int i = 0; i < EnemyArena2.Count; i++)
+                    {
+                        foreach (CardsForm a in pEnemy.Controls)
+                        {
+                            if (a.Image != null)
                             {
-                                if (Arena2[i].Name != null)
+                                if (EnemyArena2[i].Name != null)
                                 {
-                                    if (a.Index == Arena2[i].Index)
+                                    if (a.Index == EnemyArena2[i].Index)
                                     {
-                                        a.Invoke((MethodInvoker)(() => a.Index = pMyHand.Controls.IndexOf(a)));
-                                        a.Invoke((MethodInvoker)(() => a.Image = (Image)Resource1.ResourceManager.GetObject(Arena2[i].Name)));
-                                        a.Invoke((MethodInvoker)(() => a.NameCards = Arena2[i].Name));
-                                        a.Invoke((MethodInvoker)(() => a.Power = Arena2[i].Power));
-                                        a.Invoke((MethodInvoker)(() => a.Health = Arena2[i].Health));
-                                        a.Invoke((MethodInvoker)(() => a.Price = Arena2[i].Price));
+                                        a.Invoke((MethodInvoker)(() => a.Index = pEnemy.Controls.IndexOf(a)));
+                                        a.Invoke((MethodInvoker)(() => a.Image = (Image)Resource1.ResourceManager.GetObject(EnemyArena2[i].Name)));
+                                        a.Invoke((MethodInvoker)(() => a.NameCards = EnemyArena2[i].Name));
+                                        a.Invoke((MethodInvoker)(() => a.Power = EnemyArena2[i].Power));
+                                        a.Invoke((MethodInvoker)(() => a.Health = EnemyArena2[i].Health));
+                                        a.Invoke((MethodInvoker)(() => a.Price = EnemyArena2[i].Price));
+
                                         break;
                                     }
                                 }
                             }
 
                         }
-
                     }
                 }
             }
-        }
+        
 
         private void bPas_Click(object sender, EventArgs e)
         {
@@ -325,12 +335,13 @@ namespace Client
         }
         CardsForm choosenCard;
         CardsForm choosenEnemyCard;
-
+        int oldIndex = 0;
         private void bArena_Click(object sender, EventArgs e)
         {
             int count = pMyHand.Controls.IndexOf(choosenCard);
+            oldIndex = count;
             CardHeroes cardh = CardHand.ElementAt(count);
-            client.ArenaCardNowSend(cardh, count);
+            client.ArenaCardNowSend(cardh, index);
         }
 
         private void cardsForm1_Click(object sender, EventArgs e)
@@ -338,7 +349,7 @@ namespace Client
             CardsForm card = (CardsForm)sender;
             if (pEnemy.Contains((CardsForm)sender))
             {
-              // lNamePlayer2.Enabled = true;
+                // lNamePlayer2.Enabled = true;
                 if (card.ISPRESSED == false)
                 {
                     choosenEnemyCard = (CardsForm)sender;
@@ -354,11 +365,12 @@ namespace Client
                 {
                     choosenEnemyCard.ISPRESSED = false;
                     choosenEnemyCard = null;
-                    
+
                     card.BackgroundImage = Resource1.ФОН_ЛИСТА;
                     Step.Visible = false;
                 }
-            }else
+            }
+            else
             if (pMyArena.Contains((CardsForm)sender))
             {
                 lNamePlayer2.Enabled = true;
@@ -377,7 +389,8 @@ namespace Client
                         if (this.InvokeRequired)
                         {
                             a.Invoke((MethodInvoker)(() => a.Enabled = true));
-                        }else
+                        }
+                        else
                         {
                             a.Enabled = true;
                         }
@@ -424,7 +437,7 @@ namespace Client
                     card.BackgroundImage = Resource1.ФОН_ЛИСТА;
                     card.ISPRESSED = false;
                     choosenCard = null;
-              
+
                     bArena.Visible = false;
                 }
             }
@@ -433,8 +446,8 @@ namespace Client
         private void Step_Click(object sender, EventArgs e)
         {
             CardHeroes my = null;
-            CardHeroes enemy = null; 
-            foreach(CardHeroes a in EnemyArena)
+            CardHeroes enemy = null;
+            foreach (CardHeroes a in EnemyArena)
             {
                 if (choosenEnemyCard.Index == a.Index)
                 {
@@ -459,8 +472,8 @@ namespace Client
                 client.EndSteps();
                 ENSt.Visible = true;
             }
-            CardHeroes player = new CardHeroes(0,Convert.ToInt16(lHealthPlayer2.Text),lNamePlayer2.Text);
-            CardHeroes my=null;
+            CardHeroes player = new CardHeroes(0, Convert.ToInt16(lHealthPlayer2.Text), lNamePlayer2.Text);
+            CardHeroes my = null;
             foreach (CardsForm a in pMe.Controls)
             {
                 int count = pMyArena.Controls.IndexOf(choosenCard);

@@ -169,8 +169,9 @@ namespace ClassLibrary1
         public int MyMana { set; get; }
         public List<CardHeroes> Arena1 { set; get; }
         public List<CardHeroes> Arena2 { set; get; }
+        public List<CardHeroes> EnemyArena1 { set; get; }
+        public List<CardHeroes> EnemyArena2 { set; get; }
         public bool AmIFirst { set; get; }
-        public int EnemyMana { set; get; }
     }
     /// <summary>
     /// Клиентские
@@ -182,6 +183,7 @@ namespace ClassLibrary1
         public string Name { set; get; }
 
     }
+  
     public class StopLookingForGame
     {
         [JsonConverter(typeof(StringEnumConverter))]
