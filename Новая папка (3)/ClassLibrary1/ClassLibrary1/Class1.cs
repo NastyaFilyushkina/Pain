@@ -170,6 +170,7 @@ namespace ClassLibrary1
         public List<CardHeroes> Arena1 { set; get; }
         public List<CardHeroes> Arena2 { set; get; }
         public bool AmIFirst { set; get; }
+        public int EnemyMana { set; get; }
     }
     /// <summary>
     /// Клиентские

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace Client
 {
@@ -35,62 +36,70 @@ namespace Client
 
 
             NetworkStream stream = null;
-            //try
-            //{
-            stream = client.GetStream();
-            byte[] data = new byte[1024]; // буфер для получаемых данных
-            RegPacket pack = new RegPacket();
-            pack.Command = PacketsToServer.RegPacket;
-            pack.Name = name;
-            string mes = JsonConvert.SerializeObject(pack) + "$";
-            Thread.Sleep(5);
-            Send(mes);
-            while (true)
+            try
             {
-                // получаем сообщение
-                StringBuilder builder = new StringBuilder();
-                int bytes = 0;
-
-                do
+                stream = client.GetStream();
+                byte[] data = new byte[1024]; // буфер для получаемых данных
+                RegPacket pack = new RegPacket();
+                pack.Command = PacketsToServer.RegPacket;
+                pack.Name = name;
+                string mes = JsonConvert.SerializeObject(pack) + "$";
+                Thread.Sleep(5);
+                Send(mes);
+                while (true)
                 {
-                    bytes = stream.Read(data, 0, data.Length);
-                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                    // получаем сообщение
+                    StringBuilder builder = new StringBuilder();
+                    int bytes = 0;
+
+                    do
+                    {
+                        bytes = stream.Read(data, 0, data.Length);
+                        builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+
+                    }
+                    while (stream.DataAvailable);
+                    string message = builder.ToString();
+                    Queue<string> qupackets = new Queue<string>();
+                    if (message != "")
+                    {
+                        string[] cases = message.Split('$');
+                        for (int i = 0; i < cases.Length; i++)
+                        {
+                            if (cases[i] != "")
+                                qupackets.Enqueue(cases[i]);
+                        }
+                        while (qupackets.Count != 0)
+                        {
+                            ReciveMesFromServ(qupackets.Dequeue());
+                        }
+                    }
+
 
                 }
-                while (stream.DataAvailable);
-                string message = builder.ToString();
-                Queue<string> qupackets = new Queue<string>();
-                if (message != "")
-                {
-                    string[] cases = message.Split('$');
-                    for (int i = 0; i < cases.Length; i++)
-                    {
-                        if (cases[i] != "")
-                            qupackets.Enqueue(cases[i]);
-                    }
-                    while (qupackets.Count != 0)
-                    {
-                        ReciveMesFromServ(qupackets.Dequeue());
-                    }
-                }
-
 
             }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show("Сервер недоступен", "Ошибка!");
+                while (Application.OpenForms.Count != 0)
+                {
+                    Form ifrm1 = Application.OpenForms[0];
+                    if (ifrm1.InvokeRequired) ifrm1.Invoke((MethodInvoker)(() =>
+                      ifrm1.Close()));
+                    else
+                        ifrm1.Close();
+                }
+            }
+            finally
+            {
+                if (stream != null)
+                    stream.Close();
+                if (client != null)
+                    client.Close();
+            }
         }
-        //catch (Exception ex)
-        //{
-
-        //}
-        //finally
-        //{
-        //    if (stream != null)
-        //        stream.Close();
-        //    if (client != null)
-        //        client.Close();
-        //}
-    
-        static private void Send(string mes)
+            static private void Send(string mes)
         {
 
             Byte[] sendBytes = Encoding.Unicode.GetBytes(mes);

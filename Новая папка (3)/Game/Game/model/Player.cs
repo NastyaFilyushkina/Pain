@@ -12,11 +12,11 @@ namespace Game.model
     public class Player
     {
         public int NumRoom { get; set; }
-        public int Mana { get; set; } = 9999;
+        public int Mana { get; set; } 
 
         public string Name { get; set; }
 
-        public int Health { get; set; } = 4564;
+        public int Health { get; set; }
         
         public List <CardHeroes> CardArena1 { get; set; }
       

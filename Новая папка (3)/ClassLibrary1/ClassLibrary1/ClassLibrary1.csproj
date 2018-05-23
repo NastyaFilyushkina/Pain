@@ -46,9 +46,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Game.sln" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Моя попытка номер 5\Новая папка %282%29\Game\Game\Game.csproj">
       <Project>{6B53FD67-FC02-43CA-9142-3A4577C89F17}</Project>
       <Name>Game</Name>

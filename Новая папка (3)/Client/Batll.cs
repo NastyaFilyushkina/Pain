@@ -93,6 +93,9 @@ namespace Client
                     b.Power = card.Power));
                     b.Invoke((MethodInvoker)(() =>
                     b.Price = card.Price));
+                    b.Invoke((MethodInvoker)(() =>
+                    b.NameCards = card.Name));
+
                     b.Invoke((MethodInvoker)(() => b.Image = (Image)Resource1.ResourceManager.GetObject(card.Name))); break;
                 }
             }
@@ -113,6 +116,10 @@ namespace Client
                     b.Power = card.Power));
                     b.Invoke((MethodInvoker)(() =>
                     b.Price = card.Price));
+                    b.Invoke((MethodInvoker)(() =>
+                    b.Name = card.Name));
+                    b.Invoke((MethodInvoker)(() =>
+                    b.NameCards = card.Name));
                     b.Invoke((MethodInvoker)(() =>
                     b.Image = (Image)Resource1.ResourceManager.GetObject(card.Name)));
                     break;
@@ -190,14 +197,21 @@ namespace Client
             int MyMana, List<CardHeroes> Arena1, List<CardHeroes> Arena2)
         {
             int mana = MyMana;
-            foreach (PictureBox a in pMana.Controls)
+
+            while (mana > 0)
             {
-                while (mana > 0)
+                if (pMana.InvokeRequired)
                 {
-                    a.Invoke((MethodInvoker)(() => a.Visible = true));
-                    mana--;
+                    pMana.Invoke((MethodInvoker)(() => pMana.Controls[mana - 1].Visible = true));
                 }
+                else
+                {
+
+                    pMana.Controls[mana - 1].Visible = true;
+                }
+                mana--;
             }
+        
             if (AmIFirst == false)
             {
                 if (this.InvokeRequired)

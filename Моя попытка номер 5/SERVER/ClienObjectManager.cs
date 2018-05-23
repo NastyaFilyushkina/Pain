@@ -422,6 +422,7 @@ namespace SERVER
                         a.AmIFirst = clientinf.IsHod;
                         strpacket = JsonConvert.SerializeObject(a) + "$";
                         Send(strpacket);
+                        //a.EnemyMana = ServerMain.rooms[clientinf.NumRoom].Player2.Mana;
                         a.AmIFirst = ServerMain.rooms[clientinf.NumRoom].Player2.IsHod;
                         strpacket = JsonConvert.SerializeObject(a) + "$";
                         SendToEnemy(strpacket, ServerMain.rooms[clientinf.NumRoom].Player2.Name);
@@ -433,6 +434,7 @@ namespace SERVER
                         a.AmIFirst = clientinf.IsHod;
                         strpacket = JsonConvert.SerializeObject(a) + "$";
                         Send(strpacket);
+                        a.EnemyMana = ServerMain.rooms[clientinf.NumRoom].Player1.Mana;
                         a.AmIFirst = ServerMain.rooms[clientinf.NumRoom].Player1.IsHod;
                         strpacket = JsonConvert.SerializeObject(a) + "$";
                         SendToEnemy(strpacket,ServerMain.rooms[clientinf.NumRoom].Player1.Name);
@@ -614,6 +616,7 @@ namespace SERVER
             send.EnemyHealth = Enemy.Health;
             send.MyHealth = clientinf.Health;
             send.MyMana = clientinf.Mana;
+            //send.EnemyMana = Enemy.Mana;
             send.Arena1 = clientinf.CardArena1;
             send.Arena2 = clientinf.CardArena2;
             return send;
